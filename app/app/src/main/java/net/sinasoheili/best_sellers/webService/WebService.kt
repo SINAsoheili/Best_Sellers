@@ -29,5 +29,41 @@ interface WebService {
     suspend fun getSellerInfo(
         @Query("seller_id") sellerId: Int
     ) : SellerInfoEntity
-    
+
+    //Shop
+    @GET("register_shop")
+    suspend fun registerShop(
+        @Query("name") name: String,
+        @Query("address") address: String,
+        @Query("latitude") latitude: Float,
+        @Query("longitude") longitude: Float,
+        @Query("id_seller") sellerId: Int,
+        @Query("id_category") categoryId: Int
+    ) : RegisterShopEntity
+
+    @GET("delete_shop")
+    suspend fun deleteShop(
+        @Query("id_shop") shopId: Int
+    ) : ShopDeleteEntity
+
+    @GET("get_shop_info")
+    suspend fun getShopInto(
+        @Query("shop_id") shopId: Int
+    ) : ShopInfoEntity
+
+    @GET("get_shop_badge")
+    suspend fun getShopBadge (
+        @Query("shop_id") shopId: Int
+    ) : ShopBadgesEntity
+
+    @GET("shop_get_message")
+    suspend fun  shopGetMessage(
+        @Query("shop_id") shopId: Int
+    ) : ShopGetMessageEntity
+
+    @GET("search_shop")
+    suspend fun shopSearch(
+        @Query("category_id") categoryId: Int,
+        @Query("criteria") criteria: String
+    ) : ShopListSearchEntity
 }
