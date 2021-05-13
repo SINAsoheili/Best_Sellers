@@ -110,4 +110,17 @@ interface WebService {
     ) : UserShopMessageEntity
 
     //TODO: user submit question
+
+    //Discount
+    @GET("register_discount")
+    suspend fun discountRegister(
+            @Query("name") name: String ,
+            @Query("amount") amount: Int,
+            @Query("id_shop") shopId: Int,
+    ) : RegisterDiscountEntity
+
+    @GET("delete_discount")
+    suspend fun deleteDiscount (
+            @Query("id_shop") shopId: Int
+    ) : DiscountDeleteEntity
 }
