@@ -123,4 +123,13 @@ interface WebService {
     suspend fun deleteDiscount (
             @Query("id_shop") shopId: Int
     ) : DiscountDeleteEntity
+
+    //Category
+    @GET("get_categories_list")
+    suspend fun getCategories () : Array<CategoryEntity>
+
+    @GET("get_category_criteria")
+    suspend fun getCriteriaOfCategory (
+            @Query("category_id") categoryId: Int
+    ) : Array<String>
 }
