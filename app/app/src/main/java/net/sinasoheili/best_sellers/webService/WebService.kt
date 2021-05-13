@@ -66,4 +66,48 @@ interface WebService {
         @Query("category_id") categoryId: Int,
         @Query("criteria") criteria: String
     ) : ShopListSearchEntity
+
+    //User
+    @GET("register_user")
+    suspend fun registerUser(
+            @Query("name") name: String,
+            @Query("last_name") lastName: String,
+            @Query("phone") phone: String,
+            @Query("passwd") passwd: String
+    ) : UserRegisterEntity
+
+    @GET("delete_user")
+    suspend fun deleteUser(
+            @Query("id_user") userId: Int
+    ) : UserDeleteEntity
+
+    @GET("login_user")
+    suspend fun loginUser(
+            @Query("phone") phone: String,
+            @Query("passwd") passwd: String
+    ) : UserLoginEntity
+
+    @GET("get_user_info")
+    suspend fun getUserInfo(
+            @Query("user_id") userId: Int
+    ) : UserInfoEntity
+
+    @GET("check_user_ans_question")
+    suspend fun checkUserAnsQuestion (
+            @Query("id_user") userId: Int,
+            @Query("id_shop") shopId: Int
+    ) : UserAnsQuestionEntity
+
+    @GET("get_category_question")
+    suspend fun userGetQuestion(
+            @Query("category_id") categoryId: Int
+    ) : UserQuestionEntity
+
+    @GET("user_get_shop_message")
+    suspend fun getUserShopMessage (
+            @Query("shop_id") shopId: Int,
+            @Query("user_id") userId: Int
+    ) : UserShopMessageEntity
+
+    //TODO: user submit question
 }
