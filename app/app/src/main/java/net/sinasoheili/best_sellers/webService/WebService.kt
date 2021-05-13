@@ -67,6 +67,8 @@ interface WebService {
         @Query("criteria") criteria: String
     ) : ShopListSearchEntity
 
+    //TODO: implement get statistic of shop
+
     //User
     @GET("register_user")
     suspend fun registerUser(
@@ -108,6 +110,13 @@ interface WebService {
             @Query("shop_id") shopId: Int,
             @Query("user_id") userId: Int
     ) : UserShopMessageEntity
+
+    @GET("register_user_message")
+    suspend fun registerMessaage (
+            @Query("id_user") userId: Int,
+            @Query("id_shop") shopId: Int,
+            @Query("text") message: String
+    ) : RegisterMessageEntity
 
     //TODO: user submit question
 
