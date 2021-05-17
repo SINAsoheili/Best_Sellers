@@ -13,7 +13,7 @@ import net.sinasoheili.best_sellers.model.User
 import net.sinasoheili.best_sellers.util.Keys
 import net.sinasoheili.best_sellers.viewModel.SetRoleViewModel
 
-class UserAndSellrRegisterFragment constructor(val viewModel: SetRoleViewModel , val who: String) :
+class UserAndSellerRegisterFragment constructor(val viewModel: SetRoleViewModel, val who: String) :
     Fragment(R.layout.fragment_register_user_and_seller), View.OnClickListener {
 
     private lateinit var etName: TextInputEditText
@@ -61,6 +61,8 @@ class UserAndSellrRegisterFragment constructor(val viewModel: SetRoleViewModel ,
     }
 
     private fun checkSignUpValidInputs() : Boolean = if (checkName() && checkLastName() && checkPhone() && checkPasswd() && checkPasswdRepeat()) true else false
+
+    private fun checkSignInValidInputs() : Boolean = if (checkPhone() && checkPasswd()) true else false
 
     private fun isEmpty(et: TextInputEditText) : Boolean =  et.text!!.isEmpty()
 
@@ -192,30 +194,47 @@ class UserAndSellrRegisterFragment constructor(val viewModel: SetRoleViewModel ,
     override fun onClick(v: View?) {
         when (v) {
             btnSubmit -> {
-                if (checkSignUpValidInputs()) {
 
-                    val passwd: String = etPasswd.text.toString().trim()
+                if (signUpPageVisible) {
+                    if (checkSignUpValidInputs()) {
 
-                    if (who.equals(Keys.USER)) {
+                        val passwd: String = etPasswd.text.toString().trim()
 
-                        val user: User = User(
-                            name = etName.text.toString().trim(),
-                            lastName = etLastName.text.toString().trim(),
-                            phone = etPhone.text.toString().trim()
-                        )
-                        viewModel.registerUser(user, passwd)
+                        if (who.equals(Keys.USER)) {
 
-                    } else {
+                            val user: User = User(
+                                    name = etName.text.toString().trim(),
+                                    lastName = etLastName.text.toString().trim(),
+                                    phone = etPhone.text.toString().trim()
+                            )
+                            viewModel.registerUser(user, passwd)
 
-                        val seller: Seller = Seller(
-                            name = etName.text.toString().trim(),
-                            lastName = etLastName.text.toString().trim(),
-                            phone = etPhone.text.toString().trim()
-                        )
-                        viewModel.registerSeller(seller,passwd)
+                        } else {
+
+                            val seller: Seller = Seller(
+                                    name = etName.text.toString().trim(),
+                                    lastName = etLastName.text.toString().trim(),
+                                    phone = etPhone.text.toString().trim()
+                            )
+                            viewModel.registerSeller(seller,passwd)
+                        }
+
+                        closeFragment()
                     }
+                } else {
+                    if (checkSignInValidInputs()) {
 
-                    closeFragment()
+                        val passwd: String = etPasswd.text.toString().trim()
+                        val phone: String = etPhone.text.toString().trim()
+
+                        if (who.equals(Keys.USER)) {
+                            viewModel.logInUser(phone , passwd)
+                        } else {
+                            viewModel.logInSeller(phone , passwd)
+                        }
+
+                        closeFragment()
+                    }
                 }
             }
 

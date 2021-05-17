@@ -13,6 +13,9 @@
     <string name="submit">تایید</string>
     <string name="please_fill_field">لطفا این قسمت را کامل کنید</string>
     <string name="please_insert_correct_information">لطفا اطلاعات صحیح را وارد کنید</string>
+    <string name="user_was_not_found">کاربر مورد نظر یافت نشد!!</string>
     <string name="connection_error">مشکل در اتصال به اینترنت</string>
+    <string name="login">ورود</string>
+    <string name="signUp">ثبت نام</string>
 
 </resources>

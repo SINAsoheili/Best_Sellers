@@ -105,4 +105,12 @@
         android:text="@string/submit"
         />
 
+    <TextView
+        android:id="@+id/tv_registerUser_login_signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_3"
+        android:text="@string/login"
+        />
+
 </LinearLayout>

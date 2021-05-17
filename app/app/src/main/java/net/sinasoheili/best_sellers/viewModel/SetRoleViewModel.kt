@@ -25,9 +25,8 @@ constructor(
         viewModelScope.launch {
 
             sellerRepository.registerSeller(seller, passwd).onEach { it ->
-                sellerDataState.value = it
+                setStateForSeller(it)
             }.launchIn(viewModelScope)
-
         }
 
     }
@@ -36,10 +35,36 @@ constructor(
         viewModelScope.launch {
 
             userRepository.registerUser(user, passwd).onEach { it ->
-                    userDataState.value = it
+                    setStateForUser(it)
             }.launchIn(viewModelScope)
 
         }
     }
 
+    fun logInUser(phone: String, passwd: String) {
+        viewModelScope.launch {
+
+            userRepository.loginUser(phone, passwd).onEach { it ->
+                setStateForUser(it)
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun logInSeller(phone: String, passwd: String) {
+        viewModelScope.launch {
+
+            sellerRepository.loginSeller(phone= phone, passwd= passwd).onEach {
+                setStateForSeller(it)
+            }.launchIn(viewModelScope)
+
+        }
+    }
+
+    private fun setStateForUser(dataState: DataState<User>) {
+        userDataState.value = dataState
+    }
+
+    private fun setStateForSeller(dataState: DataState<Seller>) {
+        sellerDataState.value = dataState
+    }
 }

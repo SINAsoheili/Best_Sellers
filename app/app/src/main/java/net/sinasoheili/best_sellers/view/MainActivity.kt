@@ -69,7 +69,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
 
-
         viewModel.userDataState.observe(this, Observer { dataState ->
 
             when (dataState) {
@@ -100,7 +99,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun showRegisterFragment(who: String) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.frame_setRole_container , UserAndSellrRegisterFragment(viewModel , who) )
+            .replace(R.id.frame_setRole_container , UserAndSellerRegisterFragment(viewModel , who) )
             .addToBackStack(null)
             .commit()
     }
