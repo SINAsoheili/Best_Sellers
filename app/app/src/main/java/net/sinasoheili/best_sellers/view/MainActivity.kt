@@ -1,5 +1,6 @@
 package net.sinasoheili.best_sellers.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -49,8 +50,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             when(dataStat) {
                 is DataState.Success<Seller> -> {
                     inVisibleProgressBar()
-                    //TODO:got to seller activities
-                    showMessage("برو برا ادامه")
+                    startActivity(Intent(this , RegisterShopActivity::class.java))
+                    //TODO: cash user | don't show register page again
                 }
 
                 is DataState.Loading -> {
