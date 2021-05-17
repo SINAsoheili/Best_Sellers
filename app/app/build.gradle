@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+
 }
 
 android {
@@ -46,4 +49,11 @@ dependencies {
     def retrofit = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 }
