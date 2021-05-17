@@ -3,6 +3,7 @@ package net.sinasoheili.best_sellers.view
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -26,6 +27,9 @@ class UserAndSellrRegisterFragment constructor(val viewModel: SetRoleViewModel ,
     private lateinit var etPasswdRepeat: TextInputEditText
     private lateinit var tilPasswdRepeat: TextInputLayout
     private lateinit var btnSubmit: Button
+    private lateinit var tvLoginSignUp: TextView
+
+    private var signUpPageVisible: Boolean = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,9 +55,12 @@ class UserAndSellrRegisterFragment constructor(val viewModel: SetRoleViewModel ,
 
         btnSubmit = view.findViewById(R.id.btn_registerUser_submit)
         btnSubmit.setOnClickListener(this)
+
+        tvLoginSignUp = view.findViewById(R.id.tv_registerUser_login_signUp)
+        tvLoginSignUp.setOnClickListener(this)
     }
 
-    private fun checkValidateInputs() : Boolean = if (checkName() && checkLastName() && checkPhone() && checkPasswd() && checkPasswdRepeat()) true else false
+    private fun checkSignUpValidInputs() : Boolean = if (checkName() && checkLastName() && checkPhone() && checkPasswd() && checkPasswdRepeat()) true else false
 
     private fun isEmpty(et: TextInputEditText) : Boolean =  et.text!!.isEmpty()
 
@@ -130,32 +137,94 @@ class UserAndSellrRegisterFragment constructor(val viewModel: SetRoleViewModel ,
         activity?.supportFragmentManager?.popBackStack()
     }
 
+    private fun invisibleNameField() {
+        tilName.visibility = View.GONE
+        etName.visibility = View.GONE
+    }
+
+    private fun visibleNameField() {
+        tilName.visibility = View.VISIBLE
+        etName.visibility = View.VISIBLE
+    }
+
+    private fun invisibleLastNameField() {
+        tilLastName.visibility = View.GONE
+        etLastName.visibility = View.GONE
+    }
+
+    private fun visibleLastNameField() {
+        tilLastName.visibility = View.VISIBLE
+        etLastName.visibility = View.VISIBLE
+    }
+
+    private fun invisiblePasswordRepeatField() {
+        tilPasswdRepeat.visibility = View.GONE
+        etPasswdRepeat.visibility = View.GONE
+    }
+
+    private fun visiblePasswordRepeatField() {
+        tilPasswdRepeat.visibility = View.VISIBLE
+        etPasswdRepeat.visibility = View.VISIBLE
+    }
+
+    private fun showLoginPage() {
+        //invisible signUpPage
+        signUpPageVisible = false
+
+        invisibleNameField()
+        invisibleLastNameField()
+        invisiblePasswordRepeatField()
+
+        tvLoginSignUp.text = view?.context?.getString(R.string.signUp)
+    }
+
+    private fun showSignUpPage() {
+        //visible SignUpPage
+        signUpPageVisible = true
+
+        visibleNameField()
+        visibleLastNameField()
+        visiblePasswordRepeatField()
+
+        tvLoginSignUp.text = view?.context?.getString(R.string.login)
+    }
+
     override fun onClick(v: View?) {
-        if (v!!.equals(btnSubmit)) {
-            if (checkValidateInputs()) {
+        when (v) {
+            btnSubmit -> {
+                if (checkSignUpValidInputs()) {
 
-                val passwd: String = etPasswd.text.toString().trim()
+                    val passwd: String = etPasswd.text.toString().trim()
 
-                if (who.equals(Keys.USER)) {
+                    if (who.equals(Keys.USER)) {
 
-                    val user: User = User(
-                        name = etName.text.toString().trim(),
-                        lastName = etLastName.text.toString().trim(),
-                        phone = etPhone.text.toString().trim()
-                    )
-                    viewModel.registerUser(user, passwd)
+                        val user: User = User(
+                            name = etName.text.toString().trim(),
+                            lastName = etLastName.text.toString().trim(),
+                            phone = etPhone.text.toString().trim()
+                        )
+                        viewModel.registerUser(user, passwd)
 
-                } else {
+                    } else {
 
-                    val seller: Seller = Seller(
-                        name = etName.text.toString().trim(),
-                        lastName = etLastName.text.toString().trim(),
-                        phone = etPhone.text.toString().trim()
-                    )
-                    viewModel.registerSeller(seller,passwd)
+                        val seller: Seller = Seller(
+                            name = etName.text.toString().trim(),
+                            lastName = etLastName.text.toString().trim(),
+                            phone = etPhone.text.toString().trim()
+                        )
+                        viewModel.registerSeller(seller,passwd)
+                    }
+
+                    closeFragment()
                 }
+            }
 
-                closeFragment()
+            tvLoginSignUp -> {
+                if (signUpPageVisible) {
+                    showLoginPage()
+                } else {
+                    showSignUpPage()
+                }
             }
         }
     }

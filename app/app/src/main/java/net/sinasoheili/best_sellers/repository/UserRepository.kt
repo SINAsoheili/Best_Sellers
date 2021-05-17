@@ -7,9 +7,7 @@ import kotlinx.coroutines.flow.flow
 import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.User
 import net.sinasoheili.best_sellers.util.DataState
-import net.sinasoheili.best_sellers.webService.UserMapper
-import net.sinasoheili.best_sellers.webService.UserRegisterEntity
-import net.sinasoheili.best_sellers.webService.WebService
+import net.sinasoheili.best_sellers.webService.*
 import java.lang.Exception
 
 class UserRepository constructor(
@@ -42,6 +40,47 @@ class UserRepository constructor(
 
         } catch (e: Exception) {
             emit(DataState.ConnectionError(e))
+        }
+    }
+
+    suspend fun loginUser(phone: String, passwd: String) : Flow<DataState<User>> = flow {
+        emit(DataState.Loading())
+        delay(1000)
+
+        try {
+
+            val userLoginEntity: UserLoginEntity =  webService.loginUser(
+                    phone = phone,
+                    passwd = passwd
+            )
+
+            if (userLoginEntity.loginStatus) { //get user
+
+                try {
+                    val user: User? = getUserInfo(userLoginEntity.userId)
+                    emit(DataState.Success<User>(user!!))
+                } catch (e: Exception) {
+                    emit(DataState.ConnectionError(e))
+                }
+
+            } else {
+                emit(DataState.Error(context.getString(R.string.user_was_not_found)))
+            }
+
+        } catch (e: Exception) {
+            emit(DataState.ConnectionError(e))
+        }
+    }
+
+    @Throws(Exception::class) //for connection error
+    suspend fun getUserInfo(userId: Int): User? {
+
+        val userInfoEntity : UserInfoEntity = webService.getUserInfo(userId = userId)
+
+        if(userInfoEntity.findStatus) { //user found
+            return userMapper.toBase(userInfoEntity.user)
+        } else { //user not found with this id
+            return null
         }
     }
 }
