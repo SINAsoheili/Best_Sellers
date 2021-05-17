@@ -101,7 +101,7 @@
         android:id="@+id/btn_registerUser_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_3"
+        android:layout_margin="@dimen/margin_2"
         android:text="@string/submit"
         />
 
@@ -109,7 +109,7 @@
         android:id="@+id/tv_registerUser_login_signUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_3"
+        android:layout_margin="@dimen/margin_2"
         android:text="@string/login"
         />
 
