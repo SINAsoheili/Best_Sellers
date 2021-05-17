@@ -7,10 +7,10 @@ class SellerMapper: Mapper<Seller, SellerEntity> {
 
     override fun toBase(entity: SellerEntity): Seller {
         return Seller(
-                entity.id,
                 entity.name,
                 entity.lastName,
-                entity.phone
+                entity.phone,
+                entity.id
         )
     }
 

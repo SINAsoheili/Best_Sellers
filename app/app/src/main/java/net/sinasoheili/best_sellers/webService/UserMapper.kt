@@ -7,10 +7,10 @@ class UserMapper: Mapper<User, UserEntity> {
 
     override fun toBase(entity: UserEntity): User {
         return User(
-                entity.id,
                 entity.name,
                 entity.lastName,
-                entity.phone
+                entity.phone,
+                entity.id,
         )
     }
 
