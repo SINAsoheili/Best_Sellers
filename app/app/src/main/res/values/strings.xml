@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Best_Sellers</string>
+
+    <string name="insert_was_not_successful">درج اطلاعات موفق نبود</string>
+    <string name="please_choose_your_role">لطفا نقش خود را انتخاب کنید</string>
+    <string name="user">کاربر</string>
+    <string name="seller">فروشنده</string>
+    <string name="name">نام</string>
+    <string name="last_name">نام خانوادگی</string>
+    <string name="phone">شماره همراه</string>
+    <string name="passwd">رمز عبور</string>
+    <string name="passwd_repeat">تکرار رمز عبور</string>
+    <string name="submit">تایید</string>
+    <string name="please_fill_field">لطفا این قسمت را کامل کنید</string>
+    <string name="please_insert_correct_information">لطفا اطلاعات صحیح را وارد کنید</string>
+    <string name="connection_error">مشکل در اتصال به اینترنت</string>
+
 </resources>
