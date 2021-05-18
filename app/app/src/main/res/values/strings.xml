@@ -26,5 +26,6 @@
     <string name="statistic">آمار</string>
     <string name="store">فروشگاه</string>
     <string name="dashboard">داشبورد</string>
+    <string name="shop_not_found">فروشگاه یافت نشد!</string>
 
 </resources>

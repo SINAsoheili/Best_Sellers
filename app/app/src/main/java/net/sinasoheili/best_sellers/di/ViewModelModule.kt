@@ -11,6 +11,7 @@ import net.sinasoheili.best_sellers.repository.SellerRepository
 import net.sinasoheili.best_sellers.repository.ShopRepository
 import net.sinasoheili.best_sellers.repository.UserRepository
 import net.sinasoheili.best_sellers.viewModel.RegisterShopViewModel
+import net.sinasoheili.best_sellers.viewModel.SellerStoreFragmentViewModel
 import net.sinasoheili.best_sellers.viewModel.SetRoleViewModel
 
 @Module
@@ -26,7 +27,14 @@ object ViewModelModule {
     }
 
     @Provides
-    fun provideRegisterShopViewModel (@ApplicationContext context: Context , shopRepository: ShopRepository , categoryRepository: CategoryRepository) : RegisterShopViewModel {
+    fun provideRegisterShopViewModel (@ApplicationContext context: Context,
+                                      shopRepository: ShopRepository,
+                                      categoryRepository: CategoryRepository) : RegisterShopViewModel {
         return RegisterShopViewModel(context , shopRepository , categoryRepository)
+    }
+
+    @Provides
+    fun provideSellerStoreFragmentViewModel (shopRepository: ShopRepository) : SellerStoreFragmentViewModel {
+        return SellerStoreFragmentViewModel(shopRepository)
     }
 }
