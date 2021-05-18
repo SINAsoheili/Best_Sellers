@@ -1,6 +1,8 @@
 package net.sinasoheili.best_sellers.util
 
 import android.content.Context
+import com.google.gson.Gson
+import net.sinasoheili.best_sellers.model.Shop
 
 object ManageLogin {
 
@@ -40,5 +42,22 @@ object ManageLogin {
     fun getShopId(context: Context) : Int {
         return context.getSharedPreferences(PREF_NAME , Context.MODE_PRIVATE)
             .getInt("shopId" , -1)
+    }
+
+    fun storeShop(context: Context , shop: Shop) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putString("shop" , Gson().toJson(shop))
+                .apply()
+    }
+
+    fun fetchShop(context: Context): Shop? {
+        val shopJson : String? = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .getString("shop" , null)
+        if (shopJson != null) {
+            return Gson().fromJson(shopJson , Shop::class.java)
+        } else {
+            return null
+        }
     }
 }
