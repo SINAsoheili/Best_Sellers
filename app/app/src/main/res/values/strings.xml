@@ -23,5 +23,8 @@
     <string name="categories">دسته‌بندی ها</string>
     <string name="category_not_found">دسته بندی یافت نشد</string>
     <string name="user_does_not_have_shop">فروشگاهی برای این کاربر یافت نشد</string>
+    <string name="statistic">آمار</string>
+    <string name="store">فروشگاه</string>
+    <string name="dashboard">داشبورد</string>
 
 </resources>
