@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.flow
 import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.User
 import net.sinasoheili.best_sellers.util.DataState
+import net.sinasoheili.best_sellers.util.Keys
+import net.sinasoheili.best_sellers.util.ManageLogin
 import net.sinasoheili.best_sellers.webService.*
 import java.lang.Exception
 
@@ -32,7 +34,9 @@ class UserRepository constructor(
 
             if (userEntity.statusRegister) {
 
-                emit(DataState.Success<User>(userMapper.toBase(userEntity.user)))
+                val user: User = userMapper.toBase(userEntity.user)
+                emit(DataState.Success<User>(user))
+                cacheUserId(user.id)
 
             } else {
                 emit(DataState.Error(context.getString(R.string.insert_was_not_successful)))
@@ -59,6 +63,7 @@ class UserRepository constructor(
                 try {
                     val user: User? = getUserInfo(userLoginEntity.userId)
                     emit(DataState.Success<User>(user!!))
+                    cacheUserId(user.id)
                 } catch (e: Exception) {
                     emit(DataState.ConnectionError(e))
                 }
@@ -82,5 +87,10 @@ class UserRepository constructor(
         } else { //user not found with this id
             return null
         }
+    }
+
+    private fun cacheUserId(id: Int) {
+        ManageLogin.setWhoLogIn(context , Keys.USER)
+        ManageLogin.setIdPerson(context , id)
     }
 }

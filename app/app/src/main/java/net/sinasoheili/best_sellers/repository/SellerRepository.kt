@@ -8,6 +8,8 @@ import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Seller
 import net.sinasoheili.best_sellers.model.User
 import net.sinasoheili.best_sellers.util.DataState
+import net.sinasoheili.best_sellers.util.Keys
+import net.sinasoheili.best_sellers.util.ManageLogin
 import net.sinasoheili.best_sellers.webService.*
 import java.lang.Exception
 
@@ -30,8 +32,9 @@ class SellerRepository constructor(
             )
 
             if (sellerEntity.isRegister) {
-
-                emit(DataState.Success<Seller>(sellerMapper.toBase(sellerEntity.seller)))
+                val seller: Seller = sellerMapper.toBase(sellerEntity.seller)
+                emit(DataState.Success<Seller>(seller))
+                cacheSellerId(seller.id)
 
             } else {
                 emit(DataState.Error(context.getString(R.string.insert_was_not_successful)))
@@ -58,6 +61,7 @@ class SellerRepository constructor(
                 try {
                     val seller: Seller? = getSellerInfo(sellerLoginEntity.sellerId)
                     emit(DataState.Success<Seller>(seller!!))
+                    cacheSellerId(seller.id)
                 } catch (e: Exception) {
                     emit(DataState.ConnectionError(e))
                 }
@@ -81,5 +85,10 @@ class SellerRepository constructor(
         } else { //seller not found with this id
             return null
         }
+    }
+
+    private fun cacheSellerId(id: Int) {
+        ManageLogin.setWhoLogIn(context , Keys.SELLER)
+        ManageLogin.setIdPerson(context , id)
     }
 }
