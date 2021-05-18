@@ -47,7 +47,7 @@ interface WebService {
     ) : ShopDeleteEntity
 
     @GET("get_shop_info")
-    suspend fun getShopInto(
+    suspend fun getShopInfo(
         @Query("shop_id") shopId: Int
     ) : ShopInfoEntity
 
