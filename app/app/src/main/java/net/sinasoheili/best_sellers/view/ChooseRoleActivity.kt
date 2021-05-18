@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Seller
+import net.sinasoheili.best_sellers.model.Shop
 import net.sinasoheili.best_sellers.model.User
 import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.util.Keys
@@ -18,7 +19,7 @@ import net.sinasoheili.best_sellers.viewModel.SetRoleViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class ChooseRoleActivity : AppCompatActivity(), View.OnClickListener {
 
     @Inject lateinit var viewModel: SetRoleViewModel
 
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_role_choose)
 
         initObj()
         setObserver()
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 is DataState.Success<Seller> -> {
                     inVisibleProgressBar()
                     startActivity(Intent(this , RegisterShopActivity::class.java))
-                    //TODO: cash user | don't show register page again
+                    finish()
                 }
 
                 is DataState.Loading -> {
@@ -75,8 +76,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             when (dataState) {
                 is DataState.Success<User> -> {
                     inVisibleProgressBar()
-                    //TODO:got to user activities
-                    showMessage("برو برا ادامه")
+                    startActivity(Intent(this , UserMainPage::class.java))
+                    finish()
                 }
 
                 is DataState.Loading -> {
@@ -94,6 +95,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
 
+        })
+
+        viewModel.shopDataState.observe(this , Observer { dataState ->
+            when(dataState) {
+                is DataState.Success<Shop> -> {
+                    inVisibleProgressBar()
+                    startActivity(Intent(this , SellerMainPage::class.java))
+                    finish()
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error -> {
+                    inVisibleProgressBar()
+                    startActivity(Intent(this , RegisterShopActivity::class.java))
+                    finish()
+                }
+
+                is DataState.ConnectionError -> {
+                    inVisibleProgressBar()
+                    showMessage(this.getString(R.string.connection_error))
+                }
+            }
         })
     }
 

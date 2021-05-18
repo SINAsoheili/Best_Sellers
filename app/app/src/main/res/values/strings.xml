@@ -17,5 +17,10 @@
     <string name="connection_error">مشکل در اتصال به اینترنت</string>
     <string name="login">ورود</string>
     <string name="signUp">ثبت نام</string>
+    <string name="shop_name">نام فروشگاه</string>
+    <string name="address">آدرس</string>
+    <string name="please_choose_shop_category">لطفا دسته‌بندی را انتخاب کنید</string>
+    <string name="category_not_found">دسته بندی یافت نشد</string>
+    <string name="user_does_not_have_shop">فروشگاهی برای این کاربر یافت نشد</string>
 
 </resources>
