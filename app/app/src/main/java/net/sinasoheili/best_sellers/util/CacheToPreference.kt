@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import net.sinasoheili.best_sellers.model.Shop
 
-object ManageLogin {
+object CacheToPreference {
 
     private const val PREF_NAME = "LOGIN_PREFERENCES"
 

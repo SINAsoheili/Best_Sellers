@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.flow
 import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Shop
 import net.sinasoheili.best_sellers.util.DataState
-import net.sinasoheili.best_sellers.util.ManageLogin
+import net.sinasoheili.best_sellers.util.CacheToPreference
 import net.sinasoheili.best_sellers.webService.RegisterShopEntity
 import net.sinasoheili.best_sellers.webService.ShopInfoEntity
 import net.sinasoheili.best_sellers.webService.ShopMapper
@@ -23,7 +23,7 @@ constructor(
 
     suspend fun registerShop(shop: Shop) : Flow<DataState<Shop>> = flow {
 
-        shop.idSeller = ManageLogin.getPersonId(context)
+        shop.idSeller = CacheToPreference.getPersonId(context)
 
         emit(DataState.Loading())
         delay(1000)
@@ -104,18 +104,18 @@ constructor(
     }
 
     private fun cacheShopId(shopId: Int) {
-        ManageLogin.setShopId(context, shopId)
+        CacheToPreference.setShopId(context, shopId)
     }
 
     private fun fetchShopIdFromCache(): Int {
-        return ManageLogin.getShopId(context)
+        return CacheToPreference.getShopId(context)
     }
 
     private fun cacheShop(shop: Shop) {
-        ManageLogin.storeShop(context, shop)
+        CacheToPreference.storeShop(context, shop)
     }
 
     private fun fetchShopFromCache (): Shop? {
-        return ManageLogin.fetchShop(context)
+        return CacheToPreference.fetchShop(context)
     }
 }

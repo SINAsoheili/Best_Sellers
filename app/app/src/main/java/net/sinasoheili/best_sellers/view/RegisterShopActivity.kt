@@ -18,7 +18,6 @@ import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Shop
 import net.sinasoheili.best_sellers.model.ShopCategory
 import net.sinasoheili.best_sellers.util.DataState
-import net.sinasoheili.best_sellers.util.ManageLogin
 import net.sinasoheili.best_sellers.viewModel.RegisterShopViewModel
 import javax.inject.Inject
 

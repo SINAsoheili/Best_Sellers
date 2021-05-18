@@ -1,11 +1,9 @@
 package net.sinasoheili.best_sellers.viewModel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -14,7 +12,6 @@ import net.sinasoheili.best_sellers.model.ShopCategory
 import net.sinasoheili.best_sellers.repository.CategoryRepository
 import net.sinasoheili.best_sellers.repository.ShopRepository
 import net.sinasoheili.best_sellers.util.DataState
-import net.sinasoheili.best_sellers.util.ManageLogin
 
 class RegisterShopViewModel
 constructor(

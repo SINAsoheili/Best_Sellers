@@ -8,7 +8,7 @@ import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.User
 import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.util.Keys
-import net.sinasoheili.best_sellers.util.ManageLogin
+import net.sinasoheili.best_sellers.util.CacheToPreference
 import net.sinasoheili.best_sellers.webService.*
 import java.lang.Exception
 
@@ -90,7 +90,7 @@ class UserRepository constructor(
     }
 
     private fun cacheUserId(id: Int) {
-        ManageLogin.setWhoLogIn(context , Keys.USER)
-        ManageLogin.setIdPerson(context , id)
+        CacheToPreference.setWhoLogIn(context , Keys.USER)
+        CacheToPreference.setIdPerson(context , id)
     }
 }

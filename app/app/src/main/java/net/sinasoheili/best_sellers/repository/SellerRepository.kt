@@ -6,10 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Seller
-import net.sinasoheili.best_sellers.model.User
 import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.util.Keys
-import net.sinasoheili.best_sellers.util.ManageLogin
+import net.sinasoheili.best_sellers.util.CacheToPreference
 import net.sinasoheili.best_sellers.webService.*
 import java.lang.Exception
 
@@ -88,7 +87,7 @@ class SellerRepository constructor(
     }
 
     private fun cacheSellerId(id: Int) {
-        ManageLogin.setWhoLogIn(context , Keys.SELLER)
-        ManageLogin.setIdPerson(context , id)
+        CacheToPreference.setWhoLogIn(context , Keys.SELLER)
+        CacheToPreference.setIdPerson(context , id)
     }
 }

@@ -1,7 +1,6 @@
 package net.sinasoheili.best_sellers.viewModel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,8 +14,6 @@ import net.sinasoheili.best_sellers.repository.SellerRepository
 import net.sinasoheili.best_sellers.repository.ShopRepository
 import net.sinasoheili.best_sellers.repository.UserRepository
 import net.sinasoheili.best_sellers.util.DataState
-import net.sinasoheili.best_sellers.util.Keys
-import net.sinasoheili.best_sellers.util.ManageLogin
 
 class SetRoleViewModel
 constructor(
