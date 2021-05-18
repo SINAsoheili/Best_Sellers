@@ -7,27 +7,31 @@ class ShopMapper : Mapper<Shop, ShopEntity> {
 
     override fun toBase(entity: ShopEntity): Shop {
         return Shop(
-                entity.id,
-                entity.name,
-                entity.address,
-                entity.phone,
-                entity.idSeller,
-                entity.idCategory
+            name = entity.name,
+            address = entity.address,
+            idSeller = entity.idSeller,
+            idCategory = entity.idCategory,
+            phone = entity.phone ?: "",
+            description = entity.description ?: "",
+            site = entity.site ?: "",
+            latitude = entity.latitude,
+            longitude = entity.longitude,
+            id = entity.id
         )
     }
 
     override fun toEntity(base: Shop): ShopEntity {
         return ShopEntity(
-                base.id,
-                base.name,
-                base.address,
-                base.phone,
-                base.idSeller,
-                base.idCategory,
-                base.description,
-                base.site,
-                base.latitude,
-                base.longitude
+            id = base.id,
+            name = base.name,
+            address = base.address,
+            phone = base.phone,
+            idSeller = base.idSeller,
+            idCategory = base.idCategory,
+            description = base.description,
+            site = base.site,
+            latitude = base.latitude,
+            longitude = base.longitude
         )
     }
 }

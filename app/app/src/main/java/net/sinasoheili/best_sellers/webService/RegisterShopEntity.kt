@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class RegisterShopEntity constructor(
     @SerializedName("shop") val shop: ShopEntity ,
-    @SerializedName("status_regisetr") val statusRegister: Boolean
+    @SerializedName("status_register") val statusRegister: Boolean
 )
