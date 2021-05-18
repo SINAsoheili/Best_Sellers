@@ -1,7 +1,6 @@
 package net.sinasoheili.best_sellers.repository
 
 import android.content.Context
-import android.util.Log
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -43,6 +42,7 @@ constructor(
                 val shop: Shop = shopMapper.toBase(registerShopEntity.shop)
                 emit(DataState.Success<Shop>(shop))
                 cacheShopId(shop.id)
+                cacheShop(shop)
             } else {
                 emit(DataState.Error(context.getString(R.string.insert_was_not_successful)))
             }
@@ -52,6 +52,7 @@ constructor(
         }
     }
 
+    //todo : manage all repositorys with cache
     suspend fun checkUserHasShop(sellerId: Int) : Flow<DataState<Shop>> = flow {
         emit(DataState.Loading())
         delay(1000)
@@ -72,7 +73,49 @@ constructor(
         }
     }
 
+    suspend fun getShopInfo() : Flow<DataState<Shop>> = flow {
+
+        val shop: Shop? = fetchShopFromCache()
+        if(shop != null) {
+            emit(DataState.Success(shop))
+        } else {
+            emit(DataState.Loading())
+            delay(1000)
+
+            try {
+
+                val shopId: Int = fetchShopIdFromCache()
+                if(shopId != -1)
+                {
+                    val shopInfoEntity: ShopInfoEntity = webService.getShopInfo(shopId)
+
+                    if(shopInfoEntity.find) {
+                        val shop: Shop = shopMapper.toBase(shopInfoEntity.shop)
+                        emit(DataState.Success<Shop>(shop))
+                        cacheShop(shop)
+                    } else {
+                        emit(DataState.Error(context.getString(R.string.shop_not_found)))
+                    }
+                }
+            } catch (e: Exception) {
+                emit(DataState.ConnectionError(e))
+            }
+        }
+    }
+
     private fun cacheShopId(shopId: Int) {
         ManageLogin.setShopId(context, shopId)
+    }
+
+    private fun fetchShopIdFromCache(): Int {
+        return ManageLogin.getShopId(context)
+    }
+
+    private fun cacheShop(shop: Shop) {
+        ManageLogin.storeShop(context, shop)
+    }
+
+    private fun fetchShopFromCache (): Shop? {
+        return ManageLogin.fetchShop(context)
     }
 }
