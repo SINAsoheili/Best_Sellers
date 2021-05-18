@@ -59,7 +59,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_margin="@dimen/margin_2"
         android:layout_marginTop="@dimen/margin_3"
-        android:text="@string/please_choose_shop_category"
+        android:text="@string/categories"
         />
 
     <HorizontalScrollView

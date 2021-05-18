@@ -162,7 +162,14 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun checkCategory() : Boolean = if (chipGroup.checkedChipId != -1) true else false
+    private fun checkCategory() : Boolean {
+        if (chipGroup.checkedChipId != -1) {
+            return true
+        } else {
+            showMessage(this.getString(R.string.please_choose_shop_category))
+            return false
+        }
+    }
 
     private fun checkValidInput() : Boolean = if (checkName() && checkAddress() && checkCategory()) true else false
 

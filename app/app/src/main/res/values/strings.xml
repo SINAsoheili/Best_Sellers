@@ -20,6 +20,7 @@
     <string name="shop_name">نام فروشگاه</string>
     <string name="address">آدرس</string>
     <string name="please_choose_shop_category">لطفا دسته‌بندی را انتخاب کنید</string>
+    <string name="categories">دسته‌بندی ها</string>
     <string name="category_not_found">دسته بندی یافت نشد</string>
     <string name="user_does_not_have_shop">فروشگاهی برای این کاربر یافت نشد</string>
 
