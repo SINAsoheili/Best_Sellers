@@ -7,8 +7,10 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import net.sinasoheili.best_sellers.R
 
+@AndroidEntryPoint
 class SellerMainPage : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var bnv: BottomNavigationView
