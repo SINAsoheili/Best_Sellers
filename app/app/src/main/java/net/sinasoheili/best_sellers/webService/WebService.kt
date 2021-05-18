@@ -135,10 +135,13 @@ interface WebService {
 
     //Category
     @GET("get_categories_list")
-    suspend fun getCategories () : Array<CategoryEntity>
+    suspend fun getCategories () : CategoryEntityResponse
 
     @GET("get_category_criteria")
     suspend fun getCriteriaOfCategory (
             @Query("category_id") categoryId: Int
     ) : Array<String>
+
+    @GET("check_user_has_shop")
+    suspend fun checkUserHasShop(@Query("seller_id") sellerId: Int) : ShopInfoEntity
 }
