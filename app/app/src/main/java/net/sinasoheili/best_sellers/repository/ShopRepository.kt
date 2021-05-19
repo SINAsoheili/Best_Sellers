@@ -8,6 +8,7 @@ import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Shop
 import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.util.CacheToPreference
+import net.sinasoheili.best_sellers.util.Keys
 import net.sinasoheili.best_sellers.webService.RegisterShopEntity
 import net.sinasoheili.best_sellers.webService.ShopInfoEntity
 import net.sinasoheili.best_sellers.webService.ShopMapper
@@ -23,7 +24,7 @@ constructor(
 
     suspend fun registerShop(shop: Shop) : Flow<DataState<Shop>> = flow {
 
-        shop.idSeller = CacheToPreference.getPersonId(context)
+        shop.idSeller = fetchSellerIdFromCache()
 
         emit(DataState.Loading())
         delay(1000)
@@ -52,24 +53,30 @@ constructor(
         }
     }
 
-    //todo : manage all repositorys with cache
-    suspend fun checkUserHasShop(sellerId: Int) : Flow<DataState<Shop>> = flow {
-        emit(DataState.Loading())
-        delay(1000)
+    suspend fun checkUserHasShop() : Flow<DataState<Shop>> = flow {
+        val shop: Shop? = fetchShopFromCache()
+        if (shop != null) {
+            emit(DataState.Success<Shop>(shop))
+        } else {
+            emit(DataState.Loading())
+            delay(1000)
 
-        try {
-            val shopInfoEntity: ShopInfoEntity = webService.checkUserHasShop(sellerId)
+            try {
+                val sellerId: Int = fetchSellerIdFromCache()
+                val shopInfoEntity: ShopInfoEntity = webService.checkUserHasShop(sellerId)
 
-            if(shopInfoEntity.find) {
-                val shop: Shop = shopMapper.toBase(shopInfoEntity.shop)
-                emit(DataState.Success<Shop>(shop))
-                cacheShopId(shop.id)
-            } else {
-                emit(DataState.Error(context.getString(R.string.user_does_not_have_shop)))
+                if(shopInfoEntity.find) {
+                    val shopFetched: Shop = shopMapper.toBase(shopInfoEntity.shop)
+                    emit(DataState.Success<Shop>(shopFetched))
+                    cacheShopId(shopFetched.id)
+                    cacheShop(shopFetched)
+                } else {
+                    emit(DataState.Error(context.getString(R.string.user_does_not_have_shop)))
+                }
+
+            } catch (e: Exception) {
+                emit(DataState.ConnectionError(e))
             }
-
-        } catch (e: Exception) {
-            emit(DataState.ConnectionError(e))
         }
     }
 
@@ -117,5 +124,18 @@ constructor(
 
     private fun fetchShopFromCache (): Shop? {
         return CacheToPreference.fetchShop(context)
+    }
+
+    private fun fetchSellerIdFromCache(): Int {
+        val who: String? = CacheToPreference.getWhoLogIn(context)
+        if (who == null){
+            return -1
+        } else {
+            if (who.equals(Keys.SELLER)) {
+                return CacheToPreference.getPersonId(context)
+            } else {
+                return -1
+            }
+        }
     }
 }

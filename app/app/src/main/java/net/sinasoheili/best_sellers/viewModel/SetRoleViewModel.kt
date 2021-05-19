@@ -80,8 +80,7 @@ constructor(
 
                 if( sellerState is DataState.Success<Boolean> ) { // if seller can login
 
-                    //todo: remove read id from pref
-                    shopRepository.checkUserHasShop(CacheToPreference.getPersonId(context)).onEach {
+                    shopRepository.checkUserHasShop().onEach {
                         setStateForShop(it)
                     }.launchIn(viewModelScope)
 
