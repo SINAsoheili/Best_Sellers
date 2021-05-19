@@ -83,15 +83,13 @@ class UserRepository constructor(
 
             try {
                 val userId: Int = getUserIdFromCache()
-                if(userId != -1) {
-                    val userInfoEntity: UserInfoEntity = webService.getUserInfo(userId)
-                    if (userInfoEntity.findStatus) { //user found
-                        val userFetched: User = UserMapper().toBase(userInfoEntity.user)
-                        cacheUserId(userFetched.id)
-                        setUserToCache(userFetched)
-                    } else { // user not found
-                        emit(DataState.Error(context.getString(R.string.user_not_found)))
-                    }
+                val userInfoEntity: UserInfoEntity = webService.getUserInfo(userId)
+                if (userInfoEntity.findStatus) { //user found
+                    val userFetched: User = UserMapper().toBase(userInfoEntity.user)
+                    cacheUserId(userFetched.id)
+                    setUserToCache(userFetched)
+                } else { // user not found
+                    emit(DataState.Error(context.getString(R.string.user_not_found)))
                 }
             } catch (e: Exception) {
                 emit(DataState.ConnectionError(e))

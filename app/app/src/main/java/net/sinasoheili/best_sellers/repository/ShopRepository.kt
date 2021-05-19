@@ -92,17 +92,14 @@ constructor(
             try {
 
                 val shopId: Int = fetchShopIdFromCache()
-                if(shopId != -1)
-                {
-                    val shopInfoEntity: ShopInfoEntity = webService.getShopInfo(shopId)
+                val shopInfoEntity: ShopInfoEntity = webService.getShopInfo(shopId)
 
-                    if(shopInfoEntity.find) {
-                        val shop: Shop = shopMapper.toBase(shopInfoEntity.shop)
-                        emit(DataState.Success<Shop>(shop))
-                        cacheShop(shop)
-                    } else {
-                        emit(DataState.Error(context.getString(R.string.shop_not_found)))
-                    }
+                if(shopInfoEntity.find) {
+                    val shop: Shop = shopMapper.toBase(shopInfoEntity.shop)
+                    emit(DataState.Success<Shop>(shop))
+                    cacheShop(shop)
+                } else {
+                    emit(DataState.Error(context.getString(R.string.shop_not_found)))
                 }
             } catch (e: Exception) {
                 emit(DataState.ConnectionError(e))
