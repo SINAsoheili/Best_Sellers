@@ -1,6 +1,7 @@
 package net.sinasoheili.best_sellers.repository
 
 import android.content.Context
+import android.util.Log
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -40,10 +41,10 @@ constructor(
             )
 
             if (registerShopEntity.statusRegister) {
-                val shop: Shop = shopMapper.toBase(registerShopEntity.shop)
-                emit(DataState.Success<Shop>(shop))
-                cacheShopId(shop.id)
-                cacheShop(shop)
+                val shopFetched: Shop = shopMapper.toBase(registerShopEntity.shop)
+                emit(DataState.Success<Shop>(shopFetched))
+                cacheShopId(shopFetched.id)
+                cacheShop(shopFetched)
             } else {
                 emit(DataState.Error(context.getString(R.string.insert_was_not_successful)))
             }
@@ -95,9 +96,9 @@ constructor(
                 val shopInfoEntity: ShopInfoEntity = webService.getShopInfo(shopId)
 
                 if(shopInfoEntity.find) {
-                    val shop: Shop = shopMapper.toBase(shopInfoEntity.shop)
-                    emit(DataState.Success<Shop>(shop))
-                    cacheShop(shop)
+                    val shopFetched: Shop = shopMapper.toBase(shopInfoEntity.shop)
+                    emit(DataState.Success<Shop>(shopFetched))
+                    cacheShop(shopFetched)
                 } else {
                     emit(DataState.Error(context.getString(R.string.shop_not_found)))
                 }
