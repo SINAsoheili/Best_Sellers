@@ -2,6 +2,7 @@ package net.sinasoheili.best_sellers.util
 
 import android.content.Context
 import com.google.gson.Gson
+import net.sinasoheili.best_sellers.model.Seller
 import net.sinasoheili.best_sellers.model.Shop
 
 object CacheToPreference {
@@ -56,6 +57,23 @@ object CacheToPreference {
                 .getString("shop" , null)
         if (shopJson != null) {
             return Gson().fromJson(shopJson , Shop::class.java)
+        } else {
+            return null
+        }
+    }
+
+    fun storeSeller(context: Context , seller: Seller) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putString("seller" , Gson().toJson(seller))
+                .apply()
+    }
+
+    fun fetchSeller(context: Context): Seller? {
+        val sellerJson : String? = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .getString("seller" , null)
+        if (sellerJson != null) {
+            return Gson().fromJson(sellerJson , Seller::class.java)
         } else {
             return null
         }

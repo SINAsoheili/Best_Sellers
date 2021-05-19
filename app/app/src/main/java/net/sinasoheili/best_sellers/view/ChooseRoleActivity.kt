@@ -49,7 +49,7 @@ class ChooseRoleActivity : AppCompatActivity(), View.OnClickListener {
     private fun setObserver() {
         viewModel.sellerDataState.observe(this, Observer { dataStat ->
             when(dataStat) {
-                is DataState.Success<Seller> -> {
+                is DataState.Success<Boolean> -> {
                     inVisibleProgressBar()
                     startActivity(Intent(this , RegisterShopActivity::class.java))
                     finish()

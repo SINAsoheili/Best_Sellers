@@ -13,6 +13,7 @@ import net.sinasoheili.best_sellers.model.User
 import net.sinasoheili.best_sellers.repository.SellerRepository
 import net.sinasoheili.best_sellers.repository.ShopRepository
 import net.sinasoheili.best_sellers.repository.UserRepository
+import net.sinasoheili.best_sellers.util.CacheToPreference
 import net.sinasoheili.best_sellers.util.DataState
 
 class SetRoleViewModel
@@ -23,7 +24,7 @@ constructor(
     private val shopRepository: ShopRepository
 ) : ViewModel()
 {
-    val sellerDataState: MutableLiveData<DataState<Seller>> = MutableLiveData<DataState<Seller>>()
+    val sellerDataState: MutableLiveData<DataState<Boolean>> = MutableLiveData<DataState<Boolean>>()
     val userDataState: MutableLiveData<DataState<User>> = MutableLiveData<DataState<User>>()
     val shopDataState: MutableLiveData<DataState<Shop>> = MutableLiveData<DataState<Shop>>()
 
@@ -31,7 +32,24 @@ constructor(
         viewModelScope.launch {
 
             sellerRepository.registerSeller(seller, passwd).onEach { it ->
-                setStateForSeller(it)
+
+                when (it) {
+                    is DataState.Success<Seller> -> {
+                        setStateForSeller(DataState.Success<Boolean>(true))
+                    }
+
+                    is DataState.Loading -> {
+                        setStateForSeller(DataState.Loading())
+                    }
+
+                    is DataState.Error -> {
+                        setStateForSeller(DataState.Error(it.text))
+                    }
+
+                    is DataState.ConnectionError -> {
+                        setStateForSeller(DataState.ConnectionError(it.exception))
+                    }
+                }
             }.launchIn(viewModelScope)
         }
     }
@@ -60,9 +78,10 @@ constructor(
 
             sellerRepository.loginSeller(phone= phone, passwd= passwd).onEach { sellerState ->
 
-                if( sellerState is DataState.Success<Seller> ) { // if seller can login
+                if( sellerState is DataState.Success<Boolean> ) { // if seller can login
 
-                    shopRepository.checkUserHasShop(sellerState.data.id).onEach {
+                    //todo: remove read id from pref
+                    shopRepository.checkUserHasShop(CacheToPreference.getPersonId(context)).onEach {
                         setStateForShop(it)
                     }.launchIn(viewModelScope)
 
@@ -79,7 +98,7 @@ constructor(
         userDataState.value = dataState
     }
 
-    private fun setStateForSeller(dataState: DataState<Seller>) {
+    private fun setStateForSeller(dataState: DataState<Boolean>) {
         sellerDataState.value = dataState
     }
 

@@ -31,10 +31,10 @@ class SellerRepository constructor(
             )
 
             if (sellerEntity.isRegister) {
-                val seller: Seller = sellerMapper.toBase(sellerEntity.seller)
-                emit(DataState.Success<Seller>(seller))
-                cacheSellerId(seller.id)
-
+                val sellerFetched: Seller = sellerMapper.toBase(sellerEntity.seller)
+                emit(DataState.Success<Seller>(sellerFetched))
+                cacheSellerId(sellerFetched.id)
+                cacheSellerToPreference(sellerFetched)
             } else {
                 emit(DataState.Error(context.getString(R.string.insert_was_not_successful)))
             }
@@ -44,7 +44,7 @@ class SellerRepository constructor(
         }
     }
 
-    suspend fun loginSeller(phone: String, passwd: String) : Flow<DataState<Seller>> = flow {
+    suspend fun loginSeller(phone: String, passwd: String) : Flow<DataState<Boolean>> = flow {
         emit(DataState.Loading())
         delay(1000)
 
@@ -55,15 +55,10 @@ class SellerRepository constructor(
                     passwd = passwd
             )
 
-            if (sellerLoginEntity.loginStatus) { //get seller
+            if (sellerLoginEntity.loginStatus) {
 
-                try {
-                    val seller: Seller? = getSellerInfo(sellerLoginEntity.sellerId)
-                    emit(DataState.Success<Seller>(seller!!))
-                    cacheSellerId(seller.id)
-                } catch (e: Exception) {
-                    emit(DataState.ConnectionError(e))
-                }
+                cacheSellerId(sellerLoginEntity.sellerId)
+                emit(DataState.Success<Boolean>(true))
 
             } else {
                 emit(DataState.Error(context.getString(R.string.user_was_not_found)))
@@ -74,20 +69,55 @@ class SellerRepository constructor(
         }
     }
 
-    @Throws(Exception::class) //for connection error
-    suspend fun getSellerInfo(sellerId: Int): Seller? {
+    suspend fun getSellerInfo(): Flow<DataState<Seller>> = flow {
+        val seller: Seller? = fetchSellerFromPreference()
+        if (seller != null) {
+            emit(DataState.Success<Seller>(seller))
+        } else {
+            emit(DataState.Loading())
+            delay(1000)
 
-        val sellerInfoEntity : SellerInfoEntity = webService.getSellerInfo(sellerId = sellerId)
+            try {
+                val sellerId: Int = fetchSellerIdFromCache()
+                val sellerInfoEntity: SellerInfoEntity = webService.getSellerInfo(sellerId)
 
-        if(sellerInfoEntity.findStatus) { //seller found
-            return sellerMapper.toBase(sellerInfoEntity.seller)
-        } else { //seller not found with this id
-            return null
+                if(sellerInfoEntity.findStatus) { //if seller found
+                    val sellerObj: Seller = SellerMapper().toBase(sellerInfoEntity.seller)
+                    emit(DataState.Success<Seller>(sellerObj))
+                    cacheSellerToPreference(sellerObj)
+                } else { // if seller not found
+                    emit(DataState.Error(context.getString(R.string.seller_not_found)))
+                }
+
+            } catch (e: Exception) {
+                emit(DataState.ConnectionError(e))
+            }
         }
     }
 
     private fun cacheSellerId(id: Int) {
         CacheToPreference.setWhoLogIn(context , Keys.SELLER)
         CacheToPreference.setIdPerson(context , id)
+    }
+
+    private fun fetchSellerIdFromCache(): Int {
+        val who: String? = CacheToPreference.getWhoLogIn(context)
+        if (who == null) {
+            return -1
+        } else {
+            if (who.equals(Keys.SELLER)) {
+                return CacheToPreference.getPersonId(context)
+            } else {
+                return -1
+            }
+        }
+    }
+
+    private fun cacheSellerToPreference(seller: Seller) {
+        CacheToPreference.storeSeller(context, seller)
+    }
+
+    private fun fetchSellerFromPreference() : Seller?{
+        return CacheToPreference.fetchSeller(context)
     }
 }
