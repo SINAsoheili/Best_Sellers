@@ -74,7 +74,7 @@ class ChooseRoleActivity : AppCompatActivity(), View.OnClickListener {
         viewModel.userDataState.observe(this, Observer { dataState ->
 
             when (dataState) {
-                is DataState.Success<User> -> {
+                is DataState.Success<Boolean> -> {
                     inVisibleProgressBar()
                     startActivity(Intent(this , UserMainPage::class.java))
                     finish()
