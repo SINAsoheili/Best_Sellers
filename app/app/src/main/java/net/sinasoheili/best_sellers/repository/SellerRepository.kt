@@ -61,7 +61,7 @@ class SellerRepository constructor(
                 emit(DataState.Success<Boolean>(true))
 
             } else {
-                emit(DataState.Error(context.getString(R.string.user_was_not_found)))
+                emit(DataState.Error(context.getString(R.string.user_not_found)))
             }
 
         } catch (e: Exception) {
