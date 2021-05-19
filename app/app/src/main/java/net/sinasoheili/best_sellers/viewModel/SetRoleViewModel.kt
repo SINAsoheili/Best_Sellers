@@ -25,7 +25,7 @@ constructor(
 ) : ViewModel()
 {
     val sellerDataState: MutableLiveData<DataState<Boolean>> = MutableLiveData<DataState<Boolean>>()
-    val userDataState: MutableLiveData<DataState<User>> = MutableLiveData<DataState<User>>()
+    val userDataState: MutableLiveData<DataState<Boolean>> = MutableLiveData<DataState<Boolean>>()
     val shopDataState: MutableLiveData<DataState<Shop>> = MutableLiveData<DataState<Shop>>()
 
     fun registerSeller(seller: Seller, passwd: String) {
@@ -58,7 +58,24 @@ constructor(
         viewModelScope.launch {
 
             userRepository.registerUser(user, passwd).onEach { it ->
-                setStateForUser(it)
+                when(it) {
+                    is DataState.Success<User> -> {
+                        setStateForUser(DataState.Success<Boolean>(true))
+                    }
+
+                    is DataState.Loading -> {
+                        setStateForUser(DataState.Loading())
+                    }
+
+                    is DataState.Error -> {
+                        setStateForUser(DataState.Error(it.text))
+                    }
+
+                    is DataState.ConnectionError -> {
+                        setStateForUser(DataState.ConnectionError(it.exception))
+                    }
+
+                }
             }.launchIn(viewModelScope)
 
         }
@@ -93,7 +110,7 @@ constructor(
         }
     }
 
-    private fun setStateForUser(dataState: DataState<User>) {
+    private fun setStateForUser(dataState: DataState<Boolean>) {
         userDataState.value = dataState
     }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import net.sinasoheili.best_sellers.model.Seller
 import net.sinasoheili.best_sellers.model.Shop
+import net.sinasoheili.best_sellers.model.User
 
 object CacheToPreference {
 
@@ -74,6 +75,23 @@ object CacheToPreference {
                 .getString("seller" , null)
         if (sellerJson != null) {
             return Gson().fromJson(sellerJson , Seller::class.java)
+        } else {
+            return null
+        }
+    }
+
+    fun storeUser(context: Context , user: User) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putString("user" , Gson().toJson(user))
+                .apply()
+    }
+
+    fun fetchUser(context: Context): User? {
+        val userJson : String? = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .getString("user" , null)
+        if (userJson != null) {
+            return Gson().fromJson(userJson , User::class.java)
         } else {
             return null
         }
