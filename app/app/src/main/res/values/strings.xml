@@ -38,5 +38,10 @@
     <string name="discount_amount">میزان تخفیف</string>
     <string name="discount_amount_is_not_valid">مقدار تخفیف صحیح نمیباشد</string>
     <string name="name_must_be_without_space">لطفا نام را بدون فاصله میانی وارد کنید</string>
+    <string name="delete_discount">حذف تخفیف</string>
+    <string name="warning">هشدار!!</string>
+    <string name="are_you_sure_to_delete_discount">آیا از حذف تخفیف مطمئن هستید؟</string>
+    <string name="yes">بله</string>
+    <string name="no">خیر</string>
 
 </resources>

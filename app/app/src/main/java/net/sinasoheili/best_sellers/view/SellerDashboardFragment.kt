@@ -1,10 +1,12 @@
 package net.sinasoheili.best_sellers.view
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
@@ -21,7 +23,7 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
     lateinit var viewModel: SellerDashboardFragmentViewModel
 
     private lateinit var btnCreateDiscount: Button
-    private lateinit var btnCheckUserDiscount: Button
+    private lateinit var btnDeleteDiscount: Button
     private lateinit var progressBar: ProgressBar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,8 +37,8 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
         btnCreateDiscount = view.findViewById(R.id.btn_SellerDashboard_registerDiscount)
         btnCreateDiscount.setOnClickListener(this)
 
-        btnCheckUserDiscount = view.findViewById(R.id.btn_SellerDashboard_checkUserDiscount)
-        btnCheckUserDiscount.setOnClickListener(this)
+        btnDeleteDiscount = view.findViewById(R.id.btn_SellerDashboard_deleteDiscount)
+        btnDeleteDiscount.setOnClickListener(this)
 
         progressBar = view.findViewById(R.id.pb_fragmentDashboardSeller)
     }
@@ -110,8 +112,21 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
                 CreateNewDiscountDialog(requireContext() , viewModel).show()
             }
 
-            btnCheckUserDiscount -> {
-                Toast.makeText(context, "check" , Toast.LENGTH_SHORT).show()
+            btnDeleteDiscount -> {
+                AlertDialog.Builder(requireContext())
+                        .setTitle(requireContext().getString(R.string.warning))
+                        .setMessage(requireContext().getString(R.string.are_you_sure_to_delete_discount))
+                        .setNegativeButton(requireContext().getString(R.string.no) , object:DialogInterface.OnClickListener{
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                dialog?.dismiss()
+                            }
+                        })
+                        .setPositiveButton(requireContext().getString(R.string.yes) , object:DialogInterface.OnClickListener{
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                viewModel.deleteDiscount()
+                            }
+                        })
+                        .show()
             }
         }
     }
