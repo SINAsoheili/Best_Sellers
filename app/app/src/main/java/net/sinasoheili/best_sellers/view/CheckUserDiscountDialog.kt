@@ -35,6 +35,7 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
     override fun onStart() {
         super.onStart()
         this.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT , LinearLayout.LayoutParams.WRAP_CONTENT)
+        tvResult.text = ""
     }
 
     private fun initObj() {
