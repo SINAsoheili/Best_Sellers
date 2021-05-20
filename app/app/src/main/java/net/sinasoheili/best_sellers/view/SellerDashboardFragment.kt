@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import net.sinasoheili.best_sellers.R
+import net.sinasoheili.best_sellers.model.Discount
 import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.viewModel.SellerDashboardFragmentViewModel
 import javax.inject.Inject
@@ -22,6 +24,7 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
     @Inject
     lateinit var viewModel: SellerDashboardFragmentViewModel
 
+    private lateinit var tvCurrentDiscount: TextView
     private lateinit var btnCreateDiscount: Button
     private lateinit var btnDeleteDiscount: Button
     private lateinit var progressBar: ProgressBar
@@ -31,9 +34,12 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
 
         initObj(view)
         setObserver()
+        viewModel.getShopDiscount()
     }
 
     private fun initObj(view: View) {
+        tvCurrentDiscount = view.findViewById(R.id.tv_SellerDashboard_currentDiscount)
+
         btnCreateDiscount = view.findViewById(R.id.btn_SellerDashboard_registerDiscount)
         btnCreateDiscount.setOnClickListener(this)
 
@@ -49,6 +55,7 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
                 is DataState.Success -> {
                     inVisibleProgressBar()
                     showMessage(requireContext().getString(R.string.discount_register_successfully))
+                    viewModel.getShopDiscount()
                 }
 
                 is DataState.Error -> {
@@ -66,13 +73,13 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
                 }
             }
         })
-
 
         viewModel.deleteDiscountData.observe(viewLifecycleOwner , Observer {
             when(it) {
                 is DataState.Success -> {
                     inVisibleProgressBar()
                     showMessage(requireContext().getString(R.string.discount_delete_successfully))
+                    viewModel.getShopDiscount()
                 }
 
                 is DataState.Error -> {
@@ -90,6 +97,37 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
                 }
             }
         })
+
+        viewModel.getShopDiscountData.observe(viewLifecycleOwner , Observer {
+            when(it) {
+                is DataState.Success -> {
+                    inVisibleProgressBar()
+                    showCurrentDiscount(it.data)
+                }
+
+                is DataState.Error -> {
+                    inVisibleProgressBar()
+                    showCurrentDiscount(null)
+                }
+
+                is DataState.ConnectionError -> {
+                    inVisibleProgressBar()
+                    showMessage(requireContext().getString(R.string.connection_error))
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+            }
+        })
+    }
+
+    private fun showCurrentDiscount(discount: Discount?) {
+        if (discount == null) {
+            tvCurrentDiscount.text = requireContext().getString(R.string.there_is_not_any_Discount_for_this_shop)
+        } else {
+            tvCurrentDiscount.text = discount.toString()
+        }
     }
 
     private fun visibleProgressBar() {

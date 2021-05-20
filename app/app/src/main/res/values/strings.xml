@@ -34,6 +34,7 @@
     <string name="there_is_not_any_discount_to_delete">تخفیفی برای حذف وجود ندارد</string>
     <string name="discount_delete_successfully">کد تخفیف با موفقیت حذف شد</string>
     <string name="discount_register_successfully">کد تخفیف با موفقیت ذخیره شد</string>
+    <string name="there_is_not_any_Discount_for_this_shop">کد تخفیفی برای این فروشگاه ثبت نشده است</string>
     <string name="discount_name">نام تخفیف</string>
     <string name="discount_amount">میزان تخفیف</string>
     <string name="discount_amount_is_not_valid">مقدار تخفیف صحیح نمیباشد</string>
