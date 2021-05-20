@@ -1,3 +1,3 @@
 package net.sinasoheili.best_sellers.model
 
-data class Discount constructor(val idShop: Int , val title: String , val amount: Int)
+data class Discount constructor(var idShop: Int = -1 , var title: String , var amount: Int)
