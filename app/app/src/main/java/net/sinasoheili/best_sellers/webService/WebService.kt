@@ -67,6 +67,9 @@ interface WebService {
         @Query("criteria") criteria: String
     ) : ShopListSearchEntity
 
+    @GET("check_user_has_shop")
+    suspend fun checkUserHasShop(@Query("seller_id") sellerId: Int) : ShopInfoEntity
+
     //TODO: implement get statistic of shop
 
     //User
@@ -133,6 +136,12 @@ interface WebService {
             @Query("id_shop") shopId: Int
     ) : DiscountDeleteEntity
 
+    @GET("check_user_has_discount")
+    suspend fun checkUserHasDiscount(
+            @Query("shop_id") shopId: Int,
+            @Query("user_id") userId: Int
+    ) :CheckUserHasDiscountResponse
+
     @GET("get_shop_discount")
     suspend fun getShopDiscount(
             @Query("shop_id") shopId: Int
@@ -147,6 +156,4 @@ interface WebService {
             @Query("category_id") categoryId: Int
     ) : Array<String>
 
-    @GET("check_user_has_shop")
-    suspend fun checkUserHasShop(@Query("seller_id") sellerId: Int) : ShopInfoEntity
 }
