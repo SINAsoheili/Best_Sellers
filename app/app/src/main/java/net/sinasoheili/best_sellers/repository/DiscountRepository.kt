@@ -86,6 +86,19 @@ class DiscountRepository constructor(val context: Context,
         }
     }
 
+    suspend fun checkUserHasDiscount(userId: Int): Flow<DataState<Boolean>> = flow {
+        emit(DataState.Loading())
+        delay(1000)
+
+        try {
+            val checkResponse: CheckUserHasDiscountResponse = webService.checkUserHasDiscount(getShopIdFromCache() , userId)
+            emit(DataState.Success(checkResponse.discountAvailable))
+
+        } catch (e: Exception) {
+            emit(DataState.ConnectionError(e))
+        }
+    }
+
     private fun getShopIdFromCache(): Int {
         return CacheToPreference.getShopId(context)
     }

@@ -25,6 +25,13 @@
         android:text="@string/delete_discount"
         />
 
+    <Button
+        android:id="@+id/btn_SellerDashboard_checkUserHasDiscount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/check_user_discount"
+        />
+
     <ProgressBar
         android:id="@+id/pb_fragmentDashboardSeller"
         android:layout_width="wrap_content"

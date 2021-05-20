@@ -27,6 +27,7 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
     private lateinit var tvCurrentDiscount: TextView
     private lateinit var btnCreateDiscount: Button
     private lateinit var btnDeleteDiscount: Button
+    private lateinit var btnCheckUserDiscount: Button
     private lateinit var progressBar: ProgressBar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,6 +46,9 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
 
         btnDeleteDiscount = view.findViewById(R.id.btn_SellerDashboard_deleteDiscount)
         btnDeleteDiscount.setOnClickListener(this)
+
+        btnCheckUserDiscount = view.findViewById(R.id.btn_SellerDashboard_checkUserHasDiscount)
+        btnCheckUserDiscount.setOnClickListener(this)
 
         progressBar = view.findViewById(R.id.pb_fragmentDashboardSeller)
     }
@@ -165,6 +169,10 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
                             }
                         })
                         .show()
+            }
+
+            btnCheckUserDiscount -> {
+                CheckUserDiscountDialog(requireContext() , viewModel , viewLifecycleOwner).show()
             }
         }
     }
