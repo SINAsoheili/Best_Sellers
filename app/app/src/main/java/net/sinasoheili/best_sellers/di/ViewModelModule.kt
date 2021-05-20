@@ -6,11 +6,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import net.sinasoheili.best_sellers.repository.CategoryRepository
-import net.sinasoheili.best_sellers.repository.SellerRepository
-import net.sinasoheili.best_sellers.repository.ShopRepository
-import net.sinasoheili.best_sellers.repository.UserRepository
+import net.sinasoheili.best_sellers.repository.*
 import net.sinasoheili.best_sellers.viewModel.RegisterShopViewModel
+import net.sinasoheili.best_sellers.viewModel.SellerDashboardFragmentViewModel
 import net.sinasoheili.best_sellers.viewModel.SellerStoreFragmentViewModel
 import net.sinasoheili.best_sellers.viewModel.SetRoleViewModel
 
@@ -36,5 +34,10 @@ object ViewModelModule {
     @Provides
     fun provideSellerStoreFragmentViewModel (shopRepository: ShopRepository) : SellerStoreFragmentViewModel {
         return SellerStoreFragmentViewModel(shopRepository)
+    }
+
+    @Provides
+    fun provideSellerDashboardFragmentViewModel (discountRepository: DiscountRepository) : SellerDashboardFragmentViewModel {
+        return SellerDashboardFragmentViewModel(discountRepository)
     }
 }
