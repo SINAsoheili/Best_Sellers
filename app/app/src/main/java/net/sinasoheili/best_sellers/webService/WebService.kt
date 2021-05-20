@@ -133,6 +133,11 @@ interface WebService {
             @Query("id_shop") shopId: Int
     ) : DiscountDeleteEntity
 
+    @GET("get_shop_discount")
+    suspend fun getShopDiscount(
+            @Query("shop_id") shopId: Int
+    ) : GetDiscountResponse
+
     //Category
     @GET("get_categories_list")
     suspend fun getCategories () : CategoryEntityResponse
