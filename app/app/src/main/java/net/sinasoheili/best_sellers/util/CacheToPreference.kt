@@ -2,6 +2,7 @@ package net.sinasoheili.best_sellers.util
 
 import android.content.Context
 import com.google.gson.Gson
+import net.sinasoheili.best_sellers.model.Discount
 import net.sinasoheili.best_sellers.model.Seller
 import net.sinasoheili.best_sellers.model.Shop
 import net.sinasoheili.best_sellers.model.User
@@ -95,5 +96,31 @@ object CacheToPreference {
         } else {
             return null
         }
+    }
+
+    fun storeDiscount(context: Context, discount: Discount) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putString("discount" , Gson().toJson(discount))
+                .apply()
+    }
+
+    fun fetchDiscount(context: Context): Discount? {
+        val discountJson : String? = context
+                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .getString("discount" , null)
+
+        if (discountJson != null) {
+            return Gson().fromJson(discountJson , Discount::class.java)
+        } else {
+            return null
+        }
+    }
+
+    fun deleteDiscountFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("discount")
+                .apply()
     }
 }
