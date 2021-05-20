@@ -6,10 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ActivityContext
-import net.sinasoheili.best_sellers.repository.CategoryRepository
-import net.sinasoheili.best_sellers.repository.SellerRepository
-import net.sinasoheili.best_sellers.repository.ShopRepository
-import net.sinasoheili.best_sellers.repository.UserRepository
+import net.sinasoheili.best_sellers.repository.*
 import net.sinasoheili.best_sellers.webService.*
 
 @Module
@@ -42,5 +39,12 @@ object RepositoriesModule {
                               webService: WebService,
                               mapper: CategoryMapper) : CategoryRepository {
         return CategoryRepository(constext, webService, mapper)
+    }
+
+    @Provides
+    fun getDiscountRepository(@ActivityContext context: Context,
+                              webService: WebService,
+                              mapper: DiscountMapper) : DiscountRepository {
+        return DiscountRepository(context, webService , mapper)
     }
 }

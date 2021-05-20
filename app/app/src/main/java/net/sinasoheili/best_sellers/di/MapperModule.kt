@@ -4,10 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import net.sinasoheili.best_sellers.webService.CategoryMapper
-import net.sinasoheili.best_sellers.webService.SellerMapper
-import net.sinasoheili.best_sellers.webService.ShopMapper
-import net.sinasoheili.best_sellers.webService.UserMapper
+import net.sinasoheili.best_sellers.webService.*
 
 @Module
 @InstallIn(ActivityComponent::class)
@@ -31,5 +28,10 @@ object MapperModule {
     @Provides
     fun getCategoryMapper(): CategoryMapper {
         return CategoryMapper()
+    }
+
+    @Provides
+    fun getDiscountMapper(): DiscountMapper {
+        return DiscountMapper()
     }
 }
