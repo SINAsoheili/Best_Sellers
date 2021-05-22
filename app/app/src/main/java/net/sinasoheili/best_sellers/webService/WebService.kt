@@ -70,7 +70,10 @@ interface WebService {
     @GET("check_user_has_shop")
     suspend fun checkUserHasShop(@Query("seller_id") sellerId: Int) : ShopInfoEntity
 
-    //TODO: implement get statistic of shop
+    @GET("get_statistic")
+    suspend fun getStatistic(
+        @Query("shop_id") shopId: Int
+    ) : StatisticResponse
 
     //User
     @GET("register_user")
