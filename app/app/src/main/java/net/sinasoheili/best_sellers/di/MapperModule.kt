@@ -34,4 +34,9 @@ object MapperModule {
     fun getDiscountMapper(): DiscountMapper {
         return DiscountMapper()
     }
+
+    @Provides
+    fun getStatisticMapper(): StatisticMapper {
+        return StatisticMapper()
+    }
 }

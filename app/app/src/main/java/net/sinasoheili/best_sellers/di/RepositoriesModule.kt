@@ -47,4 +47,11 @@ object RepositoriesModule {
                               mapper: DiscountMapper) : DiscountRepository {
         return DiscountRepository(context, webService , mapper)
     }
+
+    @Provides
+    fun getStatisticRepository(@ActivityContext context: Context,
+                               webService: WebService,
+                               statisticMapper: StatisticMapper) : StatisticRepository {
+        return StatisticRepository(context, webService, statisticMapper)
+    }
 }
