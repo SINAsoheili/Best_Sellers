@@ -4,26 +4,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import net.sinasoheili.best_sellers.R
+import net.sinasoheili.best_sellers.model.Message
 import net.sinasoheili.best_sellers.model.Statistic
 import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.viewModel.SellerStatisticViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller) {
+class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller), View.OnClickListener {
 
     @Inject
     lateinit var viewModel: SellerStatisticViewModel
 
     private lateinit var tvStatistic: TextView
     private lateinit var progressBar: ProgressBar
+    private lateinit var btnShowMessage: Button
+    private lateinit var lvMessage: ListView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -43,6 +45,11 @@ class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller) {
         tvStatistic = view.findViewById(R.id.tv_fragmentStatisticSeller_statistic)
 
         progressBar = view.findViewById(R.id.pb_fragmentStatisticSeller)
+
+        btnShowMessage = view.findViewById(R.id.btn_fragmentStatisticSeller_showMessage)
+        btnShowMessage.setOnClickListener(this)
+
+        lvMessage = view.findViewById(R.id.lv_fragmentStatisticSeller_messages)
     }
 
     private fun setObserver() {
@@ -55,6 +62,34 @@ class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller) {
 
                 is DataState.Loading -> {
                     visibleProgressBar()
+                }
+
+                is DataState.ConnectionError -> {
+                    invisibleProgressBar()
+                    showMessage(requireContext().getString(R.string.connection_error))
+                }
+            }
+        })
+
+        viewModel.messageData.observe(viewLifecycleOwner , Observer {
+            when(it) {
+                is DataState.Success -> {
+                    invisibleProgressBar()
+
+                    if(it.data.isEmpty()) {
+                        showMessage(requireContext().getString(R.string.message_not_found))
+                    } else {
+                        showMessageList(it.data)
+                    }
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error -> {
+                    invisibleProgressBar()
+                    showMessage(it.text)
                 }
 
                 is DataState.ConnectionError -> {
@@ -84,6 +119,19 @@ class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller) {
         tvStatistic.text = ""
         for (i in statistics) {
             tvStatistic.append(i.toString()+"\n")
+        }
+    }
+
+    private fun showMessageList(messages: List<Message>) {
+        val adapter: ArrayAdapter<Message> = ArrayAdapter(requireContext()  , android.R.layout.simple_list_item_1 , messages)
+        lvMessage.adapter = adapter
+    }
+
+    override fun onClick(v: View?) {
+        when(v) {
+            btnShowMessage -> {
+                viewModel.getMessages()
+            }
         }
     }
 }

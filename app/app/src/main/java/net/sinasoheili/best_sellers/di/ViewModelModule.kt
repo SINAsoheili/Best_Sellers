@@ -39,7 +39,8 @@ object ViewModelModule {
     }
 
     @Provides
-    fun provideSellerStatisticViewModel (statisticRepository: StatisticRepository) : SellerStatisticViewModel {
-        return SellerStatisticViewModel(statisticRepository)
+    fun provideSellerStatisticViewModel (statisticRepository: StatisticRepository ,
+                                         messageRepository: MessageRepository) : SellerStatisticViewModel {
+        return SellerStatisticViewModel(statisticRepository , messageRepository)
     }
 }
