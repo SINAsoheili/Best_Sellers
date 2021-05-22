@@ -59,7 +59,7 @@ interface WebService {
     @GET("shop_get_message")
     suspend fun  shopGetMessage(
         @Query("shop_id") shopId: Int
-    ) : ShopGetMessageEntity
+    ) : ShopGetMessageResponse
 
     @GET("search_shop")
     suspend fun shopSearch(
