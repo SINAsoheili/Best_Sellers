@@ -39,4 +39,9 @@ object MapperModule {
     fun getStatisticMapper(): StatisticMapper {
         return StatisticMapper()
     }
+
+    @Provides
+    fun getMessageMapper(): MessageMapper {
+        return MessageMapper()
+    }
 }

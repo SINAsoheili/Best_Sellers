@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class ShopGetMessageResponse constructor(
     @SerializedName("find") val find: Boolean,
-    @SerializedName("messages") val messages: List<String>
+    @SerializedName("messages") val messages: List<MessageEntity>
 )

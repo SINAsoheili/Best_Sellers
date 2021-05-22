@@ -54,4 +54,11 @@ object RepositoriesModule {
                                statisticMapper: StatisticMapper) : StatisticRepository {
         return StatisticRepository(context, webService, statisticMapper)
     }
+
+    @Provides
+    fun getMessageRepository(@ActivityContext context: Context,
+                               webService: WebService,
+                               messageMapper: MessageMapper) : MessageRepository {
+        return MessageRepository(context, webService, messageMapper)
+    }
 }
