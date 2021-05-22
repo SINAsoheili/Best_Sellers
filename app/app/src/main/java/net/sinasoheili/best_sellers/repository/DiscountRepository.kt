@@ -99,6 +99,22 @@ class DiscountRepository constructor(val context: Context,
         }
     }
 
+    suspend fun deleteUserDiscount(userId: Int): Flow<DataState<Boolean>> = flow {
+        emit(DataState.Loading())
+        delay(1000)
+
+        try {
+            val deleteUserDiscountResponse: DeleteUserDiscountResponse = webService.deleteDiscountOfUser(getShopIdFromCache(), userId)
+            if (deleteUserDiscountResponse.deleteStatus) {
+                emit(DataState.Success(true))
+            } else {
+                emit(DataState.Error(context.getString(R.string.delete_discount_of_user_was_not_successful)))
+            }
+        } catch (e: Exception) {
+            emit(DataState.ConnectionError(e))
+        }
+    }
+
     private fun getShopIdFromCache(): Int {
         return CacheToPreference.getShopId(context)
     }
