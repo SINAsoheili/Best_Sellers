@@ -147,6 +147,12 @@ interface WebService {
             @Query("shop_id") shopId: Int
     ) : GetDiscountResponse
 
+    @GET("user_used_discount_code")
+    suspend fun deleteDiscountOfUser(
+            @Query("id_shop") shopId: Int,
+            @Query("id_user") userId: Int
+    ) :DeleteUserDiscountResponse
+
     //Category
     @GET("get_categories_list")
     suspend fun getCategories () : CategoryEntityResponse
