@@ -23,6 +23,7 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
     private lateinit var tvResult: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var btnCheck: Button
+    private lateinit var btnConsumDiscount: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,9 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
     override fun onStart() {
         super.onStart()
         this.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT , LinearLayout.LayoutParams.WRAP_CONTENT)
+
         tvResult.text = ""
+        invisibleConsumeDiscountButton()
     }
 
     private fun initObj() {
@@ -44,6 +47,9 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
 
         btnCheck = findViewById(R.id.btn_checkUserDiscount_check)
         btnCheck.setOnClickListener(this)
+
+        btnConsumDiscount = findViewById(R.id.btn_checkUserDiscount_consume)
+        btnConsumDiscount.setOnClickListener(this)
 
         tvResult = findViewById(R.id.tv_checkUserDiscount_result)
 
@@ -58,6 +64,7 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
                     enableCancelable()
                     if(it.data) {
                         tvResult.text = context.getString(R.string.user_has_discount)
+                        visibleConsumeDiscountButton()
                     } else {
                         tvResult.text = context.getString(R.string.user_does_not_have_discount)
                     }
@@ -71,6 +78,34 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
                 is DataState.ConnectionError -> {
                     invisibleProgressBar()
                     enableCancelable()
+                    showToast(context.getString(R.string.connection_error))
+                }
+            }
+        })
+
+        viewModel.deleteUserDiscountData.observe(lifeCycle , Observer {
+            when (it) {
+                is DataState.Success -> {
+                    enableCancelable()
+                    invisibleProgressBar()
+                    showToast(context.getString(R.string.change_confirm_successfully))
+                    closeDialog();
+                }
+
+                is DataState.Loading -> {
+                    disableCancelable()
+                    visibleProgressBar()
+                }
+
+                is DataState.Error -> {
+                    enableCancelable()
+                    invisibleProgressBar()
+                    showToast(it.text)
+                }
+
+                is DataState.ConnectionError -> {
+                    enableCancelable()
+                    invisibleProgressBar()
                     showToast(context.getString(R.string.connection_error))
                 }
             }
@@ -102,6 +137,16 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
         progressBar.visibility = View.GONE
     }
 
+    private fun visibleConsumeDiscountButton() {
+        btnConsumDiscount.visibility = View.VISIBLE
+        btnCheck.visibility = View.INVISIBLE
+    }
+
+    private fun invisibleConsumeDiscountButton() {
+        btnConsumDiscount.visibility = View.GONE
+        btnCheck.visibility = View.VISIBLE
+    }
+
     private fun enableCancelable() {
         this.setCancelable(true)
     }
@@ -110,11 +155,22 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
         this.setCancelable(false)
     }
 
+    private fun closeDialog() {
+        this.dismiss()
+    }
+
     override fun onClick(v: View?) {
         when (v) {
             btnCheck -> {
                 if(checkUserId()) {
                     viewModel.checkUserHasDiscount(etUserId.text.toString().trim().toInt())
+                    disableCancelable()
+                }
+            }
+
+            btnConsumDiscount -> {
+                if(checkUserId()) {
+                    viewModel.deleteDiscountOfUser(etUserId.text.toString().trim().toInt())
                     disableCancelable()
                 }
             }

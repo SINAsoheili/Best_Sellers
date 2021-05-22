@@ -18,6 +18,7 @@ class SellerDashboardFragmentViewModel
     val deleteDiscountData: MutableLiveData<DataState<Boolean>> = MutableLiveData()
     val getShopDiscountData: MutableLiveData<DataState<Discount>> = MutableLiveData()
     val checkUserHasDiscountData: MutableLiveData<DataState<Boolean>> = MutableLiveData()
+    val deleteUserDiscountData: MutableLiveData<DataState<Boolean>> = MutableLiveData()
 
     fun registerDiscount(discount: Discount) {
         viewModelScope.launch {
@@ -55,6 +56,14 @@ class SellerDashboardFragmentViewModel
         }
     }
 
+    fun deleteDiscountOfUser(userId: Int) {
+        viewModelScope.launch {
+            discountRepository.deleteUserDiscount(userId).onEach {
+                setDeleteUserDiscountDataState(it)
+            }.launchIn(viewModelScope)
+        }
+    }
+
     private fun setRegisterDiscountDataState(data: DataState<Discount>) {
         registerDiscountData.value = data
     }
@@ -69,5 +78,9 @@ class SellerDashboardFragmentViewModel
 
     private fun setUserCheckDiscountDataState(data: DataState<Boolean>) {
         checkUserHasDiscountData.value = data
+    }
+
+    private fun setDeleteUserDiscountDataState(data: DataState<Boolean>) {
+        deleteUserDiscountData.value = data
     }
 }

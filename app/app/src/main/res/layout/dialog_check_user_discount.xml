@@ -35,6 +35,14 @@
         android:text="@string/submit"
         />
 
+    <Button
+        android:id="@+id/btn_checkUserDiscount_consume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/consume"
+        android:visibility="gone"
+        />
+
     <ProgressBar
         android:id="@+id/pb_checkUserDiscount"
         android:layout_width="wrap_content"
