@@ -154,8 +154,11 @@ constructor(
     }
 
     private fun deleteShopFromCache() {
+        CacheToPreference.deleteWhoFromCache(context)
+        CacheToPreference.deletePersonIdFromCache(context)
         CacheToPreference.deleteShopIdFromCache(context)
         CacheToPreference.deleteShopFromCache(context)
+        CacheToPreference.deleteSellerFromCache(context)
         CacheToPreference.deleteDiscountFromCache(context)
     }
 }
