@@ -95,6 +95,24 @@ class SellerRepository constructor(
         }
     }
 
+    suspend fun deleteSeller(): Flow<DataState<Boolean>> = flow {
+        emit(DataState.Loading())
+        delay(1000)
+
+        try {
+            val deleteSellerEntity: DeleteSellerEntity = webService.deleteSeller(fetchSellerIdFromCache())
+            if (deleteSellerEntity.isDelete) {
+                deleteSellerFromCache()
+                emit(DataState.Success(true))
+            } else {
+                emit(DataState.Error(context.getString(R.string.delete_seller_was_not_successful)))
+            }
+
+        } catch (e: Exception) {
+            emit(DataState.ConnectionError(e))
+        }
+    }
+
     private fun cacheSellerId(id: Int) {
         CacheToPreference.setWhoLogIn(context , Keys.SELLER)
         CacheToPreference.setIdPerson(context , id)
@@ -119,5 +137,14 @@ class SellerRepository constructor(
 
     private fun fetchSellerFromPreference() : Seller?{
         return CacheToPreference.fetchSeller(context)
+    }
+
+    private fun deleteSellerFromCache() {
+        CacheToPreference.deleteWhoFromCache(context)
+        CacheToPreference.deletePersonIdFromCache(context)
+        CacheToPreference.deleteShopIdFromCache(context)
+        CacheToPreference.deleteShopFromCache(context)
+        CacheToPreference.deleteSellerFromCache(context)
+        CacheToPreference.deleteDiscountFromCache(context)
     }
 }
