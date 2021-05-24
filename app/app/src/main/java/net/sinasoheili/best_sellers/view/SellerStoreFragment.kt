@@ -1,7 +1,9 @@
 package net.sinasoheili.best_sellers.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -16,7 +18,7 @@ import net.sinasoheili.best_sellers.viewModel.SellerStoreFragmentViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SellerStoreFragment: Fragment(R.layout.fragment_store_seller) {
+class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClickListener {
 
     @Inject
     lateinit var shopStoreFragmentViewModel: SellerStoreFragmentViewModel
@@ -27,6 +29,7 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller) {
     private lateinit var tvShopPhone: TextView
     private lateinit var tvShopSite: TextView
     private lateinit var tvShopDescription: TextView
+    private lateinit var btnDeleteShop: Button
     private lateinit var progressBar: ProgressBar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,8 +48,12 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller) {
         tvShopPhone = view.findViewById(R.id.tv_fragmentStoreSeller_shopPhone)
         tvShopSite = view.findViewById(R.id.tv_fragmentStoreSeller_shopSite)
         tvShopDescription = view.findViewById(R.id.tv_fragmentStoreSeller_shopDescription)
-        progressBar = view.findViewById(R.id.pb_fragmentStoreSeller)
         tvSellerInfo = view.findViewById(R.id.tv_fragmentStoreSeller_sellerInfo)
+
+        progressBar = view.findViewById(R.id.pb_fragmentStoreSeller)
+
+        btnDeleteShop = view.findViewById(R.id.btn_fragmentStoreSeller_deleteShop)
+        btnDeleteShop.setOnClickListener(this)
     }
 
     private fun setObserver() {
@@ -87,6 +94,30 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller) {
                 }
 
                 is DataState.Error -> {
+                    inVisibleProgressBar()
+                    showMessage(it.text)
+                }
+
+                is DataState.ConnectionError -> {
+                    inVisibleProgressBar()
+                    showMessage(requireContext().getString(R.string.connection_error))
+                }
+            }
+        })
+
+        shopStoreFragmentViewModel.deleteShopDataState.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is DataState.Success -> {
+                    inVisibleProgressBar()
+                    startActivity(Intent(requireContext() , ChooseRoleActivity::class.java))
+                    requireActivity().finish()
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error-> {
                     inVisibleProgressBar()
                     showMessage(it.text)
                 }
@@ -149,5 +180,13 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller) {
 
     private fun inVisibleProgressBar() {
         progressBar.visibility = View.GONE
+    }
+
+    override fun onClick(v: View?) {
+        when(v) {
+            btnDeleteShop -> {
+                shopStoreFragmentViewModel.deleteShop()
+            }
+        }
     }
 }

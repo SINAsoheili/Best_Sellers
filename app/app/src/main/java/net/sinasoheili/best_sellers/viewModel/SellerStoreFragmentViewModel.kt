@@ -18,6 +18,7 @@ class SellerStoreFragmentViewModel
 {
     val shopDataState: MutableLiveData<DataState<Shop>> = MutableLiveData()
     val sellerDataState: MutableLiveData<DataState<Seller>> = MutableLiveData()
+    val deleteShopDataState: MutableLiveData<DataState<Boolean>> = MutableLiveData()
 
     fun getShopInfo() {
         viewModelScope.launch {
@@ -31,6 +32,14 @@ class SellerStoreFragmentViewModel
         viewModelScope.launch {
             sellerRepository.getSellerInfo().onEach {
                 sellerDataState.value = it
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun deleteShop() {
+        viewModelScope.launch {
+            shopRepository.deleteShop().onEach {
+                deleteShopDataState.value = it
             }.launchIn(viewModelScope)
         }
     }
