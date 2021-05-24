@@ -151,4 +151,11 @@ object CacheToPreference {
                 .remove("shopId")
                 .apply()
     }
+
+    fun deleteShopFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("shop")
+                .apply()
+    }
 }
