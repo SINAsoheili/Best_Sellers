@@ -1,5 +1,7 @@
 package net.sinasoheili.best_sellers.view
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -185,7 +187,21 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
     override fun onClick(v: View?) {
         when(v) {
             btnDeleteShop -> {
-                shopStoreFragmentViewModel.deleteShop()
+                AlertDialog.Builder(requireContext())
+                        .setTitle(requireContext().getString(R.string.warning))
+                        .setMessage(requireContext().getString(R.string.are_you_sure_want_to_delete_shop))
+                        .setNegativeButton(requireContext().getString(R.string.no) , object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                dialog?.dismiss()
+                            }
+                        })
+                        .setPositiveButton(requireContext().getString(R.string.yes) , object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                shopStoreFragmentViewModel.deleteShop()
+                            }
+
+                        })
+                        .show()
             }
         }
     }

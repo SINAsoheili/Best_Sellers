@@ -54,5 +54,6 @@
     <string name="message_not_found">پیامی یافت نشد!</string>
     <string name="delete_shop_was_not_successful">حذف فروشنگاه موفق نبود!</string>
     <string name="delete_shop">حذف فروشگاه</string>
+    <string name="are_you_sure_want_to_delete_shop">آیا حذف فروشگاه مطمئن هستید؟</string>
 
 </resources>
