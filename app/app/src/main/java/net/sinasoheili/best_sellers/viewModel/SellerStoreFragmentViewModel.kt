@@ -6,19 +6,31 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import net.sinasoheili.best_sellers.model.Seller
 import net.sinasoheili.best_sellers.model.Shop
+import net.sinasoheili.best_sellers.repository.SellerRepository
 import net.sinasoheili.best_sellers.repository.ShopRepository
 import net.sinasoheili.best_sellers.util.DataState
 
 class SellerStoreFragmentViewModel
-    constructor( private val shopRepository: ShopRepository) : ViewModel()
+    constructor( private val shopRepository: ShopRepository,
+                 private val sellerRepository: SellerRepository) : ViewModel()
 {
     val shopDataState: MutableLiveData<DataState<Shop>> = MutableLiveData()
+    val sellerDataState: MutableLiveData<DataState<Seller>> = MutableLiveData()
 
     fun getShopInfo() {
         viewModelScope.launch {
             shopRepository.getShopInfo().onEach {
                 shopDataState.value = it
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun getSellerInfo() {
+        viewModelScope.launch {
+            sellerRepository.getSellerInfo().onEach {
+                sellerDataState.value = it
             }.launchIn(viewModelScope)
         }
     }

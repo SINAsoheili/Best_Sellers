@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import net.sinasoheili.best_sellers.R
+import net.sinasoheili.best_sellers.model.Seller
 import net.sinasoheili.best_sellers.model.Shop
 import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.viewModel.SellerStoreFragmentViewModel
@@ -21,6 +22,7 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller) {
     lateinit var shopStoreFragmentViewModel: SellerStoreFragmentViewModel
 
     private lateinit var tvShopNmae: TextView
+    private lateinit var tvSellerInfo: TextView
     private lateinit var tvShopAddress: TextView
     private lateinit var tvShopPhone: TextView
     private lateinit var tvShopSite: TextView
@@ -34,6 +36,7 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller) {
         setObserver()
 
         shopStoreFragmentViewModel.getShopInfo()
+        shopStoreFragmentViewModel.getSellerInfo()
     }
 
     private fun initObj(view: View) {
@@ -43,6 +46,7 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller) {
         tvShopSite = view.findViewById(R.id.tv_fragmentStoreSeller_shopSite)
         tvShopDescription = view.findViewById(R.id.tv_fragmentStoreSeller_shopDescription)
         progressBar = view.findViewById(R.id.pb_fragmentStoreSeller)
+        tvSellerInfo = view.findViewById(R.id.tv_fragmentStoreSeller_sellerInfo)
     }
 
     private fun setObserver() {
@@ -67,6 +71,29 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller) {
                     showMessage(requireContext().getString(R.string.connection_error))
 
                     //todo: show try icon to fetch again and invisible in another states
+                }
+            }
+        })
+
+        shopStoreFragmentViewModel.sellerDataState.observe(viewLifecycleOwner , Observer {
+            when(it) {
+                is DataState.Success -> {
+                    inVisibleProgressBar()
+                    showSellerInfo(it.data)
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error -> {
+                    inVisibleProgressBar()
+                    showMessage(it.text)
+                }
+
+                is DataState.ConnectionError -> {
+                    inVisibleProgressBar()
+                    showMessage(requireContext().getString(R.string.connection_error))
                 }
             }
         })
@@ -110,6 +137,10 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller) {
     private fun showShopPhone(phone: String?) {
         if(phone != null)
             tvShopPhone.text = phone
+    }
+
+    private fun showSellerInfo(seller: Seller) {
+        tvSellerInfo.text = seller.toString()
     }
 
     private fun visibleProgressBar() {

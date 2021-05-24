@@ -29,8 +29,9 @@ object ViewModelModule {
     }
 
     @Provides
-    fun provideSellerStoreFragmentViewModel (shopRepository: ShopRepository) : SellerStoreFragmentViewModel {
-        return SellerStoreFragmentViewModel(shopRepository)
+    fun provideSellerStoreFragmentViewModel (shopRepository: ShopRepository ,
+                                             sellerRepository: SellerRepository) : SellerStoreFragmentViewModel {
+        return SellerStoreFragmentViewModel(shopRepository, sellerRepository)
     }
 
     @Provides
