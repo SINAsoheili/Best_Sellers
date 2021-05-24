@@ -32,6 +32,7 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
     private lateinit var tvShopSite: TextView
     private lateinit var tvShopDescription: TextView
     private lateinit var btnDeleteShop: Button
+    private lateinit var btnDeleteSeller: Button
     private lateinit var progressBar: ProgressBar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,6 +57,9 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
 
         btnDeleteShop = view.findViewById(R.id.btn_fragmentStoreSeller_deleteShop)
         btnDeleteShop.setOnClickListener(this)
+
+        btnDeleteSeller = view.findViewById(R.id.btn_fragmentStoreSeller_deleteSeller)
+        btnDeleteSeller.setOnClickListener(this)
     }
 
     private fun setObserver() {
@@ -108,6 +112,30 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
         })
 
         shopStoreFragmentViewModel.deleteShopDataState.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is DataState.Success -> {
+                    inVisibleProgressBar()
+                    startActivity(Intent(requireContext() , ChooseRoleActivity::class.java))
+                    requireActivity().finish()
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error-> {
+                    inVisibleProgressBar()
+                    showMessage(it.text)
+                }
+
+                is DataState.ConnectionError -> {
+                    inVisibleProgressBar()
+                    showMessage(requireContext().getString(R.string.connection_error))
+                }
+            }
+        })
+
+        shopStoreFragmentViewModel.deleteSellerDataState.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is DataState.Success -> {
                     inVisibleProgressBar()
@@ -198,6 +226,24 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
                         .setPositiveButton(requireContext().getString(R.string.yes) , object : DialogInterface.OnClickListener {
                             override fun onClick(dialog: DialogInterface?, which: Int) {
                                 shopStoreFragmentViewModel.deleteShop()
+                            }
+
+                        })
+                        .show()
+            }
+
+            btnDeleteSeller -> {
+                AlertDialog.Builder(requireContext())
+                        .setTitle(requireContext().getString(R.string.warning))
+                        .setMessage(requireContext().getString(R.string.are_you_sure_want_to_delete_seller))
+                        .setNegativeButton(requireContext().getString(R.string.no) , object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                dialog?.dismiss()
+                            }
+                        })
+                        .setPositiveButton(requireContext().getString(R.string.yes) , object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                shopStoreFragmentViewModel.deleteSeller()
                             }
 
                         })
