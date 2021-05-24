@@ -123,4 +123,32 @@ object CacheToPreference {
                 .remove("discount")
                 .apply()
     }
+
+    fun deleteSellerFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("seller")
+                .apply()
+    }
+
+    fun deleteWhoFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("who")
+                .apply()
+    }
+
+    fun deletePersonIdFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("id")
+                .apply()
+    }
+
+    fun deleteShopIdFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("shopId")
+                .apply()
+    }
 }
