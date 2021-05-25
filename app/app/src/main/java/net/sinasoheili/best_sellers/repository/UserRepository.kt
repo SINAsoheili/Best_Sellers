@@ -88,6 +88,7 @@ class UserRepository constructor(
                     val userFetched: User = UserMapper().toBase(userInfoEntity.user)
                     cacheUserId(userFetched.id)
                     setUserToCache(userFetched)
+                    emit(DataState.Success(userFetched))
                 } else { // user not found
                     emit(DataState.Error(context.getString(R.string.user_not_found)))
                 }
