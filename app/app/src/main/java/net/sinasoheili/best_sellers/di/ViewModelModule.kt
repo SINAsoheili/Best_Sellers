@@ -44,4 +44,9 @@ object ViewModelModule {
                                          messageRepository: MessageRepository) : SellerStatisticViewModel {
         return SellerStatisticViewModel(statisticRepository , messageRepository)
     }
+
+    @Provides
+    fun provideUserMainPageViewModel (userRepository: UserRepository) : UserMainPageViewModel {
+        return UserMainPageViewModel(userRepository)
+    }
 }

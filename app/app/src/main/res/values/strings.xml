@@ -58,5 +58,7 @@
     <string name="delete_seller_was_not_successful">حذف فروشنده موفق نبود!</string>
     <string name="are_you_sure_want_to_delete_seller">آیا حذف فروشنده مطمئن هستید؟</string>
     <string name="delete_seller">حذف فروشنده</string>
+    <string name="open">باز</string>
+    <string name="close">بسته</string>
 
 </resources>
