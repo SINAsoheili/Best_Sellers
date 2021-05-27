@@ -9,20 +9,26 @@
     tools:context=".view.UserMainPage"
     tools:openDrawer="end">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:text="User Main Page"
-        />
-
-    <ProgressBar
-        android:id="@+id/pb_userMainPage"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        />
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_userMainPage_searchShop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_shop"
+            />
+
+        <ProgressBar
+            android:id="@+id/pb_userMainPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nv_userMainPage"

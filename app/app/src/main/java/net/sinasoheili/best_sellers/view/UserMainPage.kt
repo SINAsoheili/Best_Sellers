@@ -1,9 +1,11 @@
 package net.sinasoheili.best_sellers.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
@@ -20,7 +22,7 @@ import net.sinasoheili.best_sellers.viewModel.UserMainPageViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class UserMainPage : AppCompatActivity() {
+class UserMainPage : AppCompatActivity(), View.OnClickListener {
 
     @Inject
     lateinit var viewModel: UserMainPageViewModel
@@ -30,6 +32,7 @@ class UserMainPage : AppCompatActivity() {
     private lateinit var tvUserName: TextView
     private lateinit var tvUserphone: TextView
     private lateinit var tvUserId: TextView
+    private lateinit var btnShopSearch: Button
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +53,9 @@ class UserMainPage : AppCompatActivity() {
         tvUserName = navigationView.getHeaderView(0).findViewById(R.id.tv_userNavigationViewHeader_name)
         tvUserphone = navigationView.getHeaderView(0).findViewById(R.id.tv_userNavigationViewHeader_phone)
         tvUserId = navigationView.getHeaderView(0).findViewById(R.id.tv_userNavigationViewHeader_userId)
+
+        btnShopSearch = findViewById(R.id.btn_userMainPage_searchShop)
+        btnShopSearch.setOnClickListener(this)
     }
 
     private fun setObserver() {
@@ -95,5 +101,13 @@ class UserMainPage : AppCompatActivity() {
 
     private fun invisibleProgressBar() {
         progressBar.visibility = View.GONE
+    }
+
+    override fun onClick(v: View?) {
+        when (v) {
+            btnShopSearch -> {
+                startActivity(Intent(this, ShopSearchActivity::class.java))
+            }
+        }
     }
 }

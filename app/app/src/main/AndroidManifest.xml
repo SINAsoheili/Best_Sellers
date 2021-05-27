@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Best_Sellers"
         android:usesCleartextTraffic="true">
+        <activity android:name=".view.ShopSearchActivity"></activity>
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,10 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.SellerMainPage"/>
+        <activity android:name=".view.SellerMainPage" />
         <activity android:name=".view.UserMainPage" />
         <activity android:name=".view.RegisterShopActivity" />
-        <activity android:name=".view.ChooseRoleActivity"/>
+        <activity android:name=".view.ChooseRoleActivity" />
     </application>
 
 </manifest>

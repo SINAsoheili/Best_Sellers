@@ -60,5 +60,6 @@
     <string name="delete_seller">حذف فروشنده</string>
     <string name="open">باز</string>
     <string name="close">بسته</string>
+    <string name="search_shop">جست و جو فروشگاه</string>
 
 </resources>
