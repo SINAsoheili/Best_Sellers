@@ -44,4 +44,9 @@ object MapperModule {
     fun getMessageMapper(): MessageMapper {
         return MessageMapper()
     }
+
+    @Provides
+    fun getCriteriaMapper(): CriteriaMapper {
+        return CriteriaMapper()
+    }
 }

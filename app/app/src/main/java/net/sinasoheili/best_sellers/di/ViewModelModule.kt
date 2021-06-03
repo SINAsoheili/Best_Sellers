@@ -49,4 +49,9 @@ object ViewModelModule {
     fun provideUserMainPageViewModel (userRepository: UserRepository) : UserMainPageViewModel {
         return UserMainPageViewModel(userRepository)
     }
+
+    @Provides
+    fun provideShopSearchViewModel (categoryRepository: CategoryRepository , shopRepository: ShopRepository) : ShopSearchViewModel {
+        return ShopSearchViewModel(categoryRepository , shopRepository)
+    }
 }

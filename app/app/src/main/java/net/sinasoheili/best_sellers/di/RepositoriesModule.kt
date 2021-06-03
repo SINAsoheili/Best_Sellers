@@ -37,8 +37,9 @@ object RepositoriesModule {
     @Provides
     fun getCategoryRepository(@ActivityContext constext: Context,
                               webService: WebService,
-                              mapper: CategoryMapper) : CategoryRepository {
-        return CategoryRepository(constext, webService, mapper)
+                              categoryMapper: CategoryMapper ,
+                              criteriaMapper: CriteriaMapper) : CategoryRepository {
+        return CategoryRepository(constext, webService, categoryMapper , criteriaMapper)
     }
 
     @Provides
