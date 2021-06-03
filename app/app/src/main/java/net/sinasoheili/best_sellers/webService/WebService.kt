@@ -64,7 +64,7 @@ interface WebService {
     @GET("search_shop")
     suspend fun shopSearch(
         @Query("category_id") categoryId: Int,
-        @Query("criteria") criteria: String
+        @Query("criteria_id") criteriaId: Int
     ) : ShopListSearchEntity
 
     @GET("check_user_has_shop")
@@ -163,6 +163,6 @@ interface WebService {
     @GET("get_category_criteria")
     suspend fun getCriteriaOfCategory (
             @Query("category_id") categoryId: Int
-    ) : Array<String>
+    ) : CategoryCriteriaResponse
 
 }
