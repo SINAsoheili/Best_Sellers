@@ -6,18 +6,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import net.sinasoheili.best_sellers.R
+import net.sinasoheili.best_sellers.model.Criteria
 import net.sinasoheili.best_sellers.model.ShopCategory
 import net.sinasoheili.best_sellers.util.DataState
-import net.sinasoheili.best_sellers.webService.CategoryEntity
-import net.sinasoheili.best_sellers.webService.CategoryEntityResponse
-import net.sinasoheili.best_sellers.webService.CategoryMapper
-import net.sinasoheili.best_sellers.webService.WebService
+import net.sinasoheili.best_sellers.webService.*
 import java.lang.Exception
 
 class CategoryRepository constructor(
     private val context: Context,
     private val webService: WebService,
-    private val categoryMapper: CategoryMapper
+    private val categoryMapper: CategoryMapper,
+    private val criteriaMapper: CriteriaMapper
 ){
     suspend fun getShopCategories() : Flow<DataState<List<ShopCategory>>> = flow {
         emit(DataState.Loading())
@@ -43,6 +42,21 @@ class CategoryRepository constructor(
 
         } catch (e: Exception) {
 
+            emit(DataState.ConnectionError(e))
+        }
+    }
+
+    suspend fun getCriteria(categoryId: Int) : Flow<DataState<MutableList<Criteria>>> = flow {
+        emit(DataState.Loading())
+        delay(1000)
+        try {
+            val criteriasResponse: CategoryCriteriaResponse = webService.getCriteriaOfCategory(categoryId)
+            val response: MutableList<Criteria> =  mutableListOf()
+            for (i in criteriasResponse.criterias) {
+                response.add(criteriaMapper.toBase(i))
+            }
+            emit(DataState.Success(response))
+        } catch (e: Exception) {
             emit(DataState.ConnectionError(e))
         }
     }

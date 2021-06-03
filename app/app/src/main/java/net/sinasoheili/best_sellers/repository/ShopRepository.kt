@@ -124,6 +124,25 @@ constructor(
 
     }
 
+    suspend fun searchShop(categoryId: Int , criteriaId: Int) : Flow<DataState<List<Shop>>> = flow {
+        emit(DataState.Loading())
+        delay(1000)
+
+        try {
+            val shopListFetched: ShopListSearchEntity = webService.shopSearch(categoryId , criteriaId)
+
+            val result: MutableList<Shop> = mutableListOf()
+            for (shopEntity in shopListFetched.shopList)
+            {
+                result.add(shopMapper.toBase(shopEntity))
+            }
+            emit(DataState.Success(result))
+
+        } catch (e: Exception) {
+            emit(DataState.ConnectionError(e))
+        }
+    }
+
     private fun cacheShopId(shopId: Int) {
         CacheToPreference.setShopId(context, shopId)
     }
