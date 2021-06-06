@@ -54,8 +54,8 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
     }
 
     private fun setObserver() {
-        viewModel.categoriesData.observe(this , Observer {
-            when(it) {
+        viewModel.categoriesData.observe(this, Observer {
+            when (it) {
                 is DataState.Success -> {
                     invisibleProgressBar()
                     showCategories(it.data)
@@ -77,8 +77,8 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
             }
         })
 
-        viewModel.criteriaData.observe(this , Observer {
-            when(it) {
+        viewModel.criteriaData.observe(this, Observer {
+            when (it) {
                 is DataState.Success -> {
                     invisibleProgressBar()
                     showCriterias(it.data)
@@ -95,8 +95,8 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
             }
         })
 
-        viewModel.shopSearchData.observe(this ,  Observer {
-            when(it) {
+        viewModel.shopSearchData.observe(this, Observer {
+            when (it) {
                 is DataState.Success -> {
                     invisibleProgressBar()
                     showShopList(it.data)
@@ -129,7 +129,7 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
 
     private fun showMessage(text: String) {
         Snackbar
-            .make(shopListView , text, Snackbar.LENGTH_LONG)
+            .make(shopListView, text, Snackbar.LENGTH_LONG)
             .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
             .show()
     }
@@ -137,30 +137,30 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
     private fun showCategories(categories: List<ShopCategory>) {
         categoryChipGroup.removeAllViews()
         var first: Boolean = true
-        for(category in categories) {
-            if(first) {
-                prepareChip(category.name , category.id, true , categoryChipGroup)
+        for (category in categories) {
+            if (first) {
+                prepareChip(category.name, category.id, true, categoryChipGroup)
                 first = false
             } else {
-                prepareChip(category.name , category.id, false , categoryChipGroup)
+                prepareChip(category.name, category.id, false, categoryChipGroup)
             }
         }
     }
 
     private fun showCriterias(criterias: List<Criteria>) {
         criteriaChipGroup.removeAllViews()
-        for(criteria in criterias) {
-            prepareChip(criteria.name , criteria.id, false , criteriaChipGroup)
+        for (criteria in criterias) {
+            prepareChip(criteria.name, criteria.id, false, criteriaChipGroup)
         }
     }
 
-    private fun prepareChip(text: String , id: Int, checked: Boolean , chipGroup: ChipGroup) {
+    private fun prepareChip(text: String, id: Int, checked: Boolean, chipGroup: ChipGroup) {
         val chip: Chip = Chip(this)
         chip.text = text
         val chipDrawable: ChipDrawable = ChipDrawable.createFromAttributes(
-            this ,
-            null ,
-            0 ,
+            this,
+            null,
+            0,
             R.style.Widget_MaterialComponents_Chip_Choice
         )
         chip.setChipDrawable(chipDrawable)
@@ -170,16 +170,16 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
     }
 
     override fun onCheckedChanged(group: ChipGroup?, checkedId: Int) {
-        when(group) {
+        when (group) {
             categoryChipGroup -> {
                 viewModel.getCriteria(categoryChipGroup.checkedChipId)
             }
 
             criteriaChipGroup -> {
-                for(i in criteriaChipGroup) {
-                    val ch: Chip  = i as Chip
+                for (i in criteriaChipGroup) {
+                    val ch: Chip = i as Chip
                     if (ch.isChecked) {
-                        viewModel.searchShop(categoryChipGroup.checkedChipId , ch.id)
+                        viewModel.searchShop(categoryChipGroup.checkedChipId, ch.id)
                     }
                 }
             }
@@ -187,7 +187,23 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
     }
 
     private fun showShopList(shops: List<Shop>) {
-        val adapter: ArrayAdapter<Shop> = ArrayAdapter(this , android.R.layout.simple_list_item_1 , shops)
+        val adapter: ArrayAdapter<Shop> =
+            ArrayAdapter(this, android.R.layout.simple_list_item_1, shops)
         shopListView.adapter = adapter
+
+        shopListView.setOnItemClickListener(object: AdapterView.OnItemClickListener {
+            override fun onItemClick(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val shop = shops.get(position)
+                supportFragmentManager.beginTransaction().addToBackStack(null)
+                    .replace(R.id.fl_shopSearch_container, ShopDetailFragment(shop))
+                    .commit()
+            }
+
+        })
     }
 }
