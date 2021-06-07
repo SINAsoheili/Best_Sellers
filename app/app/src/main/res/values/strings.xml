@@ -61,5 +61,6 @@
     <string name="open">باز</string>
     <string name="close">بسته</string>
     <string name="search_shop">جست و جو فروشگاه</string>
+    <string name="check_discount">بررسی کد تخفیف</string>
 
 </resources>

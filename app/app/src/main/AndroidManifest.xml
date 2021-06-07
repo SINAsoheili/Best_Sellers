@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Best_Sellers"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.ShopSearchActivity"></activity>
+        <activity android:name=".view.UserDiscountActivity"></activity>
+        <activity android:name=".view.ShopSearchActivity" />
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
