@@ -3,13 +3,10 @@ package net.sinasoheili.best_sellers.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.google.android.material.navigation.NavigationView
@@ -33,6 +30,7 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
     private lateinit var tvUserphone: TextView
     private lateinit var tvUserId: TextView
     private lateinit var btnShopSearch: Button
+    private lateinit var btnCheckDiscount: Button
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +54,9 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
 
         btnShopSearch = findViewById(R.id.btn_userMainPage_searchShop)
         btnShopSearch.setOnClickListener(this)
+
+        btnCheckDiscount = findViewById(R.id.btn_userMainPage_checkDiscount)
+        btnCheckDiscount.setOnClickListener(this)
     }
 
     private fun setObserver() {
@@ -107,6 +108,10 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
         when (v) {
             btnShopSearch -> {
                 startActivity(Intent(this, ShopSearchActivity::class.java))
+            }
+
+            btnCheckDiscount -> {
+                startActivity(Intent(this , UserDiscountActivity::class.java))
             }
         }
     }

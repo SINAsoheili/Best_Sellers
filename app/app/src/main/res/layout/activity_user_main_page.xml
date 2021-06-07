@@ -21,6 +21,13 @@
             android:text="@string/search_shop"
             />
 
+        <Button
+            android:id="@+id/btn_userMainPage_checkDiscount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/check_discount"
+            />
+
         <ProgressBar
             android:id="@+id/pb_userMainPage"
             android:layout_width="wrap_content"
