@@ -7,14 +7,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Discount
+import net.sinasoheili.best_sellers.model.ShopDiscount
 import net.sinasoheili.best_sellers.util.CacheToPreference
 import net.sinasoheili.best_sellers.util.DataState
+import net.sinasoheili.best_sellers.util.Keys
 import net.sinasoheili.best_sellers.webService.*
 import java.lang.Exception
 
 class DiscountRepository constructor(val context: Context,
                                      val webService: WebService,
-                                     val discountMapper: DiscountMapper)
+                                     val discountMapper: DiscountMapper,
+                                     val shopDiscountMapper: ShopDiscountMapper)
 {
 
     suspend fun registerDiscount(discount: Discount): Flow<DataState<Discount>> = flow<DataState<Discount>> {
@@ -113,6 +116,29 @@ class DiscountRepository constructor(val context: Context,
         } catch (e: Exception) {
             emit(DataState.ConnectionError(e))
         }
+    }
+
+    suspend fun getUserDiscountList() : Flow<DataState<ArrayList<ShopDiscount>>> = flow {
+        emit(DataState.Loading())
+        delay(1000)
+
+        try {
+            val userDiscountListResponse: UserDiscountListResponse = webService.getUserDiscountList(getUserIdFromCache())
+            val responseEntity: ArrayList<UserDiscountListEntity> = userDiscountListResponse.discounts
+            val response: ArrayList<ShopDiscount> = ArrayList<ShopDiscount>()
+            for(i in responseEntity) {
+                response.add(shopDiscountMapper.toBase(i))
+            }
+            emit(DataState.Success(response))
+
+        } catch (e: Exception) {
+            emit(DataState.ConnectionError(e))
+        }
+    }
+
+    private fun getUserIdFromCache(): Int {
+        val who: String = CacheToPreference.getWhoLogIn(context)!!
+        return if(who.equals(Keys.SELLER))  -1 else CacheToPreference.getPersonId(context)
     }
 
     private fun getShopIdFromCache(): Int {

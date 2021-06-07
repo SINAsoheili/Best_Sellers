@@ -45,8 +45,9 @@ object RepositoriesModule {
     @Provides
     fun getDiscountRepository(@ActivityContext context: Context,
                               webService: WebService,
-                              mapper: DiscountMapper) : DiscountRepository {
-        return DiscountRepository(context, webService , mapper)
+                              discountMapper: DiscountMapper,
+                              shopDiscountMapper: ShopDiscountMapper) : DiscountRepository {
+        return DiscountRepository(context, webService , discountMapper, shopDiscountMapper)
     }
 
     @Provides
