@@ -49,4 +49,9 @@ object MapperModule {
     fun getCriteriaMapper(): CriteriaMapper {
         return CriteriaMapper()
     }
+
+    @Provides
+    fun getShopDiscountMapper(): ShopDiscountMapper {
+        return ShopDiscountMapper()
+    }
 }
