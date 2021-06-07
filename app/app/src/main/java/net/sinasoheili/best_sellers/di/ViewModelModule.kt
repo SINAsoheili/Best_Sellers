@@ -54,4 +54,9 @@ object ViewModelModule {
     fun provideShopSearchViewModel (categoryRepository: CategoryRepository , shopRepository: ShopRepository) : ShopSearchViewModel {
         return ShopSearchViewModel(categoryRepository , shopRepository)
     }
+
+    @Provides
+    fun provideUserDiscountViewModel (discountRepository: DiscountRepository) : UserDiscountViewModel {
+        return UserDiscountViewModel(discountRepository)
+    }
 }
