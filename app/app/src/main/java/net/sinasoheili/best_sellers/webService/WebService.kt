@@ -118,7 +118,7 @@ interface WebService {
     ) : UserShopMessageEntity
 
     @GET("register_user_message")
-    suspend fun registerMessaage (
+    suspend fun registerMessage (
             @Query("id_user") userId: Int,
             @Query("id_shop") shopId: Int,
             @Query("text") message: String
