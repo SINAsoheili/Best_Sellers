@@ -13,11 +13,20 @@ import net.sinasoheili.best_sellers.util.DataState
 class UserMainPageViewModel constructor( private val userRepository: UserRepository): ViewModel() {
 
     val userInfoData: MutableLiveData<DataState<User>> = MutableLiveData<DataState<User>>()
+    val userDeleteData: MutableLiveData<DataState<Boolean>> = MutableLiveData<DataState<Boolean>>()
 
     fun getUserInfo() {
         viewModelScope.launch {
             userRepository.getUserInfo().onEach {
                 userInfoData.value = it
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun deleteUser() {
+        viewModelScope.launch {
+            userRepository.removeUserAccount().onEach {
+                userDeleteData.value = it
             }.launchIn(viewModelScope)
         }
     }

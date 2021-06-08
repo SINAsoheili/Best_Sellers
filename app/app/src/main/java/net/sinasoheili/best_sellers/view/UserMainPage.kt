@@ -1,12 +1,15 @@
 package net.sinasoheili.best_sellers.view
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.google.android.material.navigation.NavigationView
@@ -15,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.User
 import net.sinasoheili.best_sellers.util.DataState
+import net.sinasoheili.best_sellers.viewModel.SetRoleViewModel
 import net.sinasoheili.best_sellers.viewModel.UserMainPageViewModel
 import javax.inject.Inject
 
@@ -31,6 +35,7 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
     private lateinit var tvUserId: TextView
     private lateinit var btnShopSearch: Button
     private lateinit var btnCheckDiscount: Button
+    private lateinit var tvRemoveUser: TextView
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +62,9 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
 
         btnCheckDiscount = findViewById(R.id.btn_userMainPage_checkDiscount)
         btnCheckDiscount.setOnClickListener(this)
+
+        tvRemoveUser = findViewById(R.id.tv_userMainPage_deleteUser)
+        tvRemoveUser.setOnClickListener(this)
     }
 
     private fun setObserver() {
@@ -79,6 +87,29 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
                 is DataState.ConnectionError -> {
                     invisibleProgressBar()
                     showMessage(this.getString(R.string.connection_error))
+                }
+            }
+        })
+
+        viewModel.userDeleteData.observe(this , Observer {
+            when(it) {
+                is DataState.Success -> {
+                    invisibleProgressBar()
+                    startActivity(Intent(this , ChooseRoleActivity::class.java))
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error -> {
+                    invisibleProgressBar()
+                    showMessage(it.text)
+                }
+
+                is DataState.ConnectionError -> {
+                    invisibleProgressBar()
+                    showMessage(getString(R.string.connection_error))
                 }
             }
         })
@@ -112,6 +143,27 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
 
             btnCheckDiscount -> {
                 startActivity(Intent(this , UserDiscountActivity::class.java))
+            }
+
+            tvRemoveUser -> {
+
+                drawerLayout.closeDrawer(Gravity.RIGHT)
+
+                AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.warning))
+                        .setMessage(getString(R.string.are_you_sure_want_to_delete_user))
+                        .setPositiveButton(getString(R.string.yes) , object: DialogInterface.OnClickListener{
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                viewModel.deleteUser()
+                            }
+                        })
+                        .setNegativeButton(R.string.no , object: DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                dialog?.dismiss()
+                            }
+
+                        })
+                        .show()
             }
         }
     }

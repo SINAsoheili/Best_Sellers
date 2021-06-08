@@ -62,5 +62,8 @@
     <string name="close">بسته</string>
     <string name="search_shop">جست و جو فروشگاه</string>
     <string name="check_discount">بررسی کد تخفیف</string>
+    <string name="remove_user">حذف کاربر</string>
+    <string name="delete_user_was_not_successful">حذف کاربر موفق نبود</string>
+    <string name="are_you_sure_want_to_delete_user">آیا حذف کاربر مطمئن هستید؟</string>
 
 </resources>
