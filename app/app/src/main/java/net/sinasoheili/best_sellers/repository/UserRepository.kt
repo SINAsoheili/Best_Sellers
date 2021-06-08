@@ -98,6 +98,23 @@ class UserRepository constructor(
         }
     }
 
+    suspend fun removeUserAccount() : Flow<DataState<Boolean>> = flow {
+        emit(DataState.Loading())
+        delay(1000)
+
+        try {
+            val userDeleteEntity : UserDeleteEntity = webService.deleteUser(getUserIdFromCache())
+            if(userDeleteEntity.userDeleted) {
+                removeUserFromCache()
+                emit(DataState.Success(true))
+            } else {
+                emit(DataState.Error(context.getString(R.string.delete_user_was_not_successful)))
+            }
+        } catch (e: Exception) {
+            emit(DataState.ConnectionError(e))
+        }
+    }
+
     private fun cacheUserId(id: Int) {
         CacheToPreference.setWhoLogIn(context , Keys.USER)
         CacheToPreference.setIdPerson(context , id)
@@ -122,5 +139,11 @@ class UserRepository constructor(
 
     private fun getUserFromCache(): User? {
         return CacheToPreference.fetchUser(context)
+    }
+
+    private fun removeUserFromCache() {
+        CacheToPreference.deleteWhoFromCache(context)
+        CacheToPreference.deletePersonIdFromCache(context)
+        CacheToPreference.deleteUserFromCache(context)
     }
 }

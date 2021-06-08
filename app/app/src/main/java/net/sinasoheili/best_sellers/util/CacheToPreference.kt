@@ -23,6 +23,14 @@ object CacheToPreference {
             .getString("who" , null)
     }
 
+    fun deleteWhoFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("who")
+                .apply()
+    }
+
+
     fun setIdPerson(context: Context, id: Int) {
         context.getSharedPreferences(PREF_NAME , Context.MODE_PRIVATE)
             .edit()
@@ -35,6 +43,14 @@ object CacheToPreference {
             .getInt("id" , -1)
     }
 
+    fun deletePersonIdFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("id")
+                .apply()
+    }
+
+
     fun setShopId(context: Context , shopId: Int) {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
             .edit()
@@ -46,6 +62,14 @@ object CacheToPreference {
         return context.getSharedPreferences(PREF_NAME , Context.MODE_PRIVATE)
             .getInt("shopId" , -1)
     }
+
+    fun deleteShopIdFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("shopId")
+                .apply()
+    }
+
 
     fun storeShop(context: Context , shop: Shop) {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -64,6 +88,14 @@ object CacheToPreference {
         }
     }
 
+    fun deleteShopFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("shop")
+                .apply()
+    }
+
+
     fun storeSeller(context: Context , seller: Seller) {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
                 .edit()
@@ -81,6 +113,14 @@ object CacheToPreference {
         }
     }
 
+    fun deleteSellerFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("seller")
+                .apply()
+    }
+
+
     fun storeUser(context: Context , user: User) {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
                 .edit()
@@ -97,6 +137,14 @@ object CacheToPreference {
             return null
         }
     }
+
+    fun deleteUserFromCache(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove("user")
+                .apply()
+    }
+
 
     fun storeDiscount(context: Context, discount: Discount) {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -121,41 +169,6 @@ object CacheToPreference {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
                 .edit()
                 .remove("discount")
-                .apply()
-    }
-
-    fun deleteSellerFromCache(context: Context) {
-        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-                .edit()
-                .remove("seller")
-                .apply()
-    }
-
-    fun deleteWhoFromCache(context: Context) {
-        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-                .edit()
-                .remove("who")
-                .apply()
-    }
-
-    fun deletePersonIdFromCache(context: Context) {
-        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-                .edit()
-                .remove("id")
-                .apply()
-    }
-
-    fun deleteShopIdFromCache(context: Context) {
-        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-                .edit()
-                .remove("shopId")
-                .apply()
-    }
-
-    fun deleteShopFromCache(context: Context) {
-        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-                .edit()
-                .remove("shop")
                 .apply()
     }
 }
