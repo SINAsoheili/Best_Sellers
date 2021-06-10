@@ -2,6 +2,7 @@ package net.sinasoheili.best_sellers.webService
 
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface WebService {
 
@@ -124,7 +125,12 @@ interface WebService {
             @Query("text") message: String
     ) : RegisterMessageEntity
 
-    //TODO: user submit question
+    @GET("submit_question")
+    suspend fun submitQuestion(
+            @Query("id_user") userId: Int,
+            @Query("id_shop") shopId: Int,
+            @QueryMap ans: Map<String , Int>
+    ) :SubmitResultEntity
 
     //Discount
     @GET("register_discount")
