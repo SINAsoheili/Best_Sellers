@@ -8,10 +8,8 @@ import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Message
 import net.sinasoheili.best_sellers.util.CacheToPreference
 import net.sinasoheili.best_sellers.util.DataState
-import net.sinasoheili.best_sellers.webService.MessageEntity
-import net.sinasoheili.best_sellers.webService.MessageMapper
-import net.sinasoheili.best_sellers.webService.ShopGetMessageResponse
-import net.sinasoheili.best_sellers.webService.WebService
+import net.sinasoheili.best_sellers.util.Keys
+import net.sinasoheili.best_sellers.webService.*
 import java.lang.Exception
 
 class MessageRepository constructor(val context: Context,
@@ -40,7 +38,27 @@ class MessageRepository constructor(val context: Context,
         }
     }
 
+    suspend fun registerMessage(shopId: Int, message: String) : Flow<DataState<Boolean>> = flow {
+        emit(DataState.Loading())
+        delay(1000)
+
+        try {
+            val rme: RegisterMessageEntity = webService.registerMessage( getUserIdFromCache(), shopId , message)
+            if(rme.messageRegister) {
+                emit(DataState.Success(true))
+            } else {
+                emit(DataState.Error(context.getString(R.string.message_is_not_registered)))
+            }
+        } catch(e: Exception) {
+            emit(DataState.ConnectionError(e))
+        }
+    }
+
     private fun getShopIdFromCache() : Int{
         return CacheToPreference.getShopId(context)
+    }
+
+    private fun getUserIdFromCache() : Int {
+        return if(CacheToPreference.getWhoLogIn(context).equals(Keys.USER)) CacheToPreference.getPersonId(context) else -1;
     }
 }
