@@ -63,4 +63,11 @@ object RepositoriesModule {
                                messageMapper: MessageMapper) : MessageRepository {
         return MessageRepository(context, webService, messageMapper)
     }
+
+    @Provides
+    fun getQuestionRepository(@ActivityContext context: Context,
+                              webService: WebService,
+                              questionMapper: QuestionMapper ) : QuestionRepository {
+        return QuestionRepository(context , webService, questionMapper)
+    }
 }

@@ -54,4 +54,9 @@ object MapperModule {
     fun getShopDiscountMapper(): ShopDiscountMapper {
         return ShopDiscountMapper()
     }
+
+    @Provides
+    fun getQuestionMapper(): QuestionMapper {
+        return QuestionMapper()
+    }
 }

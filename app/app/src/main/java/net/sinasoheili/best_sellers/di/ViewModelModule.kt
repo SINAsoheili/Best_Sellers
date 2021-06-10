@@ -59,4 +59,9 @@ object ViewModelModule {
     fun provideUserDiscountViewModel (discountRepository: DiscountRepository) : UserDiscountViewModel {
         return UserDiscountViewModel(discountRepository)
     }
+
+    @Provides
+    fun provideSurveyViewModel (questionRepository: QuestionRepository , messageRepository: MessageRepository) : SurveyViewModel {
+        return SurveyViewModel(messageRepository, questionRepository)
+    }
 }
