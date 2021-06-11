@@ -1,6 +1,7 @@
 package net.sinasoheili.best_sellers.repository
 
 import android.content.Context
+import android.util.Log
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -50,6 +51,24 @@ class MessageRepository constructor(val context: Context,
                 emit(DataState.Error(context.getString(R.string.message_is_not_registered)))
             }
         } catch(e: Exception) {
+            emit(DataState.ConnectionError(e))
+        }
+    }
+
+    suspend fun getUserShopMessage(shopId: Int) : Flow<DataState<Message>> = flow {
+        emit(DataState.Loading())
+        delay(1000)
+
+        try {
+            val usme: UserShopMessageEntity = webService.getUserShopMessage(shopId,getUserIdFromCache())
+            if(usme.findMessage) {
+                val message: Message = messageMapper.toBase(usme.message)
+                emit(DataState.Success(message))
+            } else {
+                emit(DataState.Error(context.getString(R.string.message_not_found)))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
             emit(DataState.ConnectionError(e))
         }
     }
