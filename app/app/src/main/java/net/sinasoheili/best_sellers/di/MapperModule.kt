@@ -59,4 +59,9 @@ object MapperModule {
     fun getQuestionMapper(): QuestionMapper {
         return QuestionMapper()
     }
+
+    @Provides
+    fun getAnsweredQuestionMapper(): AnsweredQuestionMapper {
+        return AnsweredQuestionMapper()
+    }
 }

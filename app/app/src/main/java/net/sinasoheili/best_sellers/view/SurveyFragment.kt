@@ -1,6 +1,8 @@
 package net.sinasoheili.best_sellers.view
 
 import android.os.Bundle
+import android.text.Editable
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -10,6 +12,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import net.sinasoheili.best_sellers.R
+import net.sinasoheili.best_sellers.model.AnsweredQuestion
+import net.sinasoheili.best_sellers.model.Message
 import net.sinasoheili.best_sellers.model.Question
 import net.sinasoheili.best_sellers.model.Shop
 import net.sinasoheili.best_sellers.util.DataState
@@ -29,15 +33,15 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
     private lateinit var progressBar: ProgressBar
 
     private lateinit var questionList: List<Question>
-    private var messageRegistered: Boolean = false;
-    private var questionSubmitted: Boolean = false;
+    private var messageRegistered: Boolean = false
+    private var questionSubmitted: Boolean = false
+    private var isUpdate: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setObserver()
-
-        viewModel.getQuestion(shop.idCategory)
+        viewModel.checkUserAnsQuestion(shop.id)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -136,6 +140,108 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
                 }
             }
         })
+
+        viewModel.userAnsQuestionData.observe(this , Observer {
+            when(it) {
+                is DataState.Success -> {
+                    if(it.data) { // user answered question before
+                        isUpdate = true
+                        prepareButton()
+                        viewModel.getUserAnsweredQuestion(shop.id)
+                        viewModel.getUserMessage(shop.id)
+
+                    } else { // user dose not answered question before
+                        isUpdate = false
+                        prepareButton()
+                        viewModel.getQuestion(shop.idCategory)
+                    }
+                    inVisibleProgressBar()
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error -> {
+                    inVisibleProgressBar()
+                    showMessage(it.text)
+                }
+
+                is DataState.ConnectionError -> {
+                    inVisibleProgressBar()
+                    showMessage(getString(R.string.connection_error))
+                }
+            }
+        })
+
+        viewModel.userShopMessageData.observe(this , Observer {
+            when(it) {
+                is DataState.Success -> {
+                    inVisibleProgressBar()
+                    showUserMessage(it.data)
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error -> {
+                    inVisibleProgressBar()
+                    showMessage(it.text)
+                }
+
+                is DataState.ConnectionError -> {
+                    inVisibleProgressBar()
+                    showMessage(getString(R.string.connection_error))
+                }
+            }
+        })
+
+        viewModel.answeredQuestionData.observe(this , Observer {
+            when(it) {
+                is DataState.Success -> {
+                    inVisibleProgressBar()
+                    initialQuestionList(it.data)
+                    showAnsweredQuestion(it.data)
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error -> {
+                    inVisibleProgressBar()
+                    showMessage(it.text)
+                }
+
+                is DataState.ConnectionError -> {
+                    inVisibleProgressBar()
+                    showMessage(getString(R.string.connection_error))
+                }
+            }
+        })
+
+        viewModel.removeSurveyData.observe(this, Observer {
+            when(it) {
+                is DataState.Success -> {
+                    registerSurvey()
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error -> {
+                    inVisibleProgressBar()
+                    showMessage(it.text)
+                }
+
+                is DataState.ConnectionError -> {
+                    inVisibleProgressBar()
+                    showMessage(getString(R.string.connection_error))
+                }
+            }
+        })
     }
 
     private fun visibleProgressBar() {
@@ -170,6 +276,24 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
         }
     }
 
+    private fun showAnsweredQuestion(questions: List<AnsweredQuestion>) {
+        questionContainer.removeAllViews()
+        for(q in questions) {
+            val tv: TextView = TextView(requireContext())
+            tv.id = q.questionId
+            tv.text = q.content
+            questionContainer.addView(tv)
+
+            val sb: SeekBar = SeekBar(context)
+            sb.tag = q.questionId
+            sb.max = 5
+            sb.min = -5
+            sb.incrementProgressBy(1)
+            sb.progress = q.score
+            questionContainer.addView(sb)
+        }
+    }
+
     private fun messageIsEmpty(): Boolean {
         if(etMessage.text.toString().trim().isEmpty()) {
             tilMessage.error = getString(R.string.please_fill_field)
@@ -195,14 +319,44 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
         parentFragmentManager.beginTransaction().remove(this).commit()
     }
 
+    private fun showUserMessage(msg: Message) {
+        etMessage.setText(msg.text)
+    }
+
+    private fun prepareButton()  {
+        if(isUpdate) {
+            btnSubmit.text = getString(R.string.update)
+        } else {
+            btnSubmit.text = getString(R.string.register)
+        }
+    }
+
+    private fun registerSurvey() {
+        val message: String = etMessage.text.toString().trim()
+        val ans: Map<String , Int> = calcQuestion()
+
+        viewModel.registerMessage( shop.id , message)
+        viewModel.submitQuestion( shop.id , ans)
+    }
+
+    private fun initialQuestionList(questions: List<AnsweredQuestion>) {
+        val ql: MutableList<Question> = mutableListOf()
+        for(q in questions) {
+            ql.add(Question(q.questionId , q.content))
+        }
+        questionList = ql
+    }
+
     override fun onClick(v: View?) {
         when(v) {
             btnSubmit -> {
                 if(! messageIsEmpty()) {
-                    val message: String = etMessage.text.toString().trim()
-                    val ans: Map<String , Int> = calcQuestion()
-                    viewModel.registerMessage( shop.id , message)
-                    viewModel.submitQuestion( shop.id , ans)
+                    if(isUpdate) {
+                        viewModel.removeSurvey(shop.id)
+                    }
+                    else {
+                        registerSurvey()
+                    }
                 }
             }
         }

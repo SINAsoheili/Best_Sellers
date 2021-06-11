@@ -67,7 +67,8 @@ object RepositoriesModule {
     @Provides
     fun getQuestionRepository(@ActivityContext context: Context,
                               webService: WebService,
-                              questionMapper: QuestionMapper ) : QuestionRepository {
-        return QuestionRepository(context , webService, questionMapper)
+                              questionMapper: QuestionMapper ,
+                              answeredQuestionMapper: AnsweredQuestionMapper ) : QuestionRepository {
+        return QuestionRepository(context , webService, questionMapper, answeredQuestionMapper)
     }
 }

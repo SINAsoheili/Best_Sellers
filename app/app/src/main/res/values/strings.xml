@@ -71,5 +71,7 @@
     <string name="question_not_found">سوالی یافت نشد</string>
     <string name="question_not_register">سوال ذخیره نشد</string>
     <string name="your_opinion_register_successfully">نظر شما با موفقیت ثبت شد</string>
+    <string name="update">بروزرسانی</string>
+    <string name="unknown_error_happen">خطای ناشناخته رخ داده است</string>
 
 </resources>

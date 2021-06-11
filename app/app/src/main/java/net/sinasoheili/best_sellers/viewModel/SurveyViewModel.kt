@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import net.sinasoheili.best_sellers.model.AnsweredQuestion
+import net.sinasoheili.best_sellers.model.Message
 import net.sinasoheili.best_sellers.model.Question
 import net.sinasoheili.best_sellers.repository.MessageRepository
 import net.sinasoheili.best_sellers.repository.QuestionRepository
@@ -17,6 +19,10 @@ class SurveyViewModel constructor(val messageRepository: MessageRepository, val 
     val messageRegisterData: MutableLiveData<DataState<Boolean>> = MutableLiveData()
     val questionData: MutableLiveData<DataState<List<Question>>> = MutableLiveData()
     val submitQuestionData: MutableLiveData<DataState<Boolean>> = MutableLiveData()
+    val userAnsQuestionData: MutableLiveData<DataState<Boolean>> = MutableLiveData()
+    val userShopMessageData: MutableLiveData<DataState<Message>> = MutableLiveData()
+    val answeredQuestionData: MutableLiveData<DataState<List<AnsweredQuestion>>> = MutableLiveData()
+    val removeSurveyData: MutableLiveData<DataState<Boolean>> = MutableLiveData()
 
     fun registerMessage(shopId: Int , message: String) {
             viewModelScope.launch {
@@ -38,6 +44,38 @@ class SurveyViewModel constructor(val messageRepository: MessageRepository, val 
         viewModelScope.launch {
             questionRepository.submitQuestion(shopId , response).onEach {
                 submitQuestionData.value = it
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun checkUserAnsQuestion(shopId: Int) {
+        viewModelScope.launch {
+            questionRepository.checkUserAnsQuestion(shopId).onEach {
+                userAnsQuestionData.value = it
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun getUserMessage(shopId: Int) {
+        viewModelScope.launch {
+            messageRepository.getUserShopMessage(shopId).onEach {
+                userShopMessageData.value = it
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun getUserAnsweredQuestion(shopId: Int) {
+        viewModelScope.launch {
+            questionRepository.getUserAnsweredQuestion(shopId).onEach {
+                answeredQuestionData.value = it
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun removeSurvey(shopId: Int) {
+        viewModelScope.launch {
+            questionRepository.removeSurvey(shopId).onEach {
+                removeSurveyData.value = it
             }.launchIn(viewModelScope)
         }
     }
