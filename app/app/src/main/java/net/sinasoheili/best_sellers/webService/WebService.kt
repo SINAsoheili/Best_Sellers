@@ -176,4 +176,16 @@ interface WebService {
             @Query("category_id") categoryId: Int
     ) : CategoryCriteriaResponse
 
+    //Question
+    @GET("user_answered_question")
+    suspend fun getUserAnsweredQuestion (
+            @Query("id_user") userId: Int,
+            @Query("id_shop") shopId: Int
+    ) : AnsweredQuestionEntityResponse
+
+    @GET("delete_user_survey") // remove question and message of specific user of specific shop
+    suspend fun removeSurvey (
+            @Query("id_user") userId: Int,
+            @Query("id_shop") shopId: Int
+    ) : DeleteSurveyResponse
 }
