@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import net.sinasoheili.best_sellers.repository.*
 import net.sinasoheili.best_sellers.viewModel.*
@@ -63,5 +64,10 @@ object ViewModelModule {
     @Provides
     fun provideSurveyViewModel (questionRepository: QuestionRepository , messageRepository: MessageRepository) : SurveyViewModel {
         return SurveyViewModel(messageRepository, questionRepository)
+    }
+
+    @Provides
+    fun provideShowQRcodeViewModel (@ActivityContext context: Context): ShowQRcodeViewModel {
+        return ShowQRcodeViewModel(context)
     }
 }
