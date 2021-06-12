@@ -73,5 +73,9 @@
     <string name="your_opinion_register_successfully">نظر شما با موفقیت ثبت شد</string>
     <string name="update">بروزرسانی</string>
     <string name="unknown_error_happen">خطای ناشناخته رخ داده است</string>
+    <string name="shop_QR_code">کد QR فروشگاه</string>
+    <string name="save_image">ذخیره تصویر</string>
+    <string name="image_saved_successfully">تصویر با موفقیت ذخیره شد</string>
+    <string name="image_dose_not_saved_successfully">تصویر ذخیره نشد</string>
 
 </resources>

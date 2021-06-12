@@ -3,12 +3,10 @@ package net.sinasoheili.best_sellers.view
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +26,7 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
     private lateinit var btnCreateDiscount: Button
     private lateinit var btnDeleteDiscount: Button
     private lateinit var btnCheckUserDiscount: Button
+    private lateinit var btnQRcode: Button
     private lateinit var progressBar: ProgressBar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,6 +48,9 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
 
         btnCheckUserDiscount = view.findViewById(R.id.btn_SellerDashboard_checkUserHasDiscount)
         btnCheckUserDiscount.setOnClickListener(this)
+
+        btnQRcode = view.findViewById(R.id.btn_SellerDashboard_QRgenerate)
+        btnQRcode.setOnClickListener(this)
 
         progressBar = view.findViewById(R.id.pb_fragmentDashboardSeller)
     }
@@ -173,6 +175,13 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
 
             btnCheckUserDiscount -> {
                 CheckUserDiscountDialog(requireContext() , viewModel , viewLifecycleOwner).show()
+            }
+
+            btnQRcode -> {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fl_fragmentDashboardSeller_container,ShowQRcodeFragment())
+                    .addToBackStack(null)
+                    .commit()
             }
         }
     }
