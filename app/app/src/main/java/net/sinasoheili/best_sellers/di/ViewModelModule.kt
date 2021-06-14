@@ -47,8 +47,8 @@ object ViewModelModule {
     }
 
     @Provides
-    fun provideUserMainPageViewModel (userRepository: UserRepository) : UserMainPageViewModel {
-        return UserMainPageViewModel(userRepository)
+    fun provideUserMainPageViewModel (userRepository: UserRepository , shopRepository: ShopRepository) : UserMainPageViewModel {
+        return UserMainPageViewModel(userRepository , shopRepository)
     }
 
     @Provides
