@@ -78,7 +78,7 @@ constructor(
         }
     }
 
-    suspend fun getShopInfo() : Flow<DataState<Shop>> = flow {
+    suspend fun getShopInfo(shopId: Int = -1) : Flow<DataState<Shop>> = flow {
 
         val shop: Shop? = fetchShopFromCache()
         if(shop != null) {
@@ -88,9 +88,8 @@ constructor(
             delay(1000)
 
             try {
-
-                val shopId: Int = fetchShopIdFromCache()
-                val shopInfoEntity: ShopInfoEntity = webService.getShopInfo(shopId)
+                val fetchedShopId: Int = if(shopId == -1) fetchShopIdFromCache() else shopId
+                val shopInfoEntity: ShopInfoEntity = webService.getShopInfo(fetchedShopId)
 
                 if(shopInfoEntity.find) {
                     val shopFetched: Shop = shopMapper.toBase(shopInfoEntity.shop)
