@@ -77,5 +77,8 @@
     <string name="save_image">ذخیره تصویر</string>
     <string name="image_saved_successfully">تصویر با موفقیت ذخیره شد</string>
     <string name="image_dose_not_saved_successfully">تصویر ذخیره نشد</string>
+    <string name="scan_qr_code">اسکن کد QR</string>
+    <string name="to_use_this_section_please_install_qr_code_scanner">برای کار با این قسمت لطفا Barcode Scanner را نصب کنید </string>
+    <string name="code_scan_was_not_successful">اسکن کد موفق نبود</string>
 
 </resources>

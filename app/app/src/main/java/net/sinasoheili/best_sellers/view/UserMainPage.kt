@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -20,6 +21,7 @@ import net.sinasoheili.best_sellers.model.User
 import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.viewModel.SetRoleViewModel
 import net.sinasoheili.best_sellers.viewModel.UserMainPageViewModel
+import java.lang.Exception
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,6 +37,7 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
     private lateinit var tvUserId: TextView
     private lateinit var btnShopSearch: Button
     private lateinit var btnCheckDiscount: Button
+    private lateinit var btnScanQrCode: Button
     private lateinit var tvRemoveUser: TextView
     private lateinit var progressBar: ProgressBar
 
@@ -65,6 +68,9 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
 
         tvRemoveUser = findViewById(R.id.tv_userMainPage_deleteUser)
         tvRemoveUser.setOnClickListener(this)
+
+        btnScanQrCode = findViewById(R.id.btn_userMainPage_scanQRcode)
+        btnScanQrCode.setOnClickListener(this)
     }
 
     private fun setObserver() {
@@ -113,6 +119,33 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
                 }
             }
         })
+
+        viewModel.shopData.observe(this , Observer {
+            when(it) {
+                is DataState.Success -> {
+                    invisibleProgressBar()
+                    supportFragmentManager
+                            .beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.fl_userMainPage_continer, ShopDetailFragment(it.data))
+                            .commit()
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error -> {
+                    invisibleProgressBar()
+                    showMessage(it.text)
+                }
+
+                is DataState.ConnectionError -> {
+                    invisibleProgressBar()
+                    showMessage(getString(R.string.connection_error))
+                }
+            }
+        })
     }
 
     private fun showMessage(text: String) {
@@ -135,6 +168,31 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
         progressBar.visibility = View.GONE
     }
 
+    private fun openQRcodeScanner() {
+        try {
+            val intent: Intent = Intent("com.google.zxing.client.android.SCAN")
+            intent.putExtra("SCAN_MODE", "QR_CODE_MODE")
+            startActivityForResult(intent, 0);
+        } catch (e: Exception) {
+            showMessage(getString(R.string.to_use_this_section_please_install_qr_code_scanner))
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 0) {
+            if(resultCode == RESULT_OK) {
+                val sShopId: String = data?.getStringExtra("SCAN_RESULT") ?: "-1"
+                val shopId: Int = sShopId.toInt()
+                if(shopId == -1) {
+                    showMessage(getString(R.string.shop_not_found))
+                } else {
+                    viewModel.getShopInfo(shopId)
+                }
+            }
+        }
+    }
+
     override fun onClick(v: View?) {
         when (v) {
             btnShopSearch -> {
@@ -143,6 +201,10 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
 
             btnCheckDiscount -> {
                 startActivity(Intent(this , UserDiscountActivity::class.java))
+            }
+
+            btnScanQrCode -> {
+                openQRcodeScanner()
             }
 
             tvRemoveUser -> {
