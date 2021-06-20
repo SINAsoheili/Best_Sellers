@@ -31,8 +31,8 @@ constructor(
             val registerShopEntity: RegisterShopEntity = webService.registerShop (
                 name = shop.name,
                 address = shop.address,
-                latitude = 0F,
-                longitude = 0F,
+                latitude = shop.latitude,
+                longitude = shop.longitude,
                 sellerId =  shop.idSeller,
                 categoryId = shop.idCategory
             )

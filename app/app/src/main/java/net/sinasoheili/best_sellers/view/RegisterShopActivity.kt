@@ -1,12 +1,27 @@
 package net.sinasoheili.best_sellers.view
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.GroundOverlay
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
@@ -22,7 +37,7 @@ import net.sinasoheili.best_sellers.viewModel.RegisterShopViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RegisterShopActivity : AppCompatActivity(), View.OnClickListener {
+class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallback {
 
     @Inject
     lateinit var registerShopViewModel: RegisterShopViewModel
@@ -35,6 +50,9 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var btnSubmit: Button
     private lateinit var progressBar: ProgressBar
 
+    private lateinit var map:GoogleMap
+    private var location: LatLng = LatLng(35.6892 , 51.3890)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_shop)
@@ -45,6 +63,8 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initObj() {
+        showMap()
+
         tilShopName = findViewById(R.id.til_registerShop_name)
         etShopName = findViewById(R.id.et_registerShop_name)
 
@@ -104,6 +124,16 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         })
+    }
+
+    private fun showMap() {
+        val supportMapFragment: SupportMapFragment = SupportMapFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fl_registerShop_mapContainer , supportMapFragment)
+            .commit()
+
+        supportMapFragment.getMapAsync(this)
     }
 
     private fun showChips(categories: Array<ShopCategory>) {
@@ -197,15 +227,34 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener {
             btnSubmit -> {
                 if (checkValidInput()) {
 
-                    //todo: send latitude and longitude of location
                     val shop: Shop = Shop (
                         name = etShopName.text.toString().trim(),
                         address = etAddress.text.toString().trim(),
                         idCategory = getCheckedCategoryId(),
+                        latitude = location.latitude.toFloat(),
+                        longitude =  location.longitude.toFloat()
                     )
                     registerShopViewModel.registerShop(shop)
                 }
             }
         }
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        this.map = map
+        showMarker(map , location)
+
+        map.setOnMapClickListener(object:GoogleMap.OnMapClickListener {
+            override fun onMapClick(loc: LatLng) {
+                location = loc
+                showMarker(map , loc)
+            }
+        })
+    }
+
+    private fun showMarker(map: GoogleMap , loc: LatLng) {
+        map.clear()
+        map.addMarker(MarkerOptions().position(loc))
+        map.animateCamera(CameraUpdateFactory.newLatLng(loc))
     }
 }

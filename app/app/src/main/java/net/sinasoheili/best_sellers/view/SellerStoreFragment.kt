@@ -4,12 +4,21 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import net.sinasoheili.best_sellers.R
@@ -20,7 +29,8 @@ import net.sinasoheili.best_sellers.viewModel.SellerStoreFragmentViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClickListener {
+class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClickListener,
+    OnMapReadyCallback {
 
     @Inject
     lateinit var shopStoreFragmentViewModel: SellerStoreFragmentViewModel
@@ -34,6 +44,9 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
     private lateinit var btnDeleteShop: Button
     private lateinit var btnDeleteSeller: Button
     private lateinit var progressBar: ProgressBar
+
+    private var shop: Shop? = null
+    private var map: GoogleMap? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,6 +73,8 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
 
         btnDeleteSeller = view.findViewById(R.id.btn_fragmentStoreSeller_deleteSeller)
         btnDeleteSeller.setOnClickListener(this)
+
+        showMap()
     }
 
     private fun setObserver() {
@@ -67,6 +82,7 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
             when(it) {
                 is DataState.Success -> {
                     inVisibleProgressBar()
+                    this.shop = it.data
                     fillField(it.data)
                 }
 
@@ -160,6 +176,16 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
         })
     }
 
+    private fun showMap() {
+        val mapFragment: SupportMapFragment = SupportMapFragment.newInstance()
+        parentFragmentManager
+            .beginTransaction()
+            .add(R.id.fl_fragmentStoreSeller_mapContiner, mapFragment)
+            .commit()
+
+        mapFragment.getMapAsync(this)
+    }
+
     private fun showMessage(text: String) {
         Snackbar
                 .make(tvShopNmae , text, Snackbar.LENGTH_LONG)
@@ -173,6 +199,10 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
         showShopSite(shop.site)
         showShopDescription(shop.description)
         showShopPhone(shop.phone)
+
+        if(map != null) {
+            showMarker(map!! , LatLng(shop.latitude.toDouble() , shop.longitude.toDouble()))
+        }
     }
 
     private fun showShopName(name: String?) {
@@ -212,6 +242,12 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
         progressBar.visibility = View.GONE
     }
 
+    private fun showMarker(map: GoogleMap , loc: LatLng) {
+        map.clear()
+        map.addMarker(MarkerOptions().position(loc))
+        map.animateCamera(CameraUpdateFactory.newLatLng(loc))
+    }
+
     override fun onClick(v: View?) {
         when(v) {
             btnDeleteShop -> {
@@ -249,6 +285,13 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
                         })
                         .show()
             }
+        }
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        this.map = map
+        if(shop != null) {
+            showMarker(map , LatLng(shop!!.latitude.toDouble() , shop!!.longitude.toDouble()))
         }
     }
 }

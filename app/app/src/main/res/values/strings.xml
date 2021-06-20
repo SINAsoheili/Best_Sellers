@@ -80,5 +80,6 @@
     <string name="scan_qr_code">اسکن کد QR</string>
     <string name="to_use_this_section_please_install_qr_code_scanner">برای کار با این قسمت لطفا Barcode Scanner را نصب کنید </string>
     <string name="code_scan_was_not_successful">اسکن کد موفق نبود</string>
+    <string name="unable_to_access_user_location">دسترسی به موقعیت کاربر ممکن نیست!</string>
 
 </resources>
