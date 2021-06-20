@@ -52,10 +52,10 @@
             android:text="@string/survey"
             />
 
-        <TextView
+        <FrameLayout
+            android:id="@+id/btn_shopDetail_mapFrame"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:text="map"
             android:gravity="center"
             />
 

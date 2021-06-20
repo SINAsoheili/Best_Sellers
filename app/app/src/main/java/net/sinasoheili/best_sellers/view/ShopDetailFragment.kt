@@ -6,10 +6,16 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Shop
 
-class ShopDetailFragment constructor(val shop: Shop): Fragment(R.layout.fragment_shop_detail), View.OnClickListener {
+class ShopDetailFragment constructor(val shop: Shop): Fragment(R.layout.fragment_shop_detail), View.OnClickListener, OnMapReadyCallback {
 
     private lateinit var tvName: TextView
     private lateinit var tvAddress: TextView
@@ -21,6 +27,7 @@ class ShopDetailFragment constructor(val shop: Shop): Fragment(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initObj(view)
+        showShop()
         fillField()
     }
 
@@ -43,11 +50,30 @@ class ShopDetailFragment constructor(val shop: Shop): Fragment(R.layout.fragment
         tvDescription.text = shop.description
     }
 
+    private fun showShop() {
+        val map: SupportMapFragment = SupportMapFragment.newInstance()
+        parentFragmentManager
+                .beginTransaction()
+                .add(R.id.btn_shopDetail_mapFrame , map)
+                .commit()
+        map.getMapAsync(this)
+    }
+
     override fun onClick(v: View?) {
         activity?.supportFragmentManager
                 ?.beginTransaction()
                 ?.replace(R.id.fl_shopDetail_surveyContainer, SurveyFragment(shop))
                 ?.addToBackStack(null)
                 ?.commit()
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        showMarker(map , LatLng(shop.latitude.toDouble() , shop.longitude.toDouble()))
+    }
+
+    private fun showMarker(map: GoogleMap , loc: LatLng) {
+        map.clear()
+        map.addMarker(MarkerOptions().position(loc))
+        map.animateCamera(CameraUpdateFactory.newLatLng(loc))
     }
 }
