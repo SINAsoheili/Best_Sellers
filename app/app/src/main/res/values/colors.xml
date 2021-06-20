@@ -8,5 +8,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="dark_gray">#322F2F</color>
+    <color name="light_gray">#DADADA</color>
+    <color name="background">#FFFFFF</color>
+    <color name="light_green">#6F988D</color>
+    <color name="green">#2E8F78</color>
+    <color name="dark_green">#123E32</color>
+    <color name="tangerine">#F3764F</color>
+    <color name="peach_color">#FBC065</color>
+    <color name="error">#E34A3F</color>
+
     <color name="frame_background">#FFFFFF</color>
 </resources>

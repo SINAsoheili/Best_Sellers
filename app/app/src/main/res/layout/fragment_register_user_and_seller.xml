@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/frame_background">
+    android:background="@color/background">
+
+    <TextView
+        android:id="@+id/tv_registerUser_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="@dimen/very_large_text"
+        android:layout_marginTop="@dimen/margin_3"
+        android:layout_marginEnd="@dimen/margin_2"
+        android:layout_marginStart="@dimen/margin_2"
+        android:text="@string/signUp"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_registerUser_name"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/tv_registerUser_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:endIconMode="clear_text"
-        android:hint="@string/name">
+        android:hint="@string/name"
+        style="@style/login_text_input_layout"
+        android:layout_marginTop="@dimen/margin_6">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_registerUser_name"
@@ -26,12 +42,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_registerUser_lastName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/til_registerUser_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:endIconMode="clear_text"
-        android:hint="@string/last_name">
+        android:hint="@string/last_name"
+        style="@style/login_text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_registerUser_lastName"
@@ -43,14 +61,16 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_registerUser_phone"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/til_registerUser_lastName"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:endIconMode="clear_text"
         app:counterEnabled="true"
         app:counterMaxLength="11"
-        android:hint="@string/phone">
+        android:hint="@string/phone"
+        style="@style/login_text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_registerUser_phone"
@@ -63,12 +83,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_registerUser_passwd"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/til_registerUser_phone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:endIconMode="password_toggle"
-        android:hint="@string/passwd">
+        android:hint="@string/passwd"
+        style="@style/login_text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_registerUser_passwd"
@@ -81,12 +103,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_registerUser_passwdRepeat"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/til_registerUser_passwd"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:endIconMode="password_toggle"
-        android:hint="@string/passwd_repeat">
+        android:hint="@string/passwd_repeat"
+        style="@style/login_text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_registerUser_passwdRepeat"
@@ -99,18 +123,43 @@
 
     <Button
         android:id="@+id/btn_registerUser_submit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/til_registerUser_passwdRepeat"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/signUp"
+        android:layout_marginTop="@dimen/margin_6"
+        android:layout_marginRight="@dimen/margin_2"
+        android:layout_marginLeft="@dimen/margin_2"
+        style="@style/solid_button"
+        />
+
+    <TextView
+        android:id="@+id/tv_registerUser_login_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_2"
-        android:text="@string/submit"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.97"
+        android:layout_marginEnd="@dimen/margin_2"
+        android:textSize="@dimen/small_text"
+        android:text="@string/if_you_sign_up_before_login"
         />
 
     <TextView
         android:id="@+id/tv_registerUser_login_signUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_2"
+        app:layout_constraintTop_toTopOf="@id/tv_registerUser_login_description"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tv_registerUser_login_description"
+        android:layout_marginEnd="@dimen/margin_2"
+        app:layout_constraintHorizontal_bias="0.9"
         android:text="@string/login"
+        android:textColor="@color/tangerine"
+        android:textSize="@dimen/small_text"
         />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

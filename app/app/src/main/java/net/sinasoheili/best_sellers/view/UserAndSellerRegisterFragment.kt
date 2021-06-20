@@ -28,6 +28,8 @@ class UserAndSellerRegisterFragment constructor(val viewModel: SetRoleViewModel,
     private lateinit var tilPasswdRepeat: TextInputLayout
     private lateinit var btnSubmit: Button
     private lateinit var tvLoginSignUp: TextView
+    private lateinit var tvTitle: TextView
+    private lateinit var tvDescription: TextView
 
     private var signUpPageVisible: Boolean = true
 
@@ -58,6 +60,9 @@ class UserAndSellerRegisterFragment constructor(val viewModel: SetRoleViewModel,
 
         tvLoginSignUp = view.findViewById(R.id.tv_registerUser_login_signUp)
         tvLoginSignUp.setOnClickListener(this)
+
+        tvTitle = view.findViewById(R.id.tv_registerUser_title)
+        tvDescription = view.findViewById(R.id.tv_registerUser_login_description)
     }
 
     private fun checkSignUpValidInputs() : Boolean = if (checkName() && checkLastName() && checkPhone() && checkPasswd() && checkPasswdRepeat()) true else false
@@ -171,23 +176,31 @@ class UserAndSellerRegisterFragment constructor(val viewModel: SetRoleViewModel,
 
     private fun showLoginPage() {
         //invisible signUpPage
+        tvTitle.text = getString(R.string.login)
+        btnSubmit.text = getString(R.string.login)
+
         signUpPageVisible = false
 
         invisibleNameField()
         invisibleLastNameField()
         invisiblePasswordRepeatField()
 
+        tvDescription.text = getString(R.string.if_you_do_not_sign_up_sign_up_please)
         tvLoginSignUp.text = view?.context?.getString(R.string.signUp)
     }
 
     private fun showSignUpPage() {
         //visible SignUpPage
+        tvTitle.text = getString(R.string.signUp)
+        btnSubmit.text = getString(R.string.signUp)
+
         signUpPageVisible = true
 
         visibleNameField()
         visibleLastNameField()
         visiblePasswordRepeatField()
 
+        tvDescription.text = getString(R.string.if_you_sign_up_before_login)
         tvLoginSignUp.text = view?.context?.getString(R.string.login)
     }
 
