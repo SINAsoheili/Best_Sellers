@@ -45,6 +45,7 @@
     <string name="yes">بله</string>
     <string name="no">خیر</string>
     <string name="user_id">شماره یکتا کاربر</string>
+    <string name="user_id_show">شماره یکتای کاربری : %s</string>
     <string name="user_has_discount">تبریک. کاربر از کد تخفیف برخوردار است</string>
     <string name="user_does_not_have_discount">متاسفانه این کاربر از کد تخفیف برخوردار نیست</string>
     <string name="consume">مصرف کردن</string>

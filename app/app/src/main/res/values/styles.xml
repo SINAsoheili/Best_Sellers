@@ -21,4 +21,26 @@
         <item name="android:layout_marginLeft">@dimen/margin_2</item>
     </style>
 
+    <style name="user_main_page_image">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="layout_constraintWidth_percent">0.5</item>
+        <item name="android:padding">@dimen/padding_3</item>
+    </style>
+
+    <style name="user_main_page_item_text">
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:textColor">@color/dark_green</item>
+    </style>
+
+    <style name="user_main_page_item_card_view">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="cardCornerRadius">@dimen/corner_radius</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="android:layout_marginTop">@dimen/margin_2</item>
+        <item name="android:layout_marginLeft">@dimen/margin_2</item>
+        <item name="android:layout_marginRight">@dimen/margin_2</item>
+    </style>
+
 </resources>

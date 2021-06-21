@@ -4,12 +4,14 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -30,14 +32,12 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
     @Inject
     lateinit var viewModel: UserMainPageViewModel
 
-    private lateinit var drawerLayout: DrawerLayout
-    private lateinit var navigationView: NavigationView
     private lateinit var tvUserName: TextView
     private lateinit var tvUserphone: TextView
     private lateinit var tvUserId: TextView
-    private lateinit var btnShopSearch: Button
-    private lateinit var btnCheckDiscount: Button
-    private lateinit var btnScanQrCode: Button
+    private lateinit var cvShopSearch: CardView
+    private lateinit var cvCheckDiscount: CardView
+    private lateinit var cvScanQrCode: CardView
     private lateinit var tvRemoveUser: TextView
     private lateinit var progressBar: ProgressBar
 
@@ -52,25 +52,23 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initObj() {
-        drawerLayout = findViewById(R.id.dl_userMainPage)
-        navigationView = findViewById(R.id.nv_userMainPage)
         progressBar = findViewById(R.id.pb_userMainPage)
 
-        tvUserName = navigationView.getHeaderView(0).findViewById(R.id.tv_userNavigationViewHeader_name)
-        tvUserphone = navigationView.getHeaderView(0).findViewById(R.id.tv_userNavigationViewHeader_phone)
-        tvUserId = navigationView.getHeaderView(0).findViewById(R.id.tv_userNavigationViewHeader_userId)
+        tvUserName = findViewById(R.id.tv_userMainPage_userName)
+        tvUserphone = findViewById(R.id.tv_userMainPage_phoneNumber)
+        tvUserId = findViewById(R.id.tv_userMainPage_userId)
 
-        btnShopSearch = findViewById(R.id.btn_userMainPage_searchShop)
-        btnShopSearch.setOnClickListener(this)
+        cvShopSearch = findViewById(R.id.cv_userMainPage_searchShop)
+        cvShopSearch.setOnClickListener(this)
 
-        btnCheckDiscount = findViewById(R.id.btn_userMainPage_checkDiscount)
-        btnCheckDiscount.setOnClickListener(this)
+        cvCheckDiscount = findViewById(R.id.cv_userMainPage_checkDiscount)
+        cvCheckDiscount.setOnClickListener(this)
 
-        tvRemoveUser = findViewById(R.id.tv_userMainPage_deleteUser)
+        cvScanQrCode = findViewById(R.id.cv_userMainPage_scanQRcode)
+        cvScanQrCode.setOnClickListener(this)
+
+        tvRemoveUser = findViewById(R.id.tv_userMainPage_deleteAccount)
         tvRemoveUser.setOnClickListener(this)
-
-        btnScanQrCode = findViewById(R.id.btn_userMainPage_scanQRcode)
-        btnScanQrCode.setOnClickListener(this)
     }
 
     private fun setObserver() {
@@ -149,15 +147,15 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showMessage(text: String) {
-        Snackbar.make(drawerLayout , text, Snackbar.LENGTH_LONG)
+        Snackbar.make(tvUserName , text, Snackbar.LENGTH_LONG)
             .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
             .show()
     }
 
     private fun showUserInfo(user: User) {
-        tvUserName.text = user.name + user.lastName
+        tvUserName.text = user.name +" "+ user.lastName
         tvUserphone.text = user.phone
-        tvUserId.text = user.id.toString()
+        tvUserId.text = getString(R.string.user_id_show , user.id.toString())
     }
 
     private fun visibleProgressBar() {
@@ -195,21 +193,19 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v) {
-            btnShopSearch -> {
+            cvShopSearch -> {
                 startActivity(Intent(this, ShopSearchActivity::class.java))
             }
 
-            btnCheckDiscount -> {
+            cvCheckDiscount -> {
                 startActivity(Intent(this , UserDiscountActivity::class.java))
             }
 
-            btnScanQrCode -> {
+            cvScanQrCode -> {
                 openQRcodeScanner()
             }
 
             tvRemoveUser -> {
-
-                drawerLayout.closeDrawer(Gravity.RIGHT)
 
                 AlertDialog.Builder(this)
                         .setTitle(getString(R.string.warning))
