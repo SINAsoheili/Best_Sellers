@@ -13,6 +13,7 @@ import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Discount
 import net.sinasoheili.best_sellers.model.ShopDiscount
 import net.sinasoheili.best_sellers.util.DataState
+import net.sinasoheili.best_sellers.util.DiscountListAdapter
 import net.sinasoheili.best_sellers.viewModel.UserDiscountViewModel
 import javax.inject.Inject
 
@@ -74,7 +75,7 @@ class UserDiscountActivity : AppCompatActivity() {
     }
 
     private fun showDiscountList(list: ArrayList<ShopDiscount>) {
-        val adapter: ArrayAdapter<ShopDiscount> = ArrayAdapter(this , android.R.layout.simple_list_item_1 , list)
+        val adapter: DiscountListAdapter = DiscountListAdapter(this , list)
         listViewDiscount.adapter = adapter
     }
 

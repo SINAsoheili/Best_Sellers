@@ -84,5 +84,7 @@
     <string name="unable_to_access_user_location">دسترسی به موقعیت کاربر ممکن نیست!</string>
     <string name="if_you_sign_up_before_login">اگر قبلا ثبت نام کرده اید وارد شوید</string>
     <string name="if_you_do_not_sign_up_sign_up_please">اگر قبلا ثبت نام نکرده اید ثبت نام کنید</string>
+    <string name="discount_percent">%s%%</string>
+    <string name="discount_name_show">کد تخفیف : %s</string>
 
 </resources>
