@@ -86,5 +86,6 @@
     <string name="if_you_do_not_sign_up_sign_up_please">اگر قبلا ثبت نام نکرده اید ثبت نام کنید</string>
     <string name="discount_percent">%s%%</string>
     <string name="discount_name_show">کد تخفیف : %s</string>
+    <string name="address_show">آدرس : %s</string>
 
 </resources>

@@ -44,7 +44,7 @@ class ShopDetailFragment constructor(val shop: Shop): Fragment(R.layout.fragment
 
     private fun fillField () {
         tvName.text = shop.name
-        tvAddress.text = shop.address
+        tvAddress.text = context?.getString(R.string.address_show , shop.address)
         tvPhone.text = shop.phone
         tvSite.text = shop.site
         tvDescription.text = shop.description
