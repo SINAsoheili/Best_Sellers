@@ -36,7 +36,8 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
     lateinit var shopStoreFragmentViewModel: SellerStoreFragmentViewModel
 
     private lateinit var tvShopNmae: TextView
-    private lateinit var tvSellerInfo: TextView
+    private lateinit var tvSellerName: TextView
+    private lateinit var tvSellerPhone: TextView
     private lateinit var tvShopAddress: TextView
     private lateinit var tvShopPhone: TextView
     private lateinit var tvShopSite: TextView
@@ -64,7 +65,8 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
         tvShopPhone = view.findViewById(R.id.tv_fragmentStoreSeller_shopPhone)
         tvShopSite = view.findViewById(R.id.tv_fragmentStoreSeller_shopSite)
         tvShopDescription = view.findViewById(R.id.tv_fragmentStoreSeller_shopDescription)
-        tvSellerInfo = view.findViewById(R.id.tv_fragmentStoreSeller_sellerInfo)
+        tvSellerName = view.findViewById(R.id.tv_fragmentStoreSeller_sellerName)
+        tvSellerPhone = view.findViewById(R.id.tv_fragmentStoreSeller_sellerPhone)
 
         progressBar = view.findViewById(R.id.pb_fragmentStoreSeller)
 
@@ -231,7 +233,8 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
     }
 
     private fun showSellerInfo(seller: Seller) {
-        tvSellerInfo.text = seller.toString()
+        tvSellerName.text = requireContext().getString(R.string.name_and_lastName_show , seller.name , seller.lastName)
+        tvSellerPhone.text = seller.phone
     }
 
     private fun visibleProgressBar() {

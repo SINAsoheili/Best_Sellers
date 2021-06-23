@@ -87,5 +87,7 @@
     <string name="discount_percent">%s%%</string>
     <string name="discount_name_show">کد تخفیف : %s</string>
     <string name="address_show">آدرس : %s</string>
+    <string name="shop">فروشگاه</string>
+    <string name="name_and_lastName_show">%s %s</string>
 
 </resources>
