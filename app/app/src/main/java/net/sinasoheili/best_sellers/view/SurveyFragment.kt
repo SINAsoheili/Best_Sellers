@@ -5,6 +5,8 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.cardview.widget.CardView
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
@@ -26,11 +28,11 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
     @Inject
     lateinit var viewModel: SurveyViewModel
 
-    private lateinit var questionContainer: LinearLayout
     private lateinit var etMessage: TextInputEditText
     private lateinit var tilMessage: TextInputLayout
     private lateinit var btnSubmit: Button
     private lateinit var progressBar: ProgressBar
+    private lateinit var questionContainer: List<CardView>
 
     private lateinit var questionList: List<Question>
     private var messageRegistered: Boolean = false
@@ -51,7 +53,14 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
     }
 
     private fun initObj(view: View) {
-        questionContainer = view.findViewById(R.id.ll_survey_questions)
+
+        questionContainer = listOf (
+            view.findViewById(R.id.cv_survey_questions_1),
+            view.findViewById(R.id.cv_survey_questions_2),
+            view.findViewById(R.id.cv_survey_questions_3),
+            view.findViewById(R.id.cv_survey_questions_4),
+            view.findViewById(R.id.cv_survey_questions_5)
+        )
 
         etMessage = view.findViewById(R.id.tie_survey_message)
         tilMessage = view.findViewById(R.id.til_survey_message)
@@ -259,12 +268,18 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
     }
 
     private fun showQuestion(questions: List<Question>) {
-        questionContainer.removeAllViews()
+        var i: Int = 0
         for(q in questions) {
+            val cv: CardView = questionContainer.get(i)
+            cv.removeAllViews()
+
+            val ll: LinearLayout = LinearLayout(requireContext())
+            ll.orientation = LinearLayout.VERTICAL
+
             val tv: TextView = TextView(requireContext())
             tv.id = q.id
             tv.text = q.text
-            questionContainer.addView(tv)
+            ll.addView(tv)
 
             val sb: SeekBar = SeekBar(context)
             sb.tag = q.id
@@ -272,17 +287,28 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
             sb.min = -5
             sb.incrementProgressBy(1)
             sb.progress = 0
-            questionContainer.addView(sb)
+            ll.addView(sb)
+
+            cv.addView(ll)
+            i++
         }
     }
 
     private fun showAnsweredQuestion(questions: List<AnsweredQuestion>) {
-        questionContainer.removeAllViews()
+        var i: Int = 0
         for(q in questions) {
+            val cv: CardView = questionContainer.get(i)
+            cv.removeAllViews()
+
+            val ll: LinearLayout = LinearLayout(requireContext())
+            ll.orientation = LinearLayout.VERTICAL
+            val padding: Int = requireContext().resources.getDimension(R.dimen.padding_4).toInt()
+            ll.setPadding(padding, padding, padding, padding)
+
             val tv: TextView = TextView(requireContext())
             tv.id = q.questionId
             tv.text = q.content
-            questionContainer.addView(tv)
+            ll.addView(tv)
 
             val sb: SeekBar = SeekBar(context)
             sb.tag = q.questionId
@@ -290,7 +316,10 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
             sb.min = -5
             sb.incrementProgressBy(1)
             sb.progress = q.score
-            questionContainer.addView(sb)
+            ll.addView(sb)
+
+            cv.addView(ll)
+            i++
         }
     }
 
