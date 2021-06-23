@@ -32,6 +32,11 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
 
     private var currentDiscount: Discount? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().window.statusBarColor = requireContext().getColor(R.color.white)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

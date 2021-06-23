@@ -49,6 +49,12 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
     private var shop: Shop? = null
     private var map: GoogleMap? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().window.statusBarColor = requireContext().getColor(R.color.light_green)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
