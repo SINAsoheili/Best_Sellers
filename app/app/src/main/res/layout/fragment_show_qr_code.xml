@@ -13,17 +13,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0.4"
         />
 
     <Button
         android:id="@+id/btn_showQrCode_saveImage"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/iv_showQrCode"
+        app:layout_constraintLeft_toLeftOf="@id/iv_showQrCode"
+        app:layout_constraintRight_toRightOf="@id/iv_showQrCode"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="@dimen/margin_5"
+        android:layout_marginLeft="@dimen/margin_5"
         android:text="@string/save_image"
+        style="@style/solid_button"
         />
 
     <ProgressBar

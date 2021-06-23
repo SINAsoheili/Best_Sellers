@@ -1,58 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/tv_SellerDashboard_currentDiscount"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_SellerDashboard"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintHeight_percent="0.6"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="@dimen/margin_3"
+        android:backgroundTint="@color/light_green"
+        app:cardCornerRadius="@dimen/seller_corner_radius"
+        android:elevation="0dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_SellerDashboard_currentDiscountAmount"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintTop_toTopOf="@id/cv_SellerDashboard"
+        app:layout_constraintLeft_toLeftOf="@id/cv_SellerDashboard"
+        app:layout_constraintRight_toRightOf="@id/cv_SellerDashboard"
+        app:layout_constraintBottom_toBottomOf="@id/cv_SellerDashboard"
+        android:textColor="@color/tangerine"
+        android:textSize="@dimen/discount_large_text_size"
+        app:layout_constraintVertical_bias="0.2"
+        android:gravity="center"
+        android:elevation="5dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_SellerDashboard_currentDiscountName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_SellerDashboard_currentDiscountAmount"
+        app:layout_constraintLeft_toLeftOf="@id/cv_SellerDashboard"
+        app:layout_constraintRight_toRightOf="@id/cv_SellerDashboard"
+        android:layout_marginLeft="@dimen/margin_5"
+        android:layout_marginRight="@dimen/margin_5"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:elevation="5dp"
         />
 
     <Button
         android:id="@+id/btn_SellerDashboard_registerDiscount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_SellerDashboard_currentDiscount"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/cv_SellerDashboard"
+        app:layout_constraintRight_toRightOf="@id/cv_SellerDashboard"
+        android:layout_margin="@dimen/margin_3"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:textColor="@color/white"
         android:text="@string/create_discount"
+        android:elevation="5dp"
         />
 
     <Button
         android:id="@+id/btn_SellerDashboard_deleteDiscount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btn_SellerDashboard_registerDiscount"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/cv_SellerDashboard"
+        app:layout_constraintLeft_toLeftOf="@id/cv_SellerDashboard"
+        android:layout_margin="@dimen/margin_3"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:textColor="@color/white"
         android:text="@string/delete_discount"
+        android:elevation="5dp"
         />
 
-    <Button
-        android:id="@+id/btn_SellerDashboard_checkUserHasDiscount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btn_SellerDashboard_deleteDiscount"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/check_user_discount"
-        />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_SellerDashboard_checkUserHasDiscount"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@id/cv_SellerDashboard"
+        app:layout_constraintLeft_toLeftOf="@id/cv_SellerDashboard"
+        app:layout_constraintRight_toRightOf="@id/cv_SellerDashboard"
+        android:elevation="0dp"
+        android:layout_marginTop="@dimen/margin_4"
+        app:cardCornerRadius="@dimen/seller_corner_radius"
+        android:backgroundTint="@color/light_green">
 
-    <Button
-        android:id="@+id/btn_SellerDashboard_QRgenerate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btn_SellerDashboard_checkUserHasDiscount"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/shop_QR_code"
-        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/check_user_discount"
+            android:gravity="center"
+            android:textColor="@color/white"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_SellerDashboard_QRgenerate"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@id/cv_SellerDashboard_checkUserHasDiscount"
+        app:layout_constraintLeft_toLeftOf="@id/cv_SellerDashboard"
+        app:layout_constraintRight_toRightOf="@id/cv_SellerDashboard"
+        android:elevation="0dp"
+        android:layout_marginTop="@dimen/margin_4"
+        app:cardCornerRadius="@dimen/seller_corner_radius"
+        android:backgroundTint="@color/light_green">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/shop_QR_code"
+            android:textColor="@color/white"
+            />
+
+    </androidx.cardview.widget.CardView>
 
     <ProgressBar
         android:id="@+id/pb_fragmentDashboardSeller"
@@ -62,7 +131,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:elevation="5dp"
         />
 
     <FrameLayout
