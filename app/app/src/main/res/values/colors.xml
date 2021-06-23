@@ -19,4 +19,8 @@
     <color name="error">#E34A3F</color>
 
     <color name="frame_background">#FFFFFF</color>
+
+    <color name="success">#78BF25</color>
+    <color name="fail">#CF4137</color>
+
 </resources>

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,12 +22,15 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
     @Inject
     lateinit var viewModel: SellerDashboardFragmentViewModel
 
-    private lateinit var tvCurrentDiscount: TextView
+    private lateinit var tvCurrentDiscountAmount: TextView
+    private lateinit var tvCurrentDiscountName: TextView
     private lateinit var btnCreateDiscount: Button
     private lateinit var btnDeleteDiscount: Button
-    private lateinit var btnCheckUserDiscount: Button
-    private lateinit var btnQRcode: Button
+    private lateinit var cvCheckUserDiscount: CardView
+    private lateinit var cvQRcode: CardView
     private lateinit var progressBar: ProgressBar
+
+    private var currentDiscount: Discount? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,7 +41,9 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
     }
 
     private fun initObj(view: View) {
-        tvCurrentDiscount = view.findViewById(R.id.tv_SellerDashboard_currentDiscount)
+        tvCurrentDiscountAmount = view.findViewById(R.id.tv_SellerDashboard_currentDiscountAmount)
+        tvCurrentDiscountName = view.findViewById(R.id.tv_SellerDashboard_currentDiscountName)
+
 
         btnCreateDiscount = view.findViewById(R.id.btn_SellerDashboard_registerDiscount)
         btnCreateDiscount.setOnClickListener(this)
@@ -46,11 +51,11 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
         btnDeleteDiscount = view.findViewById(R.id.btn_SellerDashboard_deleteDiscount)
         btnDeleteDiscount.setOnClickListener(this)
 
-        btnCheckUserDiscount = view.findViewById(R.id.btn_SellerDashboard_checkUserHasDiscount)
-        btnCheckUserDiscount.setOnClickListener(this)
+        cvCheckUserDiscount = view.findViewById(R.id.cv_SellerDashboard_checkUserHasDiscount)
+        cvCheckUserDiscount.setOnClickListener(this)
 
-        btnQRcode = view.findViewById(R.id.btn_SellerDashboard_QRgenerate)
-        btnQRcode.setOnClickListener(this)
+        cvQRcode = view.findViewById(R.id.cv_SellerDashboard_QRgenerate)
+        cvQRcode.setOnClickListener(this)
 
         progressBar = view.findViewById(R.id.pb_fragmentDashboardSeller)
     }
@@ -108,12 +113,14 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
             when(it) {
                 is DataState.Success -> {
                     inVisibleProgressBar()
-                    showCurrentDiscount(it.data)
+                    currentDiscount = it.data
+                    showCurrentDiscount(currentDiscount)
                 }
 
                 is DataState.Error -> {
                     inVisibleProgressBar()
-                    showCurrentDiscount(null)
+                    currentDiscount = null
+                    showCurrentDiscount(currentDiscount)
                 }
 
                 is DataState.ConnectionError -> {
@@ -130,9 +137,11 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
 
     private fun showCurrentDiscount(discount: Discount?) {
         if (discount == null) {
-            tvCurrentDiscount.text = requireContext().getString(R.string.there_is_not_any_Discount_for_this_shop)
+            tvCurrentDiscountName.text = requireContext().getString(R.string.there_is_not_any_Discount_for_this_shop)
+            tvCurrentDiscountAmount.text = getString(R.string.discount_percent , 0.toString())
         } else {
-            tvCurrentDiscount.text = discount.toString()
+            tvCurrentDiscountAmount.text = getString(R.string.discount_percent , discount.amount.toString())
+            tvCurrentDiscountName.text = discount.title
         }
     }
 
@@ -153,11 +162,18 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
     override fun onClick(v: View?) {
         when (v) {
             btnCreateDiscount -> {
-                CreateNewDiscountDialog(requireContext() , viewModel).show()
+                if(currentDiscount == null) {
+                    CreateNewDiscountDialog(requireContext() , viewModel).show()
+                } else {
+                    showMessage(getString(R.string.you_can_not_register_new_discount_please_remove_previous_discount_code))
+                }
             }
 
             btnDeleteDiscount -> {
-                AlertDialog.Builder(requireContext())
+                if(currentDiscount == null) {
+                    showMessage(getString(R.string.there_is_not_any_discount_please_create_new_discount))
+                } else {
+                    AlertDialog.Builder(requireContext())
                         .setTitle(requireContext().getString(R.string.warning))
                         .setMessage(requireContext().getString(R.string.are_you_sure_to_delete_discount))
                         .setNegativeButton(requireContext().getString(R.string.no) , object:DialogInterface.OnClickListener{
@@ -171,13 +187,14 @@ class SellerDashboardFragment: Fragment(R.layout.fragment_dashboard_seller), Vie
                             }
                         })
                         .show()
+                }
             }
 
-            btnCheckUserDiscount -> {
+            cvCheckUserDiscount -> {
                 CheckUserDiscountDialog(requireContext() , viewModel , viewLifecycleOwner).show()
             }
 
-            btnQRcode -> {
+            cvQRcode -> {
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fl_fragmentDashboardSeller_container,ShowQRcodeFragment())
                     .addToBackStack(null)

@@ -89,5 +89,7 @@
     <string name="address_show">آدرس : %s</string>
     <string name="shop">فروشگاه</string>
     <string name="name_and_lastName_show">%s %s</string>
+    <string name="you_can_not_register_new_discount_please_remove_previous_discount_code">امکان ساخت کد تخفیف جدید وجود ندارد. ابتدا کد تخفیف قبلی را حذف کنید</string>
+    <string name="there_is_not_any_discount_please_create_new_discount">تخفیفی برای حذف وجود ندارد. ابتدا یک تخفیف ایجاد کنید </string>
 
 </resources>
