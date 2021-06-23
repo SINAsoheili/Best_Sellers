@@ -3,8 +3,11 @@ package net.sinasoheili.best_sellers.view
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.*
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputEditText
@@ -16,14 +19,15 @@ import net.sinasoheili.best_sellers.viewModel.SellerDashboardFragmentViewModel
 class CheckUserDiscountDialog constructor(val dialogContext: Context,
                                           val viewModel: SellerDashboardFragmentViewModel,
                                           val lifeCycle: LifecycleOwner)
-    : Dialog(dialogContext), View.OnClickListener{
+    : Dialog(dialogContext), View.OnClickListener , TextWatcher{
 
     private lateinit var tilUserId: TextInputLayout
     private lateinit var etUserId: TextInputEditText
     private lateinit var tvResult: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var btnCheck: Button
-    private lateinit var btnConsumDiscount: Button
+
+    private var submitVisible: Boolean = true //use this flag to determine status of button. Button can be Consume OR submit.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +42,16 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
         this.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT , LinearLayout.LayoutParams.WRAP_CONTENT)
 
         tvResult.text = ""
-        invisibleConsumeDiscountButton()
+        consume2submitButton()
     }
 
     private fun initObj() {
         tilUserId = findViewById(R.id.til_checkUserDiscount_userId)
         etUserId = findViewById(R.id.et_checkUserDiscount_userId)
+        etUserId.addTextChangedListener(this)
 
         btnCheck = findViewById(R.id.btn_checkUserDiscount_check)
         btnCheck.setOnClickListener(this)
-
-        btnConsumDiscount = findViewById(R.id.btn_checkUserDiscount_consume)
-        btnConsumDiscount.setOnClickListener(this)
 
         tvResult = findViewById(R.id.tv_checkUserDiscount_result)
 
@@ -63,9 +65,11 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
                     invisibleProgressBar()
                     enableCancelable()
                     if(it.data) {
+                        tvResult.setTextColor(dialogContext.getColor(R.color.success))
                         tvResult.text = context.getString(R.string.user_has_discount)
-                        visibleConsumeDiscountButton()
+                        submitButton2Consume()
                     } else {
+                        tvResult.setTextColor(dialogContext.getColor(R.color.fail))
                         tvResult.text = context.getString(R.string.user_does_not_have_discount)
                     }
                 }
@@ -137,16 +141,6 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
         progressBar.visibility = View.GONE
     }
 
-    private fun visibleConsumeDiscountButton() {
-        btnConsumDiscount.visibility = View.VISIBLE
-        btnCheck.visibility = View.INVISIBLE
-    }
-
-    private fun invisibleConsumeDiscountButton() {
-        btnConsumDiscount.visibility = View.GONE
-        btnCheck.visibility = View.VISIBLE
-    }
-
     private fun enableCancelable() {
         this.setCancelable(true)
     }
@@ -159,21 +153,46 @@ class CheckUserDiscountDialog constructor(val dialogContext: Context,
         this.dismiss()
     }
 
+    private fun submitButton2Consume() {
+        submitVisible = false
+        btnCheck.text = dialogContext.getString(R.string.consume)
+    }
+
+    private fun consume2submitButton() {
+        submitVisible = true
+        btnCheck.text = dialogContext.getString(R.string.submit)
+    }
+
     override fun onClick(v: View?) {
         when (v) {
             btnCheck -> {
-                if(checkUserId()) {
-                    viewModel.checkUserHasDiscount(etUserId.text.toString().trim().toInt())
-                    disableCancelable()
+                if(submitVisible) {
+                    if(checkUserId()) {
+                        viewModel.checkUserHasDiscount(etUserId.text.toString().trim().toInt())
+                        disableCancelable()
+                    }
+                } else {
+                    if(checkUserId()) {
+                        viewModel.deleteDiscountOfUser(etUserId.text.toString().trim().toInt())
+                        disableCancelable()
+                    }
                 }
             }
+        }
+    }
 
-            btnConsumDiscount -> {
-                if(checkUserId()) {
-                    viewModel.deleteDiscountOfUser(etUserId.text.toString().trim().toInt())
-                    disableCancelable()
-                }
-            }
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        // do nothing
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        // do nothing
+    }
+
+    override fun afterTextChanged(s: Editable?) {
+        if(s!!.isEmpty()) {
+            consume2submitButton()
+            tvResult.text = ""
         }
     }
 }

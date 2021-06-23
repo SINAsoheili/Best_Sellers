@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/padding_6">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_checkUserDiscount_userId"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_margin="@dimen/margin_2"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconMode="clear_text"
@@ -24,30 +29,37 @@
 
     <TextView
         android:id="@+id/tv_checkUserDiscount_result"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/til_checkUserDiscount_userId"
+        app:layout_constraintLeft_toLeftOf="@id/til_checkUserDiscount_userId"
+        app:layout_constraintRight_toRightOf="@id/til_checkUserDiscount_userId"
+        android:layout_marginTop="@dimen/margin_2"
+        android:gravity="center"
+        android:lines="1"
         />
 
     <Button
         android:id="@+id/btn_checkUserDiscount_check"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/submit"
-        />
-
-    <Button
-        android:id="@+id/btn_checkUserDiscount_consume"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/consume"
-        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tv_checkUserDiscount_result"
+        app:layout_constraintLeft_toLeftOf="@id/til_checkUserDiscount_userId"
+        app:layout_constraintRight_toRightOf="@id/til_checkUserDiscount_userId"
+        android:layout_marginTop="@dimen/margin_2"
+        style="@style/solid_button"
         />
 
     <ProgressBar
         android:id="@+id/pb_checkUserDiscount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:visibility="gone"
         />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
