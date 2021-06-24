@@ -51,7 +51,7 @@
     <string name="consume">مصرف کردن</string>
     <string name="delete_discount_of_user_was_not_successful">حذف تخفیف کاربر موفق نبود</string>
     <string name="change_confirm_successfully">تغییرات با موفقیت اعمال شد</string>
-    <string name="show_user_messages">نمایش پیام های کاربران</string>
+    <string name="user_messages">پیام های کاربران</string>
     <string name="message_not_found">پیامی یافت نشد!</string>
     <string name="delete_shop_was_not_successful">حذف فروشنگاه موفق نبود!</string>
     <string name="delete_shop">حذف فروشگاه</string>
