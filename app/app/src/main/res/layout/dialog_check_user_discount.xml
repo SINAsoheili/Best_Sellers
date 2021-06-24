@@ -49,6 +49,7 @@
         app:layout_constraintRight_toRightOf="@id/til_checkUserDiscount_userId"
         android:layout_marginTop="@dimen/margin_2"
         style="@style/solid_button"
+        android:background="@drawable/solid_button_background"
         />
 
     <ProgressBar

@@ -133,6 +133,7 @@
         android:layout_marginRight="@dimen/margin_2"
         android:layout_marginLeft="@dimen/margin_2"
         style="@style/solid_button"
+        android:background="@drawable/solid_button_background"
         />
 
     <TextView
