@@ -18,6 +18,20 @@
         android:divider="@null"
         />
 
+    <TextView
+        android:id="@+id/tv_userDiscount_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="@dimen/medium_text"
+        android:textColor="@color/dark_gray"
+        android:text="@string/discount_not_found"
+        android:visibility="gone"
+        />
+
     <ProgressBar
         android:id="@+id/pb_userDiscount"
         android:layout_width="wrap_content"

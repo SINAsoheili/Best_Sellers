@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +26,7 @@ class UserDiscountActivity : AppCompatActivity() {
 
     private lateinit var listViewDiscount: ListView
     private lateinit var progressBar: ProgressBar
+    private lateinit var tvEmpty: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class UserDiscountActivity : AppCompatActivity() {
     private fun initObj() {
         listViewDiscount = findViewById(R.id.lv_userDiscount)
         progressBar = findViewById(R.id.pb_userDiscount)
+        tvEmpty = findViewById(R.id.tv_userDiscount_empty)
     }
 
     private fun setObserver() {
@@ -75,8 +78,13 @@ class UserDiscountActivity : AppCompatActivity() {
     }
 
     private fun showDiscountList(list: ArrayList<ShopDiscount>) {
-        val adapter: DiscountListAdapter = DiscountListAdapter(this , list)
-        listViewDiscount.adapter = adapter
+        if(list.isEmpty()) {
+            tvEmpty.visibility = View.VISIBLE
+        } else {
+            tvEmpty.visibility = View.GONE
+            val adapter: DiscountListAdapter = DiscountListAdapter(this , list)
+            listViewDiscount.adapter = adapter
+        }
     }
 
 }
