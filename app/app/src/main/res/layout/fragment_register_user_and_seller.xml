@@ -29,7 +29,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:endIconMode="clear_text"
         android:hint="@string/name"
-        style="@style/login_text_input_layout"
+        style="@style/text_input_layout"
         android:layout_marginTop="@dimen/margin_6">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -49,7 +49,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:endIconMode="clear_text"
         android:hint="@string/last_name"
-        style="@style/login_text_input_layout">
+        style="@style/text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_registerUser_lastName"
@@ -70,7 +70,7 @@
         app:counterEnabled="true"
         app:counterMaxLength="11"
         android:hint="@string/phone"
-        style="@style/login_text_input_layout">
+        style="@style/text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_registerUser_phone"
@@ -90,7 +90,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:endIconMode="password_toggle"
         android:hint="@string/passwd"
-        style="@style/login_text_input_layout">
+        style="@style/text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_registerUser_passwd"
@@ -110,7 +110,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:endIconMode="password_toggle"
         android:hint="@string/passwd_repeat"
-        style="@style/login_text_input_layout">
+        style="@style/text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_registerUser_passwdRepeat"

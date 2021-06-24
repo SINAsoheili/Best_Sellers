@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/text_input_layout"
         app:endIconMode="clear_text"
         android:hint="@string/discount_name"
         app:helperTextEnabled="true"
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/text_input_layout"
         app:endIconMode="clear_text"
         android:hint="@string/discount_amount">
 

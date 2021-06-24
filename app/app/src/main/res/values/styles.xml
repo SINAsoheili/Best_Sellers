@@ -9,7 +9,7 @@
         <item name="android:padding">@dimen/padding_4</item>
     </style>
 
-    <style name="login_text_input_layout" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="text_input_layout" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/light_green</item>
         <item name="boxStrokeErrorColor">@color/error</item>
         <item name="boxCornerRadiusBottomStart">@dimen/small_corner_radius</item>
