@@ -65,4 +65,7 @@ dependencies {
     //google map
     implementation "com.google.android.gms:play-services-maps:17.0.1"
 
+    //chart
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
+
 }
