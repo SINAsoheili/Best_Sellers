@@ -6,7 +6,7 @@
         />
 
     <corners
-        android:radius="@dimen/seller_corner_radius"
+        android:radius="@dimen/large_corner_radius"
         />
 
 </shape>

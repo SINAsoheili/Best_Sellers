@@ -16,7 +16,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/margin_3"
         android:backgroundTint="@color/light_green"
-        app:cardCornerRadius="@dimen/seller_corner_radius"
+        app:cardCornerRadius="@dimen/large_corner_radius"
         android:elevation="0dp"
         />
 
@@ -87,7 +87,7 @@
         app:layout_constraintRight_toRightOf="@id/cv_SellerDashboard"
         android:elevation="0dp"
         android:layout_marginTop="@dimen/margin_4"
-        app:cardCornerRadius="@dimen/seller_corner_radius"
+        app:cardCornerRadius="@dimen/small_corner_radius"
         android:backgroundTint="@color/light_green">
 
         <TextView
@@ -110,7 +110,7 @@
         app:layout_constraintRight_toRightOf="@id/cv_SellerDashboard"
         android:elevation="0dp"
         android:layout_marginTop="@dimen/margin_4"
-        app:cardCornerRadius="@dimen/seller_corner_radius"
+        app:cardCornerRadius="@dimen/small_corner_radius"
         android:backgroundTint="@color/light_green">
 
         <TextView
