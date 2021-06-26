@@ -16,6 +16,7 @@
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/userMainPage_foreground"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_margin="@dimen/margin_2"
@@ -32,10 +33,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_userMainPage_userId"
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="@dimen/large_text"
-                android:layout_marginTop="@dimen/margin_1"
-                android:layout_marginEnd="@dimen/margin_2"
+                android:layout_marginEnd="@dimen/margin_4"
                 />
 
             <TextView
@@ -43,11 +44,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tv_userMainPage_userName"
+                app:layout_constraintBottom_toTopOf="@id/tv_userMainPage_phoneNumber"
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="@dimen/medium_text"
-                android:layout_marginTop="@dimen/margin_4"
-                android:layout_marginLeft="@dimen/margin_2"
-                android:layout_marginRight="@dimen/margin_2"
+                android:layout_marginEnd="@dimen/margin_4"
                 />
 
             <TextView
@@ -55,30 +55,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tv_userMainPage_userId"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="@dimen/medium_text"
-                android:layout_marginTop="@dimen/margin_4"
-                android:layout_marginRight="@dimen/margin_2"
-                />
-
-            <TextView
-                android:id="@+id/tv_userMainPage_deleteAccount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="@dimen/margin_2"
-                android:text="@string/remove_user"
-                android:textColor="@color/tangerine"
+                android:layout_marginEnd="@dimen/margin_4"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
+    <View
+        android:id="@+id/userMainPage_foreground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/seller_foreground_layout"
+        />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_userMainPage_searchShop"
-        app:layout_constraintTop_toBottomOf="@id/cv_userMainPage_userProfile"
+        app:layout_constraintTop_toTopOf="@id/userMainPage_foreground"
+        app:layout_constraintBottom_toTopOf="@id/cv_userMainPage_checkDiscount"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         style="@style/user_main_page_item_card_view">
@@ -88,24 +89,30 @@
             android:layout_height="match_parent"
             android:padding="@dimen/padding_6">
 
+            <ImageView
+                android:id="@+id/iv_userMainPage_searchShop"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                style="@style/user_main_page_image"
+                android:src="@drawable/searching"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/iv_userMainPage_searchShop"
+                app:layout_constraintRight_toLeftOf="@id/iv_userMainPage_searchShop"
                 android:text="@string/search_shop"
                 style="@style/user_main_page_item_text"
                 />
 
             <ImageView
-                android:id="@+id/iv_userMainPage_searchShop"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/user_main_page_image"
-                android:src="@drawable/searching"
+                style="@style/user_main_page_left_arrow_image"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -115,6 +122,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_userMainPage_checkDiscount"
         app:layout_constraintTop_toBottomOf="@id/cv_userMainPage_searchShop"
+        app:layout_constraintBottom_toTopOf="@id/cv_userMainPage_scanQRcode"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         style="@style/user_main_page_item_card_view">
@@ -124,24 +132,30 @@
             android:layout_height="match_parent"
             android:padding="@dimen/padding_6">
 
+            <ImageView
+                android:id="@+id/iv_userMainPage_checkDiscount"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                style="@style/user_main_page_image"
+                android:src="@drawable/price_tag"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/iv_userMainPage_checkDiscount"
+                app:layout_constraintRight_toLeftOf="@id/iv_userMainPage_checkDiscount"
                 android:text="@string/check_discount"
                 style="@style/user_main_page_item_text"
                 />
 
             <ImageView
-                android:id="@+id/iv_userMainPage_checkDiscount"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/user_main_page_image"
-                android:src="@drawable/price_tag"
+                style="@style/user_main_page_left_arrow_image"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -151,6 +165,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_userMainPage_scanQRcode"
         app:layout_constraintTop_toBottomOf="@id/cv_userMainPage_checkDiscount"
+        app:layout_constraintBottom_toTopOf="@id/cv_userMainPage_removeUser"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         style="@style/user_main_page_item_card_view">
@@ -160,24 +175,74 @@
             android:layout_height="match_parent"
             android:padding="@dimen/padding_6">
 
+            <ImageView
+                android:id="@+id/iv_userMainPage_scanQRcode"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                style="@style/user_main_page_image"
+                android:src="@drawable/qr_code"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/iv_userMainPage_scanQRcode"
+                app:layout_constraintRight_toLeftOf="@id/iv_userMainPage_scanQRcode"
                 android:text="@string/scan_qr_code"
                 style="@style/user_main_page_item_text"
                 />
 
             <ImageView
-                android:id="@+id/iv_userMainPage_scanQRcode"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
+                style="@style/user_main_page_left_arrow_image"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_userMainPage_removeUser"
+        app:layout_constraintTop_toBottomOf="@id/cv_userMainPage_scanQRcode"
+        app:layout_constraintBottom_toBottomOf="@id/userMainPage_foreground"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/user_main_page_item_card_view">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/padding_6">
+
+            <ImageView
+                android:id="@+id/iv_userMainPage_removeUser"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 style="@style/user_main_page_image"
-                android:src="@drawable/qr_code"
+                android:src="@drawable/delete_account"
+                />
+
+            <TextView
+                android:id="@+id/tv_userMainPage_deleteAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/iv_userMainPage_removeUser"
+                android:text="@string/remove_user"
+                style="@style/user_main_page_item_text"
+                />
+
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                style="@style/user_main_page_left_arrow_image"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
