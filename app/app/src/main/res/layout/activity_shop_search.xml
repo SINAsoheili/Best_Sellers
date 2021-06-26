@@ -87,6 +87,8 @@
         app:layout_constraintRight_toRightOf="@id/sv_shopSearch_categories_shopSearch"
         android:layout_marginTop="@dimen/margin_2"
         android:layout_marginBottom="@dimen/margin_2"
+        android:dividerHeight="0.5dp"
+        android:divider="@color/dark_green"
         />
 
     <ProgressBar

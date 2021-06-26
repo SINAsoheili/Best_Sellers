@@ -18,6 +18,7 @@ import net.sinasoheili.best_sellers.model.Criteria
 import net.sinasoheili.best_sellers.model.Shop
 import net.sinasoheili.best_sellers.model.ShopCategory
 import net.sinasoheili.best_sellers.util.DataState
+import net.sinasoheili.best_sellers.util.ShopListAdapter
 import net.sinasoheili.best_sellers.viewModel.ShopSearchViewModel
 import javax.inject.Inject
 
@@ -187,8 +188,8 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
     }
 
     private fun showShopList(shops: List<Shop>) {
-        val adapter: ArrayAdapter<Shop> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, shops)
+        val adapter: ShopListAdapter =
+            ShopListAdapter(this, shops)
         shopListView.adapter = adapter
 
         shopListView.setOnItemClickListener(object: AdapterView.OnItemClickListener {
