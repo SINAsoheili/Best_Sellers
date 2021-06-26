@@ -38,7 +38,7 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
     private lateinit var cvShopSearch: CardView
     private lateinit var cvCheckDiscount: CardView
     private lateinit var cvScanQrCode: CardView
-    private lateinit var tvRemoveUser: TextView
+    private lateinit var cvRemoveUser: CardView
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,8 +67,8 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
         cvScanQrCode = findViewById(R.id.cv_userMainPage_scanQRcode)
         cvScanQrCode.setOnClickListener(this)
 
-        tvRemoveUser = findViewById(R.id.tv_userMainPage_deleteAccount)
-        tvRemoveUser.setOnClickListener(this)
+        cvRemoveUser = findViewById(R.id.cv_userMainPage_removeUser)
+        cvRemoveUser.setOnClickListener(this)
     }
 
     private fun setObserver() {
@@ -205,7 +205,7 @@ class UserMainPage : AppCompatActivity(), View.OnClickListener {
                 openQRcodeScanner()
             }
 
-            tvRemoveUser -> {
+            cvRemoveUser -> {
 
                 AlertDialog.Builder(this)
                         .setTitle(getString(R.string.warning))
