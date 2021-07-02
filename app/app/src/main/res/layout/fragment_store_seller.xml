@@ -55,13 +55,26 @@
             android:textSize="@dimen/small_text"
             />
 
+        <ImageView
+            android:id="@+id/iv_fragmentStoreSeller_phone"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_fragmentStoreSeller_sellerName"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="@dimen/margin_2"
+            android:layout_marginStart="@dimen/margin_3"
+            android:src="@android:drawable/stat_sys_phone_call"
+            android:scaleType="fitXY"
+            />
+
         <TextView
             android:id="@+id/tv_fragmentStoreSeller_sellerPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_fragmentStoreSeller_sellerName"
-            app:layout_constraintRight_toRightOf="@id/tv_fragmentStoreSeller_sellerName"
-            android:layout_marginTop="@dimen/margin_3"
+            app:layout_constraintTop_toTopOf="@id/iv_fragmentStoreSeller_phone"
+            app:layout_constraintBottom_toBottomOf="@id/iv_fragmentStoreSeller_phone"
+            app:layout_constraintLeft_toRightOf="@id/iv_fragmentStoreSeller_phone"
+            android:layout_marginStart="@dimen/margin_3"
             android:textColor="@color/white"
             android:textSize="@dimen/small_text"
             />
@@ -102,25 +115,50 @@
             android:textSize="@dimen/medium_text"
             />
 
+        <ImageView
+            android:id="@+id/iv_fragmentStoreSeller_shopPhone"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintTop_toTopOf="@id/tv_fragmentStoreSeller_shopPhone"
+            app:layout_constraintBottom_toBottomOf="@id/tv_fragmentStoreSeller_shopPhone"
+            app:layout_constraintRight_toLeftOf="@id/tv_fragmentStoreSeller_shopPhone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="@dimen/margin_3"
+            android:src="@drawable/dark_phone"
+            android:scaleType="fitXY"
+            />
 
         <TextView
             android:id="@+id/tv_fragmentStoreSeller_shopPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tv_fragmentStoreSeller_shopName"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/iv_fragmentStoreSeller_shopPhone"
             android:layout_marginTop="@dimen/margin_3"
             android:layout_marginStart="@dimen/margin_3"
             android:textColor="@color/dark_gray"
             android:textSize="@dimen/small_text"
             />
 
+        <ImageView
+            android:id="@+id/iv_fragmentStoreSeller_shopSite"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintTop_toBottomOf="@id/iv_fragmentStoreSeller_shopPhone"
+            app:layout_constraintLeft_toLeftOf="@id/iv_fragmentStoreSeller_shopPhone"
+            app:layout_constraintRight_toRightOf="@id/iv_fragmentStoreSeller_shopPhone"
+            android:layout_marginTop="@dimen/margin_1"
+            android:src="@drawable/dark_web"
+            android:scaleType="fitXY"
+            />
+
         <TextView
             android:id="@+id/tv_fragmentStoreSeller_shopSite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_fragmentStoreSeller_shopPhone"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_fragmentStoreSeller_shopSite"
+            app:layout_constraintBottom_toBottomOf="@id/iv_fragmentStoreSeller_shopSite"
+            app:layout_constraintLeft_toRightOf="@id/iv_fragmentStoreSeller_shopSite"
             android:layout_marginStart="@dimen/margin_3"
             android:textColor="@color/dark_gray"
             android:textSize="@dimen/small_text"

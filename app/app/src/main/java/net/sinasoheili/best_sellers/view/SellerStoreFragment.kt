@@ -106,8 +106,6 @@ class SellerStoreFragment: Fragment(R.layout.fragment_store_seller), View.OnClic
                 is DataState.ConnectionError -> {
                     inVisibleProgressBar()
                     showMessage(requireContext().getString(R.string.connection_error))
-
-                    //todo: show try icon to fetch again and invisible in another states
                 }
             }
         })
