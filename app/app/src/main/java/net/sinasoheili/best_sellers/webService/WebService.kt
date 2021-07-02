@@ -140,6 +140,11 @@ interface WebService {
             @Query("id_shop") shopId: Int,
     ) : RegisterDiscountEntity
 
+    @GET("register_user_discount")
+    suspend fun registerUserDiscount(@Query("id_user") userId: Int ,
+                                     @Query("id_discount") discountId: Int
+    ) : RegisterUserDiscountEntity
+
     @GET("delete_discount")
     suspend fun deleteDiscount (
             @Query("id_shop") shopId: Int
