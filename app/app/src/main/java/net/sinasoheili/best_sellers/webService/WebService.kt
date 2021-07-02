@@ -39,7 +39,10 @@ interface WebService {
         @Query("latitude") latitude: Float,
         @Query("longitude") longitude: Float,
         @Query("id_seller") sellerId: Int,
-        @Query("id_category") categoryId: Int
+        @Query("id_category") categoryId: Int,
+        @Query("site") site: String,
+        @Query("description") description: String,
+        @Query("phone") phone: String,
     ) : RegisterShopEntity
 
     @GET("delete_shop")

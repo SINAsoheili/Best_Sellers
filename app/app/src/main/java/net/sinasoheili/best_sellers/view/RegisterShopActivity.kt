@@ -1,26 +1,17 @@
 package net.sinasoheili.best_sellers.view
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.GroundOverlay
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -44,6 +35,12 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
 
     private lateinit var tilShopName: TextInputLayout
     private lateinit var etShopName: TextInputEditText
+    private lateinit var tilShopPhone: TextInputLayout
+    private lateinit var etShopPhone: TextInputEditText
+    private lateinit var tilShopSite: TextInputLayout
+    private lateinit var etShopSite: TextInputEditText
+    private lateinit var tilShopDescription: TextInputLayout
+    private lateinit var etShopDescription: TextInputEditText
     private lateinit var tilAddress: TextInputLayout
     private lateinit var etAddress: TextInputEditText
     private lateinit var chipGroup: ChipGroup
@@ -70,6 +67,15 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
 
         tilAddress = findViewById(R.id.til_registerShop_address)
         etAddress = findViewById(R.id.et_registerShop_address)
+
+        tilShopPhone = findViewById(R.id.til_registerShop_phone)
+        etShopPhone = findViewById(R.id.et_registerShop_phone)
+
+        tilShopSite = findViewById(R.id.til_registerShop_site)
+        etShopSite = findViewById(R.id.et_registerShop_site)
+
+        tilShopDescription = findViewById(R.id.til_registerShop_description)
+        etShopDescription = findViewById(R.id.et_registerShop_description)
 
         chipGroup = findViewById(R.id.chipGroup_registerShop_categories)
 
@@ -191,6 +197,28 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
         }
     }
 
+    private fun checkShopPhone() : Boolean {
+
+        if (isEmpty(etShopPhone) || (etShopPhone.text.toString().length < 11)) {
+            tilShopPhone.error = tilAddress.context.getString(R.string.please_fill_field)
+            return false
+        } else {
+            tilShopPhone.error = null
+            return true
+        }
+    }
+
+    private fun checkDescription() : Boolean {
+
+        if (isEmpty(etShopDescription)) {
+            tilShopDescription.error = tilAddress.context.getString(R.string.please_fill_field)
+            return false
+        } else {
+            tilShopDescription.error = null
+            return true
+        }
+    }
+
     private fun checkCategory() : Boolean {
         if (chipGroup.checkedChipId != -1) {
             return true
@@ -200,7 +228,8 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
         }
     }
 
-    private fun checkValidInput() : Boolean = if (checkName() && checkAddress() && checkCategory()) true else false
+    private fun checkValidInput() : Boolean =
+            if (checkName() && checkShopPhone() && checkDescription() && checkAddress() && checkCategory()) true else false
 
     private fun getCheckedCategoryId(): Int {
         val chip: Chip = findViewById(chipGroup.checkedChipId)
@@ -227,12 +256,17 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
             btnSubmit -> {
                 if (checkValidInput()) {
 
+                    val site: String = if(isEmpty(etShopSite)) "" else etShopSite.text.toString()
+
                     val shop: Shop = Shop (
                         name = etShopName.text.toString().trim(),
+                        phone = etShopPhone.text.toString().trim(),
+                        description = etShopDescription.text.toString().trim(),
                         address = etAddress.text.toString().trim(),
                         idCategory = getCheckedCategoryId(),
                         latitude = location.latitude.toFloat(),
-                        longitude =  location.longitude.toFloat()
+                        longitude =  location.longitude.toFloat(),
+                        site = site
                     )
                     registerShopViewModel.registerShop(shop)
                 }

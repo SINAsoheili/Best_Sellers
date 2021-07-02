@@ -94,5 +94,8 @@
     <string name="discount_not_found">تخفیفی یافت نشد!</string>
     <string name="register_discount_for_user_was_not_successful">ذخیره تخفیف برای کاربر موفق نبود!</string>
     <string name="new_discount_set_for_you">تخفیف جدید برای شما ثبت شد</string>
+    <string name="shop_phone">شماره تلفن فروشگاه</string>
+    <string name="shop_site_not_required">سایت فروشگاه (الزامی نیست)</string>
+    <string name="shop_description">معرفی فروشگاه</string>
 
 </resources>

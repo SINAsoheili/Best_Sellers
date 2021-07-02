@@ -11,6 +11,7 @@ import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.util.CacheToPreference
 import net.sinasoheili.best_sellers.util.Keys
 import net.sinasoheili.best_sellers.webService.*
+import retrofit2.http.Query
 import java.lang.Exception
 
 class ShopRepository
@@ -30,6 +31,9 @@ constructor(
         try {
             val registerShopEntity: RegisterShopEntity = webService.registerShop (
                 name = shop.name,
+                site = shop.site,
+                description = shop.description,
+                phone = shop.phone,
                 address = shop.address,
                 latitude = shop.latitude,
                 longitude = shop.longitude,
