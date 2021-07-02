@@ -110,7 +110,7 @@ class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller) {
 
                 is DataState.Error -> {
                     invisibleProgressBar()
-                    showMessage(it.text)
+                    emptyListAlert()
                 }
 
                 is DataState.ConnectionError -> {
