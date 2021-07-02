@@ -136,6 +136,24 @@ class DiscountRepository constructor(val context: Context,
         }
     }
 
+    suspend fun registerUserDiscount(discountId: Int) : Flow<DataState<Boolean>> = flow {
+        emit(DataState.Loading())
+        delay(1000)
+
+        try {
+            val userId: Int = getUserIdFromCache()
+            val response: RegisterUserDiscountEntity = webService.registerUserDiscount(userId , discountId)
+            if(response.status) {
+                emit(DataState.Success(true))
+            } else {
+                emit(DataState.Error(context.getString(R.string.register_discount_for_user_was_not_successful)))
+            }
+
+        } catch (e: Exception) {
+            emit(DataState.ConnectionError(e))
+        }
+    }
+
     private fun getUserIdFromCache(): Int {
         val who: String = CacheToPreference.getWhoLogIn(context)!!
         return if(who.equals(Keys.SELLER))  -1 else CacheToPreference.getPersonId(context)

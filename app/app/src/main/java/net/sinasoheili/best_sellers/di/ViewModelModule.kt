@@ -62,8 +62,10 @@ object ViewModelModule {
     }
 
     @Provides
-    fun provideSurveyViewModel (questionRepository: QuestionRepository , messageRepository: MessageRepository) : SurveyViewModel {
-        return SurveyViewModel(messageRepository, questionRepository)
+    fun provideSurveyViewModel (questionRepository: QuestionRepository ,
+                                messageRepository: MessageRepository , discountRepository: DiscountRepository
+    ) : SurveyViewModel {
+        return SurveyViewModel(messageRepository, questionRepository, discountRepository)
     }
 
     @Provides

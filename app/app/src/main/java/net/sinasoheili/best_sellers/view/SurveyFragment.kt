@@ -251,6 +251,29 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
                 }
             }
         })
+
+        viewModel.registerUserDiscountData.observe(this , Observer {
+          when(it) {
+              is DataState.Success -> { //mean shop has discount and register new discount for user
+                  inVisibleProgressBar()
+                  showMessage(getString(R.string.new_discount_set_for_you))
+              }
+
+              is DataState.Loading -> {
+                  visibleProgressBar()
+              }
+
+              is DataState.Error -> { //mean shop dose not have any discount so user cannot has any discount
+                  inVisibleProgressBar()
+                  //do nothing
+              }
+
+              is DataState.ConnectionError -> {
+                  inVisibleProgressBar()
+                  showMessage(getString(R.string.connection_error))
+              }
+          }
+        })
     }
 
     private fun visibleProgressBar() {
@@ -385,6 +408,7 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
                     }
                     else {
                         registerSurvey()
+                        viewModel.registerNewUserDiscount(shop.id) // shopId and discountId are same in data base architecture
                     }
                 }
             }

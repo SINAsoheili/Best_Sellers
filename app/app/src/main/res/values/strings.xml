@@ -92,4 +92,7 @@
     <string name="you_can_not_register_new_discount_please_remove_previous_discount_code">امکان ساخت کد تخفیف جدید وجود ندارد. ابتدا کد تخفیف قبلی را حذف کنید</string>
     <string name="there_is_not_any_discount_please_create_new_discount">تخفیفی برای حذف وجود ندارد. ابتدا یک تخفیف ایجاد کنید </string>
     <string name="discount_not_found">تخفیفی یافت نشد!</string>
+    <string name="register_discount_for_user_was_not_successful">ذخیره تخفیف برای کاربر موفق نبود!</string>
+    <string name="new_discount_set_for_you">تخفیف جدید برای شما ثبت شد</string>
+
 </resources>
