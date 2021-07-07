@@ -28,4 +28,6 @@
     <dimen name="frame_elevation">10dp</dimen>
     <dimen name="card_elevation">5dp</dimen>
 
+    <dimen name="introSlider_dot_size">10dp</dimen>
+
 </resources>

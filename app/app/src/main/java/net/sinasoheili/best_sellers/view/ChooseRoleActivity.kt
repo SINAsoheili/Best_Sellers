@@ -13,6 +13,7 @@ import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Seller
 import net.sinasoheili.best_sellers.model.Shop
 import net.sinasoheili.best_sellers.model.User
+import net.sinasoheili.best_sellers.util.CacheToPreference
 import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.util.Keys
 import net.sinasoheili.best_sellers.viewModel.SetRoleViewModel
@@ -30,6 +31,11 @@ class ChooseRoleActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_role_choose)
+
+        if(CacheToPreference.showIntroSlider(this)) {
+            startActivity(Intent(this , IntroSliderActivity::class.java))
+            finish()
+        }
 
         initObj()
         setObserver()

@@ -171,4 +171,17 @@ object CacheToPreference {
                 .remove("discount")
                 .apply()
     }
+
+
+    fun SetIntroSliderVisited(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean("introSlider" , false)
+            .apply()
+    }
+
+    fun showIntroSlider(context: Context) : Boolean{
+        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .getBoolean("introSlider" , true)
+    }
 }

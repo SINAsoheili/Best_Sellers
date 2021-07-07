@@ -17,9 +17,9 @@
     <color name="tangerine">#F3764F</color>
     <color name="peach_color">#FBC065</color>
     <color name="error">#E34A3F</color>
-
+    <color name="intro_slider_background">#224455</color>
+    <color name="intro_slider_text_color">#FFFFFF</color>
     <color name="frame_background">#FFFFFF</color>
-
     <color name="success">#78BF25</color>
     <color name="fail">#CF4137</color>
 

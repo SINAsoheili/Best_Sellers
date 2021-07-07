@@ -98,5 +98,11 @@
     <string name="shop_site_not_required">سایت فروشگاه (الزامی نیست)</string>
     <string name="shop_description">معرفی فروشگاه</string>
     <string name="users_do_not_set_any_statistic">هنوز نظزی ثبت نشده است</string>
+    <string name="next">بعدی</string>
+    <string name="previous">قبلی</string>
+    <string name="start_app">شروع برنامه</string>
+    <string name="introSlider_location_description">دسترسی به نزدیک ترین و یا بهترین فروشگاه بر اساس معیار های ارزیابی</string>
+    <string name="introSlider_survey_description">ثبت امتیاز و نظرات در مورد فروشگاه ها</string>
+    <string name="introSlider_statistic_description">امکان مشاهده ی آمار و نظرات کاربران</string>
 
 </resources>
