@@ -174,6 +174,8 @@ class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller) {
                 return titles.get(value.toInt())
             }
         }
+
+        barChart.animateY(resources.getInteger(R.integer.animation_duration))
     }
 
     private fun showMessageList(messages: List<Message>) {
