@@ -97,5 +97,6 @@
     <string name="shop_phone">شماره تلفن فروشگاه</string>
     <string name="shop_site_not_required">سایت فروشگاه (الزامی نیست)</string>
     <string name="shop_description">معرفی فروشگاه</string>
+    <string name="users_do_not_set_any_statistic">هنوز نظزی ثبت نشده است</string>
 
 </resources>

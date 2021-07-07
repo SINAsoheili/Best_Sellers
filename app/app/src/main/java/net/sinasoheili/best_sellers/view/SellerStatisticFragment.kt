@@ -1,6 +1,5 @@
 package net.sinasoheili.best_sellers.view
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,7 +24,6 @@ import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.util.UserMessageAdapter
 import net.sinasoheili.best_sellers.viewModel.SellerStatisticViewModel
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller) {
@@ -78,7 +76,11 @@ class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller) {
             when (it) {
                 is DataState.Success -> {
                     invisibleProgressBar()
-                    showStatistic(it.data)
+                    if(it.data.isEmpty()) {
+                        showEmptyStatistic()
+                    } else {
+                        showStatistic(it.data)
+                    }
                 }
 
                 is DataState.Loading -> {
@@ -188,5 +190,10 @@ class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller) {
         tvUserMessageTitle.visibility = View.GONE
         tvEmptyList.visibility = View.VISIBLE
         tvEmptyList.text = requireContext().getString(R.string.message_not_found)
+    }
+
+    private fun showEmptyStatistic() {
+        barChart.setNoDataText(getString(R.string.users_do_not_set_any_statistic))
+        showMessage(getString(R.string.users_do_not_set_any_statistic))
     }
 }

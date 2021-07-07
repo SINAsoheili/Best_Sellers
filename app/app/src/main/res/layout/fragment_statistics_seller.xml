@@ -74,6 +74,7 @@
         android:visibility="gone"
         android:textSize="@dimen/small_text"
         android:gravity="center"
+        android:textColor="@color/dark_green"
         />
 
     <ProgressBar
