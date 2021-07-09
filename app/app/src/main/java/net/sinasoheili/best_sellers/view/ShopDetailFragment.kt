@@ -1,21 +1,34 @@
 package net.sinasoheili.best_sellers.view
 
 import android.os.Bundle
+import android.util.LayoutDirection
+import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import net.sinasoheili.best_sellers.R
+import net.sinasoheili.best_sellers.model.Message
 import net.sinasoheili.best_sellers.model.Shop
+import net.sinasoheili.best_sellers.util.CommentRecyclerViewAdapter
+import net.sinasoheili.best_sellers.util.DataState
+import net.sinasoheili.best_sellers.viewModel.ShopSearchViewModel
+import javax.inject.Inject
 
-class ShopDetailFragment constructor(val shop: Shop): Fragment(R.layout.fragment_shop_detail), View.OnClickListener, OnMapReadyCallback {
+@AndroidEntryPoint
+class ShopDetailFragment constructor(val shop: Shop ):
+        Fragment(R.layout.fragment_shop_detail), View.OnClickListener, OnMapReadyCallback {
 
     private lateinit var tvName: TextView
     private lateinit var tvAddress: TextView
@@ -23,11 +36,19 @@ class ShopDetailFragment constructor(val shop: Shop): Fragment(R.layout.fragment
     private lateinit var tvSite: TextView
     private lateinit var tvDescription: TextView
     private lateinit var btnSurvey: Button
+    private lateinit var rvComment: RecyclerView
+    private lateinit var tvComment: TextView
+    private lateinit var progressBar: ProgressBar
+
+    @Inject
+    lateinit var viewModel: ShopSearchViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initObj(view)
-        showShop()
+        initObserver()
+        viewModel.getShopComment(shop.id)
+        showMap()
         fillField()
     }
 
@@ -40,6 +61,36 @@ class ShopDetailFragment constructor(val shop: Shop): Fragment(R.layout.fragment
 
         btnSurvey = view.findViewById(R.id.btn_shopDetail_survey)
         btnSurvey.setOnClickListener(this)
+
+        rvComment = view.findViewById(R.id.rv_shopDetail_comments)
+        tvComment = view.findViewById(R.id.tv_shopDetail_comments)
+
+        progressBar = view.findViewById(R.id.pb_shopDetail)
+    }
+
+    private fun initObserver() {
+        viewModel.commentData.observe(viewLifecycleOwner , androidx.lifecycle.Observer {
+            when(it) {
+                is DataState.Success -> {
+                    inVisibleProgressBar()
+                    showComment(it.data)
+                }
+
+                is DataState.Loading -> {
+                    visibleProgressBar()
+                }
+
+                is DataState.Error -> {
+                    inVisibleProgressBar()
+                    showEmptyListAlert()
+                }
+
+                is DataState.ConnectionError -> {
+                    inVisibleProgressBar()
+                    showMessage(getString(R.string.connection_error))
+                }
+            }
+        })
     }
 
     private fun fillField () {
@@ -50,7 +101,7 @@ class ShopDetailFragment constructor(val shop: Shop): Fragment(R.layout.fragment
         tvDescription.text = shop.description
     }
 
-    private fun showShop() {
+    private fun showMap() {
         val map: SupportMapFragment = SupportMapFragment.newInstance()
         parentFragmentManager
                 .beginTransaction()
@@ -75,5 +126,40 @@ class ShopDetailFragment constructor(val shop: Shop): Fragment(R.layout.fragment
         map.clear()
         map.addMarker(MarkerOptions().position(loc))
         map.animateCamera(CameraUpdateFactory.newLatLng(loc))
+    }
+
+    private fun showComment(messages: List<Message>) {
+        rvComment.visibility = View.VISIBLE
+        tvComment.visibility = View.GONE
+
+
+        val layoutManager: LinearLayoutManager = LinearLayoutManager(requireContext())
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        rvComment.layoutManager = layoutManager
+
+        val adapter: CommentRecyclerViewAdapter = CommentRecyclerViewAdapter(requireContext() , messages)
+        rvComment.adapter = adapter
+    }
+
+    private fun visibleProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun inVisibleProgressBar() {
+        progressBar.visibility = View.GONE
+    }
+
+    private fun showMessage(text: String) {
+        Snackbar
+                .make(tvName , text, Snackbar.LENGTH_LONG)
+                .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
+                .show()
+    }
+
+    private fun showEmptyListAlert() {
+        rvComment.visibility = View.GONE
+        tvComment.visibility = View.VISIBLE
+
+        tvComment.text = getString(R.string.message_not_found)
     }
 }

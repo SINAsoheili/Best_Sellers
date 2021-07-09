@@ -17,12 +17,21 @@ class MessageRepository constructor(val context: Context,
                                     private val webService: WebService,
                                     private val messageMapper: MessageMapper)
 {
-    suspend fun getShopMessages() : Flow<DataState<MutableList<Message>>> = flow {
+    suspend fun getShopMessages(shopId: Int = -1) : Flow<DataState<MutableList<Message>>> = flow {
         emit(DataState.Loading())
         delay(1000)
 
         try {
-            val  shopResponse: ShopGetMessageResponse = webService.shopGetMessage(getShopIdFromCache())
+
+            var id: Int
+
+            if(shopId == -1) {
+                id = getShopIdFromCache()
+            } else {
+                id = shopId
+            }
+
+            val  shopResponse: ShopGetMessageResponse = webService.shopGetMessage(id)
             if (shopResponse.find) {
                 val messageListEntity: List<MessageEntity> = shopResponse.messages
                 val messageResult: MutableList<Message> = arrayListOf()
