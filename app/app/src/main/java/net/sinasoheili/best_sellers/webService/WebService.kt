@@ -71,6 +71,13 @@ interface WebService {
         @Query("criteria_id") criteriaId: Int
     ) : ShopListSearchEntity
 
+    @GET("search_shop")
+    suspend fun shopSearch(
+            @Query("category_id") categoryId: Int,
+            @Query("criteria_id") criteriaId: Int,
+            @Query("shop_name") shopName: String,
+    ) : ShopListSearchEntity
+
     @GET("check_user_has_shop")
     suspend fun checkUserHasShop(@Query("seller_id") sellerId: Int) : ShopInfoEntity
 

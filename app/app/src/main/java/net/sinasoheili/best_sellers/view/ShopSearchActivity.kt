@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.core.view.get
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.iterator
 import androidx.lifecycle.Observer
 import com.google.android.material.chip.Chip
@@ -23,7 +23,7 @@ import net.sinasoheili.best_sellers.viewModel.ShopSearchViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListener {
+class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListener, SearchView.OnQueryTextListener {
 
     @Inject
     lateinit var viewModel: ShopSearchViewModel
@@ -32,6 +32,7 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
     private lateinit var progressBar: ProgressBar
     private lateinit var categoryChipGroup: ChipGroup
     private lateinit var criteriaChipGroup: ChipGroup
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,9 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
 
         criteriaChipGroup = findViewById(R.id.chipGroup_shopSearch_criterias)
         criteriaChipGroup.setOnCheckedChangeListener(this)
+
+        searchView = findViewById(R.id.sv_shopSearch_categories_shopSearch)
+        searchView.setOnQueryTextListener(this)
     }
 
     private fun setObserver() {
@@ -83,6 +87,7 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
                 is DataState.Success -> {
                     invisibleProgressBar()
                     showCriterias(it.data)
+                    searchShop()
                 }
 
                 is DataState.Loading -> {
@@ -149,9 +154,12 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
     }
 
     private fun showCriterias(criterias: List<Criteria>) {
+        var checked: Boolean = true; // set this boolean to show first item of list checked
         criteriaChipGroup.removeAllViews()
         for (criteria in criterias) {
-            prepareChip(criteria.name, criteria.id, false, criteriaChipGroup)
+            prepareChip(criteria.name, criteria.id, checked, criteriaChipGroup)
+            if(checked)
+                checked = false
         }
     }
 
@@ -177,12 +185,7 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
             }
 
             criteriaChipGroup -> {
-                for (i in criteriaChipGroup) {
-                    val ch: Chip = i as Chip
-                    if (ch.isChecked) {
-                        viewModel.searchShop(categoryChipGroup.checkedChipId, ch.id)
-                    }
-                }
+                searchShop()
             }
         }
     }
@@ -206,5 +209,32 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
             }
 
         })
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        searchShop()
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if(newText.isNullOrEmpty()) {
+            searchShop()
+            return true
+        }
+        return false
+    }
+
+    private fun searchShop() {
+        val categoryId: Int = categoryChipGroup.checkedChipId
+        var criteriaId : Int = -1
+        for (i in criteriaChipGroup) {
+            val ch: Chip = i as Chip
+            if (ch.isChecked) {
+                criteriaId = ch.id
+                break
+            }
+        }
+        val shopName: String = searchView.query.toString()
+        viewModel.searchShop(categoryId , criteriaId  , shopName)
     }
 }

@@ -40,9 +40,9 @@ class ShopSearchViewModel constructor(val categoryRepository: CategoryRepository
         }
     }
 
-    fun searchShop(categoryId: Int , criteriaId: Int) {
+    fun searchShop(categoryId: Int , criteriaId: Int , shopName: String) {
         viewModelScope.launch {
-            shopRepository.searchShop(categoryId , criteriaId ).onEach {
+            shopRepository.searchShop(categoryId , criteriaId , shopName ).onEach {
                 shopSearchData.value = it
             }.launchIn(viewModelScope)
         }
