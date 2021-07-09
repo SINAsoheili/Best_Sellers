@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/light_green">
+    android:background="@color/base_color">
 
     <ImageView
         android:id="@+id/iv_fragmentStatisticSeller_chart_back"
@@ -41,7 +41,7 @@
         app:layout_constraintRight_toRightOf="@id/iv_fragmentStatisticSeller_chart_back"
         android:layout_marginTop="@dimen/margin_6"
         android:textSize="@dimen/medium_text"
-        android:textColor="@color/dark_green"
+        android:textColor="@color/white"
         android:text="@string/user_messages"
         android:visibility="gone"
         />
@@ -58,7 +58,7 @@
         android:layout_marginTop="@dimen/margin_3"
         android:layout_marginBottom="@dimen/margin_6"
         android:visibility="gone"
-        android:divider="@color/dark_green"
+        android:divider="@color/dark_slate_blue"
         android:dividerHeight="0.2dp"
         android:scrollbars="none"
         />
@@ -74,7 +74,7 @@
         android:visibility="gone"
         android:textSize="@dimen/small_text"
         android:gravity="center"
-        android:textColor="@color/dark_green"
+        android:textColor="@color/dark_slate_blue"
         />
 
     <ProgressBar

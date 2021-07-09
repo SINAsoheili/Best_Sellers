@@ -13,7 +13,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:textSize="@dimen/medium_text"
-        android:textColor="@color/dark_green"
+        android:textColor="@color/dark_slate_blue"
         android:gravity="end"
         />
 

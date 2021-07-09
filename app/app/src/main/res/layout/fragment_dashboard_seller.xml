@@ -15,7 +15,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/margin_3"
-        android:backgroundTint="@color/light_green"
+        android:backgroundTint="@color/base_color"
         app:cardCornerRadius="@dimen/large_corner_radius"
         android:elevation="0dp"
         />
@@ -88,7 +88,7 @@
         android:elevation="0dp"
         android:layout_marginTop="@dimen/margin_4"
         app:cardCornerRadius="@dimen/small_corner_radius"
-        android:backgroundTint="@color/light_green">
+        android:backgroundTint="@color/base_color">
 
         <TextView
             android:layout_width="match_parent"
@@ -111,7 +111,7 @@
         android:elevation="0dp"
         android:layout_marginTop="@dimen/margin_4"
         app:cardCornerRadius="@dimen/small_corner_radius"
-        android:backgroundTint="@color/light_green">
+        android:backgroundTint="@color/base_color">
 
         <TextView
             android:layout_width="match_parent"

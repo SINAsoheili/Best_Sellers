@@ -1,7 +1,6 @@
 package net.sinasoheili.best_sellers.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +42,7 @@ class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller) {
         savedInstanceState: Bundle?
     ): View? {
 
-        requireActivity().window.statusBarColor = requireContext().getColor(R.color.light_green)
+        requireActivity().window.statusBarColor = requireContext().getColor(R.color.base_color)
 
         setObserver()
         viewModel.getStatistic()
@@ -159,7 +158,7 @@ class SellerStatisticFragment: Fragment(R.layout.fragment_statistics_seller) {
         }
 
         val dataSet: BarDataSet = BarDataSet(entries, null)
-        dataSet.color = requireContext().getColor(R.color.green)
+        dataSet.color = requireContext().getColor(R.color.light_steel_blue)
 
         val barData: BarData = BarData(dataSet)
         barChart.data = barData
