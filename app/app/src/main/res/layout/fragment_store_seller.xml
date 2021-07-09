@@ -89,7 +89,7 @@
             android:text="@string/delete_seller"
             android:textSize="@dimen/small_text"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:textColor="@color/white"
+            android:textColor="@color/peach_color"
             />
 
         <TextView
@@ -209,7 +209,7 @@
             android:layout_margin="@dimen/margin_3"
             android:text="@string/delete_shop"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:textColor="@color/dark_gray"
+            android:textColor="@color/peach_color"
             android:textSize="@dimen/small_text"
             />
 
