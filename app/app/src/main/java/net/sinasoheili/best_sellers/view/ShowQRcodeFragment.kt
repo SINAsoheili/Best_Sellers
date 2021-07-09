@@ -86,8 +86,8 @@ class ShowQRcodeFragment : Fragment(R.layout.fragment_show_qr_code), View.OnClic
                         PackageManager.PERMISSION_GRANTED)  {
                         getExternalStoragePermission()
                     } else {
-                        viewModel.saveImage(bitmap!!)
                         visibleProgressBar()
+                        viewModel.saveImage(bitmap!!)
                     }
                 }
             }
@@ -125,8 +125,10 @@ class ShowQRcodeFragment : Fragment(R.layout.fragment_show_qr_code), View.OnClic
         permissions: Array<out String>,
         grantResults: IntArray) {
         if((requestCode == 100) && (grantResults[0]==PackageManager.PERMISSION_GRANTED)) {
-            if(bitmap != null)
+            if(bitmap != null){
+                visibleProgressBar()
                 viewModel.saveImage(bitmap!!)
+            }
         }
     }
 }

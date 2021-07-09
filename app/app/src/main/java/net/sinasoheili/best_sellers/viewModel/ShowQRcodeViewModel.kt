@@ -26,13 +26,14 @@ class ShowQRcodeViewModel constructor(val context: Context): ViewModel() {
     fun saveImage(image: Bitmap) {
         try {
             val saver: QRGSaver = QRGSaver()
-            saver.save(
-                Environment.getExternalStorageDirectory().path,
-                context.getString(R.string.app_name),
-                image,
-                QRGContents.ImageType.IMAGE_JPEG
-            )
-            saveImageData.value = true
+            val path: String = Environment.getExternalStorageDirectory().absolutePath+"/"+Environment.DIRECTORY_DCIM+"/"
+            val imageName: String = context.getString(R.string.app_name)
+
+            saveImageData.value  = saver.save(
+                                path,
+                                imageName,
+                                image,
+                                QRGContents.ImageType.IMAGE_JPEG)
         } catch (e: Exception) {
             saveImageData.value = false
         }
