@@ -14,7 +14,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:textSize="@dimen/medium_text"
         android:textColor="@color/dark_slate_blue"
-        android:gravity="end"
+        android:gravity="start"
         />
 
     <TextView
@@ -27,7 +27,7 @@
         android:textSize="@dimen/medium_text"
         android:textColor="@color/light_gray"
         android:layout_marginTop="@dimen/margin_1"
-        android:gravity="end"
+        android:gravity="start"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
