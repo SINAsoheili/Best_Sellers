@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ShopDetailFragment constructor(val shop: Shop ):
-        Fragment(R.layout.fragment_shop_detail), View.OnClickListener, OnMapReadyCallback {
+        Fragment(R.layout.fragment_shop_detail), View.OnClickListener, OnMapReadyCallback, SurveyFragment.CallBack {
 
     private lateinit var tvName: TextView
     private lateinit var tvAddress: TextView
@@ -113,7 +113,7 @@ class ShopDetailFragment constructor(val shop: Shop ):
     override fun onClick(v: View?) {
         activity?.supportFragmentManager
                 ?.beginTransaction()
-                ?.replace(R.id.fl_shopDetail_surveyContainer, SurveyFragment(shop))
+                ?.replace(R.id.fl_shopDetail_surveyContainer, SurveyFragment(shop , this))
                 ?.addToBackStack(null)
                 ?.commit()
     }
@@ -161,5 +161,9 @@ class ShopDetailFragment constructor(val shop: Shop ):
         tvComment.visibility = View.VISIBLE
 
         tvComment.text = getString(R.string.message_not_found)
+    }
+
+    override fun onCloseCallBack() {
+        viewModel.getShopComment(shop.id)
     }
 }

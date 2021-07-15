@@ -26,7 +26,7 @@ import net.sinasoheili.best_sellers.viewModel.SurveyViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_survey), View.OnClickListener {
+class SurveyFragment constructor(val shop: Shop , val callBack: CallBack): Fragment(R.layout.fragment_survey), View.OnClickListener {
 
     @Inject
     lateinit var viewModel: SurveyViewModel
@@ -355,6 +355,7 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
 
     private fun closeFragment() {
         parentFragmentManager.beginTransaction().remove(this).commit()
+        callBack.onCloseCallBack()
     }
 
     private fun showUserMessage(msg: Message) {
@@ -401,4 +402,7 @@ class SurveyFragment constructor(val shop: Shop): Fragment(R.layout.fragment_sur
         }
     }
 
+    interface CallBack {
+        fun onCloseCallBack()
+    }
 }
