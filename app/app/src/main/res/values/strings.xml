@@ -104,5 +104,6 @@
     <string name="introSlider_location_description">دسترسی به نزدیک ترین و یا بهترین فروشگاه بر اساس معیار های ارزیابی</string>
     <string name="introSlider_survey_description">ثبت امتیاز و نظرات در مورد فروشگاه ها</string>
     <string name="introSlider_statistic_description">امکان مشاهده ی آمار و نظرات کاربران</string>
+    <string name="direction">مسیریابی</string>
 
 </resources>

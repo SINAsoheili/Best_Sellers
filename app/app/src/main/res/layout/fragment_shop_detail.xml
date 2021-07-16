@@ -154,10 +154,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/btn_shopDetail_mapFrame"
+        app:layout_constraintLeft_toRightOf="@id/btn_shopDetail_direction"
         app:layout_constraintRight_toRightOf="@id/btn_shopDetail_mapFrame"
         android:layout_marginBottom="@dimen/margin_2"
         android:text="@string/survey"
+        style="@style/solid_button"
+        />
+
+    <Button
+        android:id="@+id/btn_shopDetail_direction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/btn_shopDetail_mapFrame"
+        app:layout_constraintRight_toLeftOf="@id/btn_shopDetail_survey"
+        android:layout_marginBottom="@dimen/margin_2"
+        android:text="@string/direction"
         style="@style/solid_button"
         />
 

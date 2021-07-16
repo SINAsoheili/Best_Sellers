@@ -1,8 +1,13 @@
 package net.sinasoheili.best_sellers.view
 
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
-import android.util.LayoutDirection
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -28,7 +33,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ShopDetailFragment constructor(val shop: Shop ):
-        Fragment(R.layout.fragment_shop_detail), View.OnClickListener, OnMapReadyCallback, SurveyFragment.CallBack {
+        Fragment(R.layout.fragment_shop_detail), View.OnClickListener, OnMapReadyCallback, SurveyFragment.CallBack{
 
     private lateinit var tvName: TextView
     private lateinit var tvAddress: TextView
@@ -36,6 +41,7 @@ class ShopDetailFragment constructor(val shop: Shop ):
     private lateinit var tvSite: TextView
     private lateinit var tvDescription: TextView
     private lateinit var btnSurvey: Button
+    private lateinit var btnDirection: Button
     private lateinit var rvComment: RecyclerView
     private lateinit var tvComment: TextView
     private lateinit var progressBar: ProgressBar
@@ -61,6 +67,9 @@ class ShopDetailFragment constructor(val shop: Shop ):
 
         btnSurvey = view.findViewById(R.id.btn_shopDetail_survey)
         btnSurvey.setOnClickListener(this)
+
+        btnDirection = view.findViewById(R.id.btn_shopDetail_direction)
+        btnDirection.setOnClickListener(this)
 
         rvComment = view.findViewById(R.id.rv_shopDetail_comments)
         tvComment = view.findViewById(R.id.tv_shopDetail_comments)
@@ -111,11 +120,23 @@ class ShopDetailFragment constructor(val shop: Shop ):
     }
 
     override fun onClick(v: View?) {
-        activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.fl_shopDetail_surveyContainer, SurveyFragment(shop , this))
-                ?.addToBackStack(null)
-                ?.commit()
+        when (v) {
+            btnSurvey -> {
+                activity?.supportFragmentManager
+                    ?.beginTransaction()
+                    ?.replace(R.id.fl_shopDetail_surveyContainer, SurveyFragment(shop , this))
+                    ?.addToBackStack(null)
+                    ?.commit()
+            }
+
+            btnDirection -> {
+
+                val uri: Uri = Uri.parse("google.navigation:q=${shop.latitude},${shop.longitude}")
+                val intent: Intent = Intent(Intent.ACTION_VIEW , uri)
+                intent.setPackage("com.google.android.apps.maps")
+                startActivity(intent)
+            }
+        }
     }
 
     override fun onMapReady(map: GoogleMap) {
