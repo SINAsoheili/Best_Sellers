@@ -23,14 +23,26 @@
         android:id="@+id/sv_shopSearch_categories_shopSearch"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintHeight_percent="0.06"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/hsv_shopSearch_categories"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/iv_shopSearch_categories_city"
         android:background="@color/white"
-        android:layout_marginRight="@dimen/margin_2"
         android:layout_marginLeft="@dimen/margin_2"
+        />
+
+    <ImageView
+        android:id="@+id/iv_shopSearch_categories_city"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/sv_shopSearch_categories_shopSearch"
+        app:layout_constraintBottom_toBottomOf="@id/sv_shopSearch_categories_shopSearch"
+        app:layout_constraintLeft_toRightOf="@id/sv_shopSearch_categories_shopSearch"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="@dimen/margin_1"
+        android:src="@drawable/location"
         />
 
     <HorizontalScrollView
@@ -40,8 +52,10 @@
         app:layout_constraintHeight_percent="0.08"
         app:layout_constraintTop_toBottomOf="@id/sv_shopSearch_categories_shopSearch"
         app:layout_constraintBottom_toTopOf="@id/hsv_shopSearch_criterias"
-        app:layout_constraintLeft_toLeftOf="@id/sv_shopSearch_categories_shopSearch"
-        app:layout_constraintRight_toRightOf="@id/sv_shopSearch_categories_shopSearch"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="@dimen/margin_2"
+        android:layout_marginEnd="@dimen/margin_2"
         android:scrollbars="none">
 
         <com.google.android.material.chip.ChipGroup
@@ -62,8 +76,8 @@
         app:layout_constraintHeight_percent="0.08"
         app:layout_constraintTop_toBottomOf="@id/hsv_shopSearch_categories"
         app:layout_constraintBottom_toTopOf="@id/shopSearch_shops_foreground"
-        app:layout_constraintLeft_toLeftOf="@id/sv_shopSearch_categories_shopSearch"
-        app:layout_constraintRight_toRightOf="@id/sv_shopSearch_categories_shopSearch"
+        app:layout_constraintLeft_toLeftOf="@id/hsv_shopSearch_categories"
+        app:layout_constraintRight_toRightOf="@id/hsv_shopSearch_categories"
         android:scrollbars="none">
 
         <com.google.android.material.chip.ChipGroup

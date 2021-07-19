@@ -105,5 +105,42 @@
     <string name="introSlider_survey_description">ثبت امتیاز و نظرات در مورد فروشگاه ها</string>
     <string name="introSlider_statistic_description">امکان مشاهده ی آمار و نظرات کاربران</string>
     <string name="direction">مسیریابی</string>
+    <string name="city_changed_to">شهر شما به %s تغییر پیدا کرد</string>
+    <string name="current_city_is">شهر فعلی شما : %s</string>
+    <string name="default_city">تهران</string>
+
+    <string-array name="cities">
+        <item>آذربایجان شرقی</item>
+        <item>آذربایجان غربی</item>
+        <item>اردبیل</item>
+        <item>اصفهان</item>
+        <item>البرز</item>
+        <item>ایلام</item>
+        <item>بوشهر</item>
+        <item>تهران</item>
+        <item>چهارمحال و بختیاری</item>
+        <item>خراسان جنوبی</item>
+        <item>خراسان رضوی</item>
+        <item>خراسان شمالی</item>
+        <item>خوزستان</item>
+        <item>زنجان</item>
+        <item>سمنان</item>
+        <item>سیستان و بلوچستان</item>
+        <item>فارس</item>
+        <item>قزوین</item>
+        <item>فم</item>
+        <item>کردستان</item>
+        <item>کرمان</item>
+        <item>کرمانشاه</item>
+        <item>کهگیلویه و بویراحمد</item>
+        <item>گلستان</item>
+        <item>گیلان</item>
+        <item>لرستان</item>
+        <item>مازندران</item>
+        <item>مرکزی</item>
+        <item>هرمزگان</item>
+        <item>همدان</item>
+        <item>یزد</item>
+    </string-array>
 
 </resources>

@@ -68,13 +68,15 @@ interface WebService {
     @GET("search_shop")
     suspend fun shopSearch(
         @Query("category_id") categoryId: Int,
-        @Query("criteria_id") criteriaId: Int
+        @Query("criteria_id") criteriaId: Int,
+        @Query("city") city: String ,
     ) : ShopListSearchEntity
 
     @GET("search_shop")
     suspend fun shopSearch(
             @Query("category_id") categoryId: Int,
             @Query("criteria_id") criteriaId: Int,
+            @Query("city") city: String ,
             @Query("shop_name") shopName: String,
     ) : ShopListSearchEntity
 

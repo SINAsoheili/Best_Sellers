@@ -127,16 +127,15 @@ constructor(
 
     }
 
-    suspend fun searchShop(categoryId: Int , criteriaId: Int , shopName: String = "") : Flow<DataState<List<Shop>>> = flow {
+    suspend fun searchShop(categoryId: Int , criteriaId: Int , city: String, shopName: String = "") : Flow<DataState<List<Shop>>> = flow {
         emit(DataState.Loading())
         delay(1000)
-
         try {
             val shopListFetched: ShopListSearchEntity = if(shopName.isEmpty())
             {
-                webService.shopSearch(categoryId , criteriaId)
+                webService.shopSearch(categoryId , criteriaId , city)
             } else {
-                webService.shopSearch(categoryId , criteriaId , shopName)
+                webService.shopSearch(categoryId , criteriaId , city , shopName)
             }
 
             val result: MutableList<Shop> = mutableListOf()

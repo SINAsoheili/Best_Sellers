@@ -2,6 +2,7 @@ package net.sinasoheili.best_sellers.util
 
 import android.content.Context
 import com.google.gson.Gson
+import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Discount
 import net.sinasoheili.best_sellers.model.Seller
 import net.sinasoheili.best_sellers.model.Shop
@@ -183,5 +184,17 @@ object CacheToPreference {
     fun showIntroSlider(context: Context) : Boolean{
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
             .getBoolean("introSlider" , true)
+    }
+
+    fun registerCity(context: Context , city: String) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putString("city" , city)
+                .apply()
+    }
+
+    fun getCity(context: Context) : String{
+        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .getString("city" , context.resources.getString(R.string.default_city))!!
     }
 }

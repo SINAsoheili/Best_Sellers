@@ -17,13 +17,14 @@ import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.model.Criteria
 import net.sinasoheili.best_sellers.model.Shop
 import net.sinasoheili.best_sellers.model.ShopCategory
+import net.sinasoheili.best_sellers.util.CacheToPreference
 import net.sinasoheili.best_sellers.util.DataState
 import net.sinasoheili.best_sellers.util.ShopListAdapter
 import net.sinasoheili.best_sellers.viewModel.ShopSearchViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListener, SearchView.OnQueryTextListener {
+class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListener, SearchView.OnQueryTextListener, View.OnClickListener {
 
     @Inject
     lateinit var viewModel: ShopSearchViewModel
@@ -33,6 +34,7 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
     private lateinit var categoryChipGroup: ChipGroup
     private lateinit var criteriaChipGroup: ChipGroup
     private lateinit var searchView: SearchView
+    private lateinit var ivLocation: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,9 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
 
         searchView = findViewById(R.id.sv_shopSearch_categories_shopSearch)
         searchView.setOnQueryTextListener(this)
+
+        ivLocation = findViewById(R.id.iv_shopSearch_categories_city)
+        ivLocation.setOnClickListener(this)
     }
 
     private fun setObserver() {
@@ -235,6 +240,16 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
             }
         }
         val shopName: String = searchView.query.toString()
-        viewModel.searchShop(categoryId , criteriaId  , shopName)
+        val city: String = CacheToPreference.getCity(this)
+        viewModel.searchShop(categoryId , criteriaId  , city , shopName)
+    }
+
+    override fun onClick(v: View?) {
+        when(v) {
+            ivLocation -> {
+                val citiesFragment: CitiesFragment = CitiesFragment()
+                citiesFragment.show(supportFragmentManager , null)
+            }
+        }
     }
 }
