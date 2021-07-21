@@ -8,10 +8,11 @@ import android.view.WindowMetrics
 import android.widget.*
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.callbackFlow
 import net.sinasoheili.best_sellers.R
 import net.sinasoheili.best_sellers.util.CacheToPreference
 
-class CitiesFragment : DialogFragment(R.layout.fragment_cities), AdapterView.OnItemClickListener {
+class CitiesFragment(val callBack: CallBack) : DialogFragment(R.layout.fragment_cities), AdapterView.OnItemClickListener {
 
     private lateinit var cities: Array<String>
     private lateinit var lvCities: ListView
@@ -50,6 +51,7 @@ class CitiesFragment : DialogFragment(R.layout.fragment_cities), AdapterView.OnI
         CacheToPreference.registerCity(requireContext() , city)
 
         showMessage(getString(R.string.city_changed_to , city))
+        callBack.changeCity()
         closeDialog()
     }
 
@@ -59,5 +61,9 @@ class CitiesFragment : DialogFragment(R.layout.fragment_cities), AdapterView.OnI
 
     private fun closeDialog() {
         this.dismiss()
+    }
+
+    interface CallBack {
+        fun changeCity()
     }
 }

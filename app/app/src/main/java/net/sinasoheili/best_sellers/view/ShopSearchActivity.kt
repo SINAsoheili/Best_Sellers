@@ -24,7 +24,7 @@ import net.sinasoheili.best_sellers.viewModel.ShopSearchViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListener, SearchView.OnQueryTextListener, View.OnClickListener {
+class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListener, SearchView.OnQueryTextListener, View.OnClickListener, CitiesFragment.CallBack {
 
     @Inject
     lateinit var viewModel: ShopSearchViewModel
@@ -247,9 +247,13 @@ class ShopSearchActivity : AppCompatActivity(), ChipGroup.OnCheckedChangeListene
     override fun onClick(v: View?) {
         when(v) {
             ivLocation -> {
-                val citiesFragment: CitiesFragment = CitiesFragment()
+                val citiesFragment: CitiesFragment = CitiesFragment(this)
                 citiesFragment.show(supportFragmentManager , null)
             }
         }
+    }
+
+    override fun changeCity() {
+        searchShop()
     }
 }
