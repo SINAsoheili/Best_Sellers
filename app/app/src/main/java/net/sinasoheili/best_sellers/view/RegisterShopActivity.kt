@@ -43,12 +43,14 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
     private lateinit var etShopDescription: TextInputEditText
     private lateinit var tilAddress: TextInputLayout
     private lateinit var etAddress: TextInputEditText
-    private lateinit var chipGroup: ChipGroup
+    private lateinit var categoriesChipGroup: ChipGroup
     private lateinit var btnSubmit: Button
     private lateinit var progressBar: ProgressBar
+    private lateinit var provinceChipGroup: ChipGroup
 
     private lateinit var map:GoogleMap
     private var location: LatLng = LatLng(35.6892 , 51.3890)
+    private lateinit var provinces: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +63,8 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
 
     private fun initObj() {
         showMap()
+
+        provinces = resources.getStringArray(R.array.cities)
 
         tilShopName = findViewById(R.id.til_registerShop_name)
         etShopName = findViewById(R.id.et_registerShop_name)
@@ -77,12 +81,15 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
         tilShopDescription = findViewById(R.id.til_registerShop_description)
         etShopDescription = findViewById(R.id.et_registerShop_description)
 
-        chipGroup = findViewById(R.id.chipGroup_registerShop_categories)
+        categoriesChipGroup = findViewById(R.id.chipGroup_registerShop_categories)
 
         btnSubmit = findViewById(R.id.btn_registerShop_submit)
         btnSubmit.setOnClickListener(this)
 
         progressBar = findViewById(R.id.pb_registerShop)
+
+        provinceChipGroup = findViewById(R.id.chipGroup_registerShop_province)
+        showProvince()
     }
 
     private fun setObserver() {
@@ -148,11 +155,11 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
 
         for (category in categories) {
             if (first){
-                chipGroup.addView( prepareChip(category.id , category.name , true) )
+                categoriesChipGroup.addView( prepareChip(category.id , category.name , true) )
                 first = false
             }
             else {
-                chipGroup.addView( prepareChip(category.id , category.name , false) )
+                categoriesChipGroup.addView( prepareChip(category.id , category.name , false) )
             }
         }
     }
@@ -220,7 +227,16 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
     }
 
     private fun checkCategory() : Boolean {
-        if (chipGroup.checkedChipId != -1) {
+        if (categoriesChipGroup.checkedChipId != -1) {
+            return true
+        } else {
+            showMessage(this.getString(R.string.please_choose_shop_category))
+            return false
+        }
+    }
+
+    private fun checkProvince() : Boolean {
+        if (provinceChipGroup.checkedChipId != View.NO_ID) {
             return true
         } else {
             showMessage(this.getString(R.string.please_choose_shop_category))
@@ -229,10 +245,10 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
     }
 
     private fun checkValidInput() : Boolean =
-            if (checkName() && checkShopPhone() && checkDescription() && checkAddress() && checkCategory()) true else false
+            if (checkName() && checkShopPhone() && checkDescription() && checkAddress() && checkCategory() && checkProvince()) true else false
 
     private fun getCheckedCategoryId(): Int {
-        val chip: Chip = findViewById(chipGroup.checkedChipId)
+        val chip: Chip = findViewById(categoriesChipGroup.checkedChipId)
         return( chip.tag.toString().toInt())
     }
 
@@ -251,6 +267,18 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
             .show()
     }
 
+    private fun getSelectedProvince() : String {
+        val chip: Chip = findViewById(provinceChipGroup.checkedChipId)
+
+        for (province in provinces) {
+            if (chip.text == province) {
+                return province
+            }
+        }
+
+        return "" //bad smell . this return never happen. because this function call after checkProvince function
+    }
+
     override fun onClick(v: View?) {
         when(v) {
             btnSubmit -> {
@@ -266,7 +294,8 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
                         idCategory = getCheckedCategoryId(),
                         latitude = location.latitude.toFloat(),
                         longitude =  location.longitude.toFloat(),
-                        site = site
+                        site = site,
+                        city = getSelectedProvince()
                     )
                     registerShopViewModel.registerShop(shop)
                 }
@@ -290,5 +319,23 @@ class RegisterShopActivity : AppCompatActivity(), View.OnClickListener, OnMapRea
         map.clear()
         map.addMarker(MarkerOptions().position(loc))
         map.animateCamera(CameraUpdateFactory.newLatLng(loc))
+    }
+
+    private fun showProvince() {
+        for (province in provinces) {
+
+            val chip: Chip = Chip(this)
+            chip.text = province
+            chip.id = View.generateViewId()
+            val chipDrawable: ChipDrawable = ChipDrawable.createFromAttributes(
+                    this,
+                    null,
+                    0,
+                    R.style.Widget_MaterialComponents_Chip_Choice
+            )
+            chip.setChipDrawable(chipDrawable)
+
+            provinceChipGroup.addView(chip)
+        }
     }
 }

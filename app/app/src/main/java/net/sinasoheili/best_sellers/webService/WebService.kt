@@ -43,6 +43,7 @@ interface WebService {
         @Query("site") site: String,
         @Query("description") description: String,
         @Query("phone") phone: String,
+        @Query("city") city: String,
     ) : RegisterShopEntity
 
     @GET("delete_shop")

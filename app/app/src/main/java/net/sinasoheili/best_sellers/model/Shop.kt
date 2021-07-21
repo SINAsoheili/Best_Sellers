@@ -11,4 +11,5 @@ data class Shop constructor
       var latitude: Float = -1F,
       var longitude: Float = -1F,
       var id:Int = -1,
+      var city: String = ""
     )

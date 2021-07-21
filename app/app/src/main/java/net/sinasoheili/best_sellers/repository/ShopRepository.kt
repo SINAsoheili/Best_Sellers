@@ -38,7 +38,8 @@ constructor(
                 latitude = shop.latitude,
                 longitude = shop.longitude,
                 sellerId =  shop.idSeller,
-                categoryId = shop.idCategory
+                categoryId = shop.idCategory,
+                city = shop.city
             )
 
             if (registerShopEntity.statusRegister) {
