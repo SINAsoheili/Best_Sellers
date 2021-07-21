@@ -109,6 +109,7 @@
     <string name="current_city_is">شهر فعلی شما : %s</string>
     <string name="default_city">تهران</string>
     <string name="provinces">استان ها</string>
+    <string name="your_message">پیام شما ...</string>
 
     <string-array name="cities">
         <item>آذربایجان شرقی</item>
