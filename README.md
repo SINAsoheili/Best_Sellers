@@ -3,9 +3,9 @@
   
 ### Introduction
 
-**Best Seller** is an android application designed to bing relation between customers and sellers.  
+**Best Seller** is an android application designed to be a relation between customers and sellers.  
 In this application sellers and customers can have a profile and customers can share their opinion about specific shop. Customer can give point according specified criterias to shop and also they can search for shops according those criterias or place. For example customers can search about shops, they are clear and sell original product.  
-In sellers work-space, sellers can see a chard, shows average of user points and user comments. Sellers can define discount to persuade users give point and participate in survey.Each shop can have one QR code and users can search QR code and show detail of shop.  
+In sellers work-space, sellers can see a chart, shows average of user points and user comments. Sellers can define discount to persuade users give point and participate in survey.Each shop can have one QR code and users can search QR code and show detail of shop.  
 And finally users can use google maps to find shortes way to arrive favorite shop.  
 
  
